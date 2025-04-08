@@ -1,0 +1,6 @@
+[SysVar]
+ACCOUNT_PATH=/data/account/
+DOWNLOAD_PATH=/data/tmp/
+UPLOAD_PATH=/data/tmp/
+LOG_PATH=/data/log/
+DEFAULT_ENV=android
