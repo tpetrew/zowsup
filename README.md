@@ -64,10 +64,18 @@ DEFAULT_ENV=android                       #default environment
 
 ```
 
+
  * Run
 
 ```
  python script/main.py [account-number] --env android                        # env : android/smb_android/ios/smb_ios is available
+
+```
+
+* Register as companion 
+
+```
+ python script/regwithscan.py 
 
 ```
 
@@ -110,7 +118,7 @@ sync                |   sync contacts
 
 ```
 
-
+ * 
 
 
 
