@@ -8,10 +8,13 @@ from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_send
 from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_protocol import ProtocolAttributes
 from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message_key import MessageKeyAttributes
 
+from yowsup.layers.protocol_historysync.protocolentities.attributes.attributes_initial_security_notification_setting_sync import InitialSecurityNotificationSettingSyncAttribute
+from yowsup.layers.protocol_historysync.protocolentities.attributes.attributes_history_sync_notification import HistorySyncNotificationAttribute
+
 class AttributesConverter(object):
 
     __instance = None
-        
+
     @classmethod
     def get(cls):
         if cls.__instance is None:
