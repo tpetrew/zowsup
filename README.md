@@ -7,7 +7,7 @@ Since the original yowsup project has not been maintained for a long time, we fo
 ```
 - ZOWSUP VERSION : 0.5.0
 
-- UPDATE TIME : 2025-04-08
+- UPDATE TIME : 2025-04-05
 
 - WHATSAPP VERSION : 2.25.6.70(Android) 2.24.24.83(iOS) 
 
@@ -21,7 +21,7 @@ Since the original yowsup project has not been maintained for a long time, we fo
  * 6-parts account support (import / export )
  * Proxy support
  * Threading command architecture 
- * Bubbling up all the config variants to the top layer ( app and conf folder)
+ * Bubbling up all the config variables to the top layer ( app and conf folder)
  * Mass of WA-protocol updates
  
 ## Subsequent update promise
@@ -40,7 +40,7 @@ Since the original yowsup project has not been maintained for a long time, we fo
  * Basic configuration
 
 ```
-modify the config file in ./conf/config.conf 
+copy ./conf/config.conf.example to ./conf/config.conf and modify variables in config.conf according to your system
 
 ACCOUNT_PATH=/data/account/               #location you store the account data
 DOWNLOAD_PATH=/data/tmp/                  #download path
@@ -117,8 +117,6 @@ sync                |   sync contacts
  dynamic [location] and [session_id] replacin the proxy string is supported 
 
 ```
-
- * 
 
 
 
