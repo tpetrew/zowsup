@@ -7,14 +7,14 @@ Since the original yowsup project has not been maintained for a long time, we fo
 ```
 - ZOWSUP VERSION : 0.5.0
 
-- UPDATE TIME : 2025-04-09
+- UPDATE TIME : 2025-04-10
 
 - WHATSAPP VERSION : 
     2.25.10.71(Android) 
     2.25.11.4(SMB Android) 
-    2.24.24.83(iOS) 
-    2.24.24.83(SMB iOS) 
-    
+    2.25.5.74(iOS) 
+    2.25.5.74(SMB iOS) 
+
 ```
 
 ## What's New 
