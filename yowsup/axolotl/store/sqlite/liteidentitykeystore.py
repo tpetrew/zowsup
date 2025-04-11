@@ -4,7 +4,6 @@ from axolotl.identitykeypair import IdentityKeyPair
 from axolotl.util.keyhelper import KeyHelper
 from axolotl.ecc.djbec import *
 import sys
-import base64
 
 class LiteIdentityKeyStore(IdentityKeyStore):
     def __init__(self, dbConn):
@@ -49,10 +48,6 @@ class LiteIdentityKeyStore(IdentityKeyStore):
         pubKey = identityKeyPair.getPublicKey().getPublicKey().serialize()
         privKey = identityKeyPair.getPrivateKey().serialize()
 
-        if sys.version_info < (2,7):
-            pubKey = buffer(pubKey)
-            privKey = buffer(privKey)
-
         c.execute(q, (deviceid,
                       registrationId,
                       pubKey,
@@ -86,8 +81,6 @@ class LiteIdentityKeyStore(IdentityKeyStore):
         
         pubKey = identityKey.getPublicKey().serialize()
 
-        if sys.version_info < (2, 7):
-            pubKey = buffer(pubKey)
 
         return result[0] == pubKey
 
