@@ -71,7 +71,7 @@ class YowBot:
 
         self.cmdEventMap = {}
         
-        if self.bot_type==YowBotType.TYPE_REG_COMPANION:                   
+        if self.bot_type==YowBotType.TYPE_REG_COMPANION_SCANQR or self.bot_type==YowBotType.TYPE_REG_COMPANION_LINKCODE:                        
             identity = KeyHelper.generateIdentityKeyPair()
             self._stack.setProp("reg_info",{
                 "keypair":WATools.generateKeyPair(),
@@ -79,6 +79,9 @@ class YowBot:
                 "identity": identity,            
                 "signedprekey": KeyHelper.generateSignedPreKey(identity,0)
             })
+            self._stack.setProp("botType",self.bot_type)
+        else:
+            self._stack.setProp("botType",YowBotType.TYPE_RUN_AUTO)
 
         self.cmdList = {}
         if self.botId is not None:
@@ -122,8 +125,8 @@ class YowBot:
 
     def run(self):     
         
-        if self.bot_type==YowBotType.TYPE_REG_COMPANION:
-            logger.info("QRScan Registration Start")
+        if self.bot_type==YowBotType.TYPE_REG_COMPANION_SCANQR or self.bot_type==YowBotType.TYPE_REG_COMPANION_LINKCODE:
+            logger.info("Pairing-Device Registration Start")
         else:
             logger.info("Login start")           
             logger.info("AccountFile=%s" % self.profile)
@@ -370,6 +373,18 @@ class YowBot:
     @BotCmd("getavatar", "get account avatar")
     def getAvatar(self,params,options):
         return self.sendLayer.getAvatar(params,options)
+    
+    @BotCmd("mdlink","use a qrcode to link to a companion")
+    def multiDeviceLink(self,params,options):
+        self.sendLayer.resetSync(params,options)
+        time.sleep(3)
+        self.sendLayer.multiDeviceLink(params,options)
+        return "JUSTWAIT"
+    
+    @BotCmd("mdremove","remove companion(s)")
+    def multiDeviceRemove(self,params,options):
+        return self.sendLayer.multiDeviceRemove(params,options)       
+
 
                       
 if __name__ == "__main__":    

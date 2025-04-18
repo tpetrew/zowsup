@@ -9,8 +9,9 @@ class CleanDirtyIqProtocolEntity(IqProtocolEntity):
         super(CleanDirtyIqProtocolEntity, self).__init__("urn:xmpp:whatsapp:dirty" , _id = _id, _type = "set",to="s.whatsapp.net")
         self.type = type
 
-    def toProtocolTreeNode(self):
+    def toProtocolTreeNode(self):        
         node = super(CleanDirtyIqProtocolEntity, self).toProtocolTreeNode()
-        clean = ProtocolTreeNode("clean",{'type':self.type})
-        node.addChild(clean)      
+        clean = ProtocolTreeNode("clean",{'type':self.type,"timestamp":str(int(time.time()))})
+        node.addChild(clean)     
+        print(node) 
         return node    

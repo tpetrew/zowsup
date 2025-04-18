@@ -15,6 +15,7 @@ from consonance.streams.segmented.blockingqueue import BlockingQueueSegmentedStr
 from consonance.structs.keypair import KeyPair
 import threading,logging,uuid,base64
 from common.utils import Utils
+from app.yowbot_values import YowBotType
 
 logger = logging.getLogger(__name__)
 try:
@@ -52,8 +53,9 @@ class YowNoiseLayer(YowLayer):
 
         logger.debug("Received auth event")
         self._profile = self.getProp("profile")
-        if self._profile is None:
-            #这里是扫码模式          
+
+        if self.getProp("botType")==YowBotType.TYPE_REG_COMPANION_SCANQR or self.getProp("botType")==YowBotType.TYPE_REG_COMPANION_LINKCODE:
+                           
             keypair = self.getProp("reg_info")["keypair"]
 
             yowsupenv = self.getProp("env").deviceEnv

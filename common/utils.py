@@ -29,6 +29,84 @@ class Utils:
 
     _OUTPUT = []
 
+    @staticmethod
+    def generateMultiDeviceParams(ref,companion_auth_pub,companion_identity_pub,adv_secret,profile):
+
+        p1 = wa_struct_pb2.ADVDeviceIdentity()
+        p1.raw_id = random.randint(1500000000,1700000000)
+        p1.key_index = profile.config.get_new_device_index()      #自动按照最大的index+1
+        p1.timestamp = int(time.time())
+
+        db = profile.axolotl_manager
+
+        p2 = wa_struct_pb2.ADVSignedDeviceIdentity()
+        p2.details = p1.SerializeToString()
+        p2.account_signature_key = db.identity.publicKey.serialize()[1:]
+        p2.account_signature = Curve.calculateSignature(db.identity.privateKey,b"\x06\x00"+p2.details+companion_identity_pub)
+
+        p3 = wa_struct_pb2.ADVSignedDeviceIdentityHMAC()
+        p3.details = p2.SerializeToString()
+        p3.hmac = hmac.new(key=adv_secret, msg=p3.details, digestmod=hashlib.sha256).digest()
+
+        q1 = wa_struct_pb2.ADVKeyIndexList()
+        q1.raw_id = p1.raw_id
+        q1.timestamp = p1.timestamp
+        q1.valid_indexes.extend(profile.config.device_list)
+
+        q2 = wa_struct_pb2.ADVSignedKeyIndexList()
+        q2.details = q1.SerializeToString()
+        q2.account_signature = Curve.calculateSignature(db.identity.privateKey,b"\x06\x02"+p2.details)
+
+        return ref,companion_auth_pub,p3.SerializeToString(),q2.SerializeToString()    
+    
+    def generateMultiDeviceParamsFromQrCode(qr_str,profile):
+
+        qr_parts = qr_str.split(",")  #四个部份
+        ref = qr_parts[0].encode()
+        companion_auth_pub = base64.b64decode(qr_parts[1])
+        companion_identity_pub = base64.b64decode(qr_parts[2])
+        adv_secret = base64.b64decode(qr_parts[3])
+        print(len(adv_secret))
+
+        return Utils.generateMultiDeviceParams(ref,companion_auth_pub,companion_identity_pub,adv_secret,profile)    
+
+    def link_code_encrypt(link_code_key,data):
+        try:
+            salt = get_random_bytes(32)
+            random_iv = get_random_bytes(16)
+            key = hashlib.pbkdf2_hmac(
+                hash_name='sha256',
+                password=link_code_key.encode(),
+                salt=salt,
+                iterations=131072,
+                dklen=32,
+            )                      
+            cipher = AES.new(key, AES.MODE_CTR,initial_value=random_iv,nonce=b'')            
+            ciphered = cipher.encrypt(data)
+            return salt + random_iv + ciphered
+        except Exception as e:
+            raise RuntimeError("Cannot encrypt") from e
+        
+    
+        
+    def link_code_decrypt(link_code_key,encrypted_data):
+        try:
+            salt = encrypted_data[:32]
+            key = hashlib.pbkdf2_hmac(
+                hash_name='sha256',
+                password=link_code_key.encode(),
+                salt=salt,
+                iterations=131072,
+                dklen=32,
+            )          
+            iv = encrypted_data[32:48]
+            payload = encrypted_data[48:80]            
+            cipher = AES.new(key, AES.MODE_CTR,initial_value=iv,nonce=b'')          
+            return cipher.decrypt(payload)            
+        except Exception as e:
+            raise RuntimeError("Cannot decrypt") from e
+            #pass    
+
     def compress(uncompressed: bytes) -> bytes:
         # 压缩数据
         compressor = zlib.compressobj()
@@ -43,8 +121,8 @@ class Utils:
         decompressed_data += decompressor.flush()
         return decompressed_data          
     
-    def extract_and_expand(key: bytes, info: bytes = b"", output_length: int = 32) -> bytes:         
-        return Utils.expand(hmac.new(bytes(32), key, hashlib.sha256).digest(), info, output_length)
+    def extract_and_expand(key: bytes, info: bytes = b"", output_length: int = 32,salt=None) -> bytes:         
+        return Utils.expand(hmac.new(salt if salt is not None else bytes(32) , key, hashlib.sha256).digest(), info, output_length)
     
     def expand(prk: bytes, info: bytes, output_size: int) -> bytes:
         HASH_OUTPUT_SIZE = 32  # SHA-256 produces a 32-byte output                
@@ -96,39 +174,7 @@ class Utils:
         return mac        
 
 
-    def generateMultiDeviceParamsFromQrCode(qr_str,profile):
 
-        qr_parts = qr_str.split(",") 
-        ref = qr_parts[0].encode()
-        companion_auth_pub = base64.b64decode(qr_parts[1])
-        companion_identity_pub = base64.b64decode(qr_parts[2])
-        adv_secret = base64.b64decode(qr_parts[3])
-
-        p1 = wa_struct_pb2.ADVDeviceIdentity()
-        p1.raw_id = random.randint(1500000000,1700000000)
-        p1.key_index = profile.config.get_new_device_index()     
-        p1.timestamp = int(time.time())
-
-        db = profile.axolotl_manager
-        p2 = wa_struct_pb2.ADVSignedDeviceIdentity()
-        p2.details = p1.SerializeToString()
-        p2.account_signature_key = db.identity.publicKey.serialize()[1:]
-        p2.account_signature = Curve.calculateSignature(db.identity.privateKey,b"\x06\x00"+p2.details+companion_identity_pub)
-
-        p3 = wa_struct_pb2.ADVSignedDeviceIdentityHMAC()
-        p3.details = p2.SerializeToString()
-        p3.hmac = hmac.new(key=adv_secret, msg=p3.details, digestmod=hashlib.sha256).digest()
-
-        q1 = wa_struct_pb2.ADVKeyIndexList()
-        q1.raw_id = p1.raw_id
-        q1.timestamp = p1.timestamp
-        q1.valid_indexes.extend(profile.config.device_list)
-
-        q2 = wa_struct_pb2.ADVSignedKeyIndexList()
-        q2.details = q1.SerializeToString()
-        q2.account_signature = Curve.calculateSignature(db.identity.privateKey,b"\x06\x02"+p2.details)
-
-        return ref,companion_auth_pub,p3.SerializeToString(),q2.SerializeToString()
         
     def assureDir(path):                
         if not os.path.exists(path):

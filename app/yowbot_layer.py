@@ -20,8 +20,20 @@ from yowsup.layers.protocol_ib.protocolentities  import *
 from yowsup.layers.protocol_media.protocolentities  import *
 from yowsup.layers.protocol_groups.protocolentities  import * 
 from yowsup.layers.protocol_privacy.protocolentities  import *
+from yowsup.layers.protocol_historysync.protocolentities.history_sync import HistorySync
+from yowsup.layers.protocol_historysync.protocolentities.attributes import *
+from yowsup.layers.axolotl.protocolentities.iq_key_get import GetKeysIqProtocolEntity
+
+from yowsup.layers.protocol_appstate.protocolentities.patch_builder import PatchBuilder
+from yowsup.layers.protocol_appstate.protocolentities.attributes import *
+from yowsup.layers.protocol_appstate.protocolentities.mutation_keys import MutationKeys
+from yowsup.layers.protocol_appstate.protocolentities.hash_state import HashState
+from Crypto.Random import get_random_bytes
+
+
 from yowsup.layers.axolotl.props import PROP_IDENTITY_AUTOTRUST
 from google.protobuf.json_format import MessageToDict
+
 
 from yowsup.layers.protocol_presence.protocolentities import *
 
@@ -44,6 +56,9 @@ from yowsup.profile.profile import YowProfile
 from pathlib import Path
 from .yowbot_values import YowBotType
 from axolotl.ecc.curve import Curve
+from axolotl.ecc.djbec import *
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
 
 from yowsup.layers.protocol_presence.protocolentities.presence_subscribe import SubscribePresenceProtocolEntity
 
@@ -123,6 +138,7 @@ class SendLayer(YowInterfaceLayer):
         self.lastOnlineTimeStamp = None
         self.pingCount = 0             
         self.ctxMap = {}
+        self._qrThread=None
                 
     def quit(self):
         self.userQuit = True
@@ -210,10 +226,12 @@ class SendLayer(YowInterfaceLayer):
     def onDisconnected(self, yowLayerEvent):             
         self.logger.info("Disconnect")       
         error = self.getStack().getProp("exception")                
-        if self.getProp("jid") is not None:            
-            self._qrThread.stop()
+        if self.getProp("jid") is not None:           
+
+            if self._qrThread:
+                self._qrThread.stop()
             waNum,a,deviceid = WATools.jidDecode(self.getProp("jid"))
-            self.logger.info("Companion device register sucess(%s_%d)" % (waNum,deviceid))        
+            self.logger.info("Companion device register success(%s_%d)" % (waNum,deviceid))        
             self.setProp("jid",None)
             time.sleep(5)                                       
             self.getStack().setProfile(SysVar.ACCOUNT_PATH+waNum+"_"+str(deviceid))                       
@@ -252,6 +270,216 @@ class SendLayer(YowInterfaceLayer):
         if isinstance(entity,MexUpdateNotificationProtocolEntity):            
             self.logger.info("Notification: Received a MexUpdate Notification: %s" % entity.jsonObj)            
             return
+        
+        if isinstance(entity,AccountSyncNotificationProtocolEntity):
+            self.logger.info("Notification: Received a AccountSync Notification")            
+            companionJid = self.getStack().getProp("pair-companion-jid")
+            if companionJid is None :
+                return
+            entity = GetKeysIqProtocolEntity([companionJid],_id=self.bot.idType)        
+            def on_get_encrypt_success(entity, original_iq_entity):
+
+                entity = ProtocolMessageProtocolEntity(protocol_attr=ProtocolAttributes(                    
+                    type = ProtocolAttributes.TYPE_INITIAL_SECURITY_NOTIFICATION_SETTING_SYNC,
+                    initial_security_notification_setting_sync=  InitialSecurityNotificationSettingSyncAttribute(
+                        security_notification_enabled=True
+                    )
+                ),message_meta_attributes=MessageMetaAttributes(
+                    recipient=companionJid,
+                    category="peer"
+                ))
+
+                self.toLower(entity)                
+                sync_keys = self.generateAppStateSyncKeys(10)
+
+                self.db._store.addAppStateKeys(sync_keys)
+
+                entity = ProtocolMessageProtocolEntity(protocol_attr=ProtocolAttributes(                    
+                    type  = ProtocolAttributes.TYPE_APP_STATE_SYNC_KEY_SHARE,
+                    app_state_sync_key_share= AppStateSyncKeyShareAttribute(
+                        keys = sync_keys
+                    )
+
+                ),message_meta_attributes=MessageMetaAttributes(
+                    recipient=companionJid,
+                    category="peer"
+                ))        
+                
+                self.toLower(entity)
+                time.sleep(3)           
+
+                def on_get_conn_success(conn_entity, original_iq_entity):   
+
+                    hs = HistorySync(conn_entity,companionJid)
+
+                    et = hs.createNonBlockingDataMessage()
+                    self.toLower(et)
+                    et = hs.createInitialStatusV3Message()
+                    self.toLower(et)
+                    et = hs.createPushNameMessage()
+                    self.toLower(et)
+                    et = hs.createInitialBootstrapMessage(conversations=[ConversationAttribute(id="TEST")])
+                    self.toLower(et)
+                    et = hs.createRecentMessage()
+                    self.toLower(et)
+                    
+                    et = SetPrivacyIqProtocolEntity(Jid.normalize(self.bot.botId),int(time.time()))
+                    self.toLower(et)
+
+
+                    #######################APP STATE SYNC START###############################
+
+                    #  critical_block critical_unblock_low
+                
+                    key = self.db._store.getOneAppStateKey()  
+                    mutationKeys = MutationKeys.createFromKey(key.key_data.key_data)
+
+                    localeSetting = SyncActionDataAttribute.createFromSyncActionValue(SyncActionValueAttribute(
+                                localeSetting=SyncActionLocaleSettingAttribute(locale="zh_CN")
+                            ))     
+                    pushNameSetting = SyncActionDataAttribute.createFromSyncActionValue(SyncActionValueAttribute(
+                                pushNameSetting=SyncActionPushnameSettingAttribute(name="enx test")                            
+                            ))    
+
+                    state = HashState("critical_block",0)                        
+                    state,syncdPatch1 = PatchBuilder(state,mutationKeys,key).addMutation(localeSetting).addMutation(pushNameSetting).finish()                                                            
+     
+                    name1 = SyncActionDataAttribute.createFromSyncActionValue(SyncActionValueAttribute(
+                                contactAction=SyncActionContactActionAttribute(fullName="test user",firstName="test",lidJid="8618502060000@s.whatsapp.net")                           
+                            ).setArgs(["8618502060000@s.whatsapp.net"]))     
+         
+
+                    state2 = HashState("critical_unblock_low",0)
+                    state2,syncdPatch2  = PatchBuilder(state2,mutationKeys,key).addMutation(name1).finish()
+
+                                      
+                    entity = AppSyncStateIqProtocolEntity(
+                        patches= {
+                            "critical_unblock_low":syncdPatch2.encode(),
+                            "critical_block":syncdPatch1.encode()
+                        }                    
+                    )
+
+                    self.toLower(entity)
+
+                def on_get_conn_error(entity, original_iq_entity):  
+                    print("get conn error")
+
+                conniq = RequestMediaConnIqProtocolEntity()
+                self._sendIq(conniq,on_get_conn_success,on_get_conn_error)
+
+
+            def on_get_encrypt_error(entity, on_get_encrypt_error):
+                print("error get encrypt")
+
+            self._sendIq(entity, on_get_encrypt_success, on_get_encrypt_error)                 
+
+        if isinstance(entity,LinkCodeCompanionRegNotificationProtocolEntity):
+            self.logger.info("Notification: Received a LinkCodeCompanionReg, stage=%s",entity.stage)
+
+            if entity.stage == "primary_hello":                
+
+                
+                linkCode = "AAAAAAAA"
+
+                #这个时候是配对请求，直接回复一个hello就行了
+                #丢到应用层处理            
+                primaryEphemeralPub = Utils.link_code_decrypt(linkCode,entity.linkCodePairingWrappedPrimaryEphemeralPub)                
+
+                
+                shareEphemeralSecret = Curve.calculateAgreement(DjbECPublicKey(primaryEphemeralPub),DjbECPrivateKey(self.getProp("reg_info")["keypair"].private.data))                
+                
+                linkCodePairingEphemeralRootSecret = get_random_bytes(32)
+                encryptPayload  = self.getProp("reg_info")["identity"].publicKey.serialize()[1:]+entity.primaryIdentityPublic+linkCodePairingEphemeralRootSecret
+
+                companionFinishKdfSalt = get_random_bytes(32)
+
+                linkCodePairingKeyBundleEncryptionKey = Utils.extract_and_expand(shareEphemeralSecret,"link_code_pairing_key_bundle_encryption_key".encode(),32,companionFinishKdfSalt)
+                
+                companionFinishIV  = get_random_bytes(12)
+
+                cipher = AESGCM(linkCodePairingKeyBundleEncryptionKey)
+                encrypted  = cipher.encrypt(companionFinishIV,encryptPayload, b'')                
+
+                encryptedPayload = companionFinishKdfSalt + companionFinishIV + encrypted
+
+                identitySharedKey = Curve.calculateAgreement(DjbECPublicKey(entity.primaryIdentityPublic),DjbECPrivateKey(self.getProp("reg_info")["identity"].privateKey.serialize()))
+                linkingSecretKeyMaterial = shareEphemeralSecret+identitySharedKey+linkCodePairingEphemeralRootSecret
+                advSecretPublicKey = Utils.extract_and_expand(linkingSecretKeyMaterial,"adv_secret".encode(),32)                  
+
+
+
+                entity = MultiDevicePairCompanionFinishIqProtocolEntity(self.bot.pairPhoneNumber+"@s.whatsapp.net",encryptedPayload, self.getProp("reg_info")["identity"].publicKey.serialize()[1:],entity.linkCodePairingRef)
+                self.toLower(entity)
+
+                return 
+                                                
+            if entity.stage == "companion_hello":                                            
+                linkCode = input()
+
+                primaryEphemerKeyPair = WATools.generateKeyPair()
+                companionEphemerPub = Utils.link_code_decrypt(linkCode,entity.linkCodePairingWrappedCompanionEphemeralPub)
+                self.setProp("companionEphemerPub",companionEphemerPub)
+                self.setProp("companionAuthKeyPub",entity.companionServerAuthKeyPub)
+                self.setProp("keypair",primaryEphemerKeyPair)                
+
+                linkCodePairingWrappedPrimaryEphemeralPub = Utils.link_code_encrypt(linkCode,primaryEphemerKeyPair.public.data)
+                                
+                #发送primary_hello回包
+                entity = MultiDevicePairPrimaryHelloIqProtocolEntity(linkCodePairingWrappedPrimaryEphemeralPub = linkCodePairingWrappedPrimaryEphemeralPub,primaryIdentityPub=self.db.identity.publicKey.serialize()[1:],linkCodePairingRef=entity.linkCodePairingRef)
+                self.toLower(entity)
+
+            if entity.stage == "companion_finish":
+
+                if self.getProp("keypair") is None:
+                    return 
+
+                ref = entity.linkCodePairingRef
+                primaryEphemerKeyPair = self.getProp("keypair")
+                companionEphemerPub = self.getProp("companionEphemerPub")
+                companionIdentityPublic = entity.companionIdentityPublic
+                companionServerAuthKeyPub = self.getProp("companionAuthKeyPub")
+
+                companionFinishKdfSalt = entity.linkCodePairingWrappedKeyBundle[:32]
+                companionFinishIV = entity.linkCodePairingWrappedKeyBundle[32:44]
+                linkCodePairingEncryptedKeyBundle = entity.linkCodePairingWrappedKeyBundle[44:]
+
+                shareEphemeralSecret = Curve.calculateAgreement(DjbECPublicKey(companionEphemerPub),DjbECPrivateKey(self.getProp("keypair").private.data))
+                linkCodePairingKeyBundleEncryptionKey = Utils.extract_and_expand(shareEphemeralSecret,"link_code_pairing_key_bundle_encryption_key".encode(),32,companionFinishKdfSalt)
+
+                cipher = AESGCM(linkCodePairingKeyBundleEncryptionKey)
+                linkCodePairingKeyBundle  = cipher.decrypt(companionFinishIV,linkCodePairingEncryptedKeyBundle, b'')                     
+
+                identitySharedKey = Curve.calculateAgreement(DjbECPublicKey(companionIdentityPublic),DjbECPrivateKey(self.db.identity.privateKey.serialize()))
+
+                linkCodePairingEphemeralRootSecret = linkCodePairingKeyBundle[-32:]
+
+                linkingSecretKeyMaterial = shareEphemeralSecret+identitySharedKey+linkCodePairingEphemeralRootSecret
+ 
+                advSecretPublicKey = Utils.extract_and_expand(linkingSecretKeyMaterial,"adv_secret".encode(),32)                  
+
+                self.resetSync([],{})
+                time.sleep(3)
+                
+                profile = self.getProp("profile")
+                ref,pubKey,deviceIdentity,keyIndexList = Utils.generateMultiDeviceParams(ref,companionServerAuthKeyPub,companionIdentityPublic,advSecretPublicKey,profile)
+                                                
+                entity = MultiDevicePairDeviceIqProtocolEntity(ref=ref,pubKey=pubKey,deviceIdentity=deviceIdentity,keyIndexList=keyIndexList)                
+                def on_pair_device_success(entity, original_iq_entity):                    
+                    companionJid = entity.deviceJid
+                    deviceIdx =  int(companionJid.split("@")[0].split(":")[1])
+                    profile.config.add_device_to_list(deviceIdx)
+                    profile.write_config(profile.config)
+
+                    self.getStack().setProp("pair-companion-jid",companionJid)
+                    
+                def on_pair_device_error(entity, original_iq):         
+                    logger.error("pair device error")               
+                    self.quit()            
+
+                self._sendIq(entity, on_pair_device_success, on_pair_device_error)                
+
+
                     
         if isinstance(entity,CreateGroupsNotificationProtocolEntity):
             self.logger.info("Notification: Group %s created" % entity.groupId)
@@ -341,17 +569,34 @@ class SendLayer(YowInterfaceLayer):
             return
                  
         if isinstance(entity, MultiDevicePairIqProtocolEntity):                              
-            ack = IqProtocolEntity(to = YowConstants.WHATSAPP_SERVER,_type="result",_id=entity.getId())       
-            self._sendIq(ack)     
-            self.setProp("refs",entity.refs)            
-            self._qrThread = YowQrCodeThread(self, 20)            
-            self._qrThread.start()
-            return 
+
+            if self.getProp("botType")==YowBotType.TYPE_REG_COMPANION_SCANQR:
+                logger.info("QRCode Pairing")
+                ack = IqProtocolEntity(to = YowConstants.WHATSAPP_SERVER,_type="result",_id=entity.getId())       
+                self._sendIq(ack)     
+                self.setProp("refs",entity.refs)
+                #开始一个展示二维码的thread
+                self._qrThread = YowQrCodeThread(self, 20)            
+                self._qrThread.start()
+                return 
+            elif self.getProp("botType")==YowBotType.TYPE_REG_COMPANION_LINKCODE:
+                logger.info("LinkCode Pairing")
+                ack = IqProtocolEntity(to = YowConstants.WHATSAPP_SERVER,_type="result",_id=entity.getId())
+                self._sendIq(ack)
+                identity = self.getProp("reg_info")["identity"]                
+                linkCodePairingWrappedCompanionEphemeralPub = Utils.link_code_encrypt("AAAAAAAA",self.getProp("reg_info")["keypair"].public.data)
+                companionServerAuthKeyPub = self.getProp("reg_info")["keypair"].public.data
+                jid = self.bot.pairPhoneNumber+"@s.whatsapp.net"                
+                entity = MultiDevicePairCompanionHelloIqProtocolEntity(jid,shouldshowPushNotification="true",linkCodePairingWrappedCompanionEphemeralPub=linkCodePairingWrappedCompanionEphemeralPub,companionServerAuthKeyPub=companionServerAuthKeyPub)
+                self.toLower(entity)
+                
+                return 
 
         if isinstance(entity, MultiDevicePairSuccessIqProtocolEntity):                               
             jid = entity.jid
             self.setProp("refs",None)          
             self.setProp("jid",jid)     
+            self.setProp("botType",YowBotType.TYPE_RUN_AUTO)
             p1 = wa_struct_pb2.ADVSignedDeviceIdentityHMAC()
             p1.ParseFromString(entity.device_identity)        
             p2 = wa_struct_pb2.ADVSignedDeviceIdentity()
@@ -367,8 +612,7 @@ class SendLayer(YowInterfaceLayer):
             p4.details = p2.details
             p4.device_signature = devicesign
             signEntity = MultiDevicePairSignIqProtocolEntity(entity.getId(),p3.key_index,p4.SerializeToString())       
-            self._sendIq(signEntity)     
-            #保存签名，后续发送消息的时候有用            
+            self._sendIq(signEntity)                 
             self.genProfile(p4) 
             return 
     
@@ -389,9 +633,6 @@ class SendLayer(YowInterfaceLayer):
                 pass                
 
             self.loginEvent.set()
-
-
-
 
     def eventCallback(self,event,eventDetail=None,msgLog=None,contactUpdate=None):        
         if self.bot.callback is not None and self.bot.botId is not None:
@@ -1323,3 +1564,60 @@ class SendLayer(YowInterfaceLayer):
         entity = LeaveGroupsIqProtocolEntity([Jid.normalize(groupJid)])
         self._sendIq(entity, on_success, on_error)
         return entity.getId()
+    
+    def resetSync(self,params,options):        
+        entity = AppSyncResetIqProtocolEntity()
+        self.toLower(entity)
+
+    def multiDeviceLink(self,cmdParams,options): 
+
+        profile = self.getStack().getProp("profile")
+        qr_str = cmdParams[0]
+        ref,pubKey,deviceIdentity,keyIndexList = Utils.generateMultiDeviceParamsFromQrCode(qr_str,profile)
+
+        entity = MultiDevicePairDeviceIqProtocolEntity(ref=ref,pubKey=pubKey,deviceIdentity=deviceIdentity,keyIndexList=keyIndexList)
+        
+        def on_pair_device_success(entity, original_iq_entity):                    
+            companionJid = entity.deviceJid
+            deviceIdx =  int(companionJid.split("@")[0].split(":")[1])
+            profile.config.add_device_to_list(deviceIdx)
+            profile.write_config(profile.config)
+
+            self.getStack().setProp("pair-companion-jid",companionJid)
+            
+        def on_pair_device_error(entity, original_iq):         
+            logger.error("pair device error")               
+            self.quit()            
+
+        self._sendIq(entity, on_pair_device_success, on_pair_device_error)
+
+
+    def multiDeviceRemove(self,cmdParams,options):
+        if len(cmdParams)==0 or cmdParams[0]=="all":
+            entity = MultiDeviceRemoveCompanionDeviceIqProtocolEntity(jid=None)     #表示删除所有
+        else:
+            entity = MultiDeviceRemoveCompanionDeviceIqProtocolEntity(jid=Jid.normalize(cmdParams[0]))
+
+        self.toLower(entity)
+        return entity.getId()        
+    
+    def generateAppStateSyncKeys(self,n):
+        profile = self.getStack().getProp("profile")        
+        keys = []
+        for i in range(0,10):
+            key = AppStateSyncKeyAttribute(
+                key_id= AppStateSyncKeyIdAttribute(key_id=random.randint(10000,20000).to_bytes(6,'big')),
+                key_data=AppStateSyncKeyDataAttribute(
+                    key_data=Curve.generateKeyPair().publicKey.serialize()[1:],
+                    fingerprint=AppStateSyncKeyFingerprintAttribute(
+                       raw_id = random.randint(10000,2000000000),
+                       current_index=i,
+                       device_indexes=profile.config.device_list
+                    ),
+                    timestamp=int(time.time())
+                )
+            )
+            keys.append(key)        
+        return keys
+              
+

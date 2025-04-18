@@ -20,7 +20,7 @@ class RegWithScan(ConsoleMain):
             self.init_log(logging.INFO,"regwithscan.log")
 
         try:  
-            wabot = YowBot(bot_id=None,env=self.env,bot_type=YowBotType.TYPE_REG_COMPANION)                      
+            wabot = YowBot(bot_id=None,env=self.env,bot_type=YowBotType.TYPE_REG_COMPANION_SCANQR)                      
             wabot.run()
         except KeyboardInterrupt:        
             print("error")

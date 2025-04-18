@@ -1,13 +1,13 @@
 # zowsup
 
-zowsup is a python whatsapp-protocol project base on [yowsup](https://github.com/tgalal/yowsup/).
+zowsup is a python whatsapp-protocol project based on [yowsup](https://github.com/tgalal/yowsup/).
 
 Since the original yowsup project has not been maintained for a long time, we forked yowsup and some associated projects(axolotl, consonance) and intergrated into an All-In-One Project and keep updating with latest version of Whatsapp.
 
 ```
-- ZOWSUP VERSION : 0.5.0
+- ZOWSUP VERSION : 0.6.0
 
-- UPDATE TIME : 2025-04-10
+- UPDATE TIME : 2025-04-18
 
 - WHATSAPP VERSION : 
     2.25.10.71(Android) 
@@ -17,7 +17,11 @@ Since the original yowsup project has not been maintained for a long time, we fo
 
 ```
 
-## What's New 
+## What's New 0.6.0
+ * new commands mdlink and mdremove
+ * linkcode for companion device registration
+
+## What's New 0.5.0
  * Latest version(6.3) of noise-protocol and token-dictionary
  * Multi-Environment support (android,smb_android,ios,smb_ios)
  * Multi-Device protocol support
@@ -68,7 +72,6 @@ DEFAULT_ENV=android                       #default environment
 
 ```
 
-
  * Run
 
 ```
@@ -76,19 +79,23 @@ DEFAULT_ENV=android                       #default environment
 
 ```
 
-* Register as companion 
+* Register as a companion device
 
 ```
+ [QRCODE]
  python script/regwithscan.py 
 
+ [LINKCODE]
+ python script/regwithlinkcode.py [account-number]
+
 ```
 
- * Basic commands
+* Basic commands
 
 ```
 main.py [account-number] [command] [commandParams]
 
-[command]           |   [description]
+[command]           |   [description]                              
 -----------------------------------------------------------------------
 getavatar           |   get account avatar
 getgroupinvite      |   get the invite code of a group
@@ -102,6 +109,8 @@ init                |   initialize (first login)
 joingroup           |   join group with a invite code
 leavegroup          |   leave group
 makegroup           |   make group with members
+mdlink              |   use a qrcode to link to a companion
+mdremove            |   remove companion(s)
 sendmedia           |   send media message to  peer
 send                |   send message to peer
 set2fa              |   set account 2fa
