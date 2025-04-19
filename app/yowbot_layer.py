@@ -379,8 +379,7 @@ class SendLayer(YowInterfaceLayer):
 
             if entity.stage == "primary_hello":                
 
-                
-                linkCode = "AAAAAAAA"
+                linkCode = self.bot.pairLinkCode
 
                 #这个时候是配对请求，直接回复一个hello就行了
                 #丢到应用层处理            
@@ -407,15 +406,15 @@ class SendLayer(YowInterfaceLayer):
                 linkingSecretKeyMaterial = shareEphemeralSecret+identitySharedKey+linkCodePairingEphemeralRootSecret
                 advSecretPublicKey = Utils.extract_and_expand(linkingSecretKeyMaterial,"adv_secret".encode(),32)                  
 
-
-
                 entity = MultiDevicePairCompanionFinishIqProtocolEntity(self.bot.pairPhoneNumber+"@s.whatsapp.net",encryptedPayload, self.getProp("reg_info")["identity"].publicKey.serialize()[1:],entity.linkCodePairingRef)
                 self.toLower(entity)
 
                 return 
                                                 
             if entity.stage == "companion_hello":                                            
-                linkCode = input()
+                linkCode = input("Input the link code (default value: AAAAAAAA):")
+                if linkCode is None or len(linkCode)==0:
+                    linkCode = "AAAAAAAA"
 
                 primaryEphemerKeyPair = WATools.generateKeyPair()
                 companionEphemerPub = Utils.link_code_decrypt(linkCode,entity.linkCodePairingWrappedCompanionEphemeralPub)
@@ -584,7 +583,7 @@ class SendLayer(YowInterfaceLayer):
                 ack = IqProtocolEntity(to = YowConstants.WHATSAPP_SERVER,_type="result",_id=entity.getId())
                 self._sendIq(ack)
                 identity = self.getProp("reg_info")["identity"]                
-                linkCodePairingWrappedCompanionEphemeralPub = Utils.link_code_encrypt("AAAAAAAA",self.getProp("reg_info")["keypair"].public.data)
+                linkCodePairingWrappedCompanionEphemeralPub = Utils.link_code_encrypt(self.bot.pairLinkCode,self.getProp("reg_info")["keypair"].public.data)
                 companionServerAuthKeyPub = self.getProp("reg_info")["keypair"].public.data
                 jid = self.bot.pairPhoneNumber+"@s.whatsapp.net"                
                 entity = MultiDevicePairCompanionHelloIqProtocolEntity(jid,shouldshowPushNotification="true",linkCodePairingWrappedCompanionEphemeralPub=linkCodePairingWrappedCompanionEphemeralPub,companionServerAuthKeyPub=companionServerAuthKeyPub)

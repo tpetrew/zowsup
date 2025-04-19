@@ -21,6 +21,11 @@ class RegWithLinkCode(ConsoleMain):
         else:
             botId = params[0]        
 
+        if len(params) >1 :
+            linkCode = params[1]
+        else:
+            linkCode = "AAAAAAAA"
+
         if "debug" in options:
             self.init_log(logging.DEBUG,botId+".log")
         else:
@@ -31,6 +36,7 @@ class RegWithLinkCode(ConsoleMain):
         try:  
             wabot = YowBot(bot_id=None,env=self.env,bot_type=YowBotType.TYPE_REG_COMPANION_LINKCODE  )            
             wabot.pairPhoneNumber = botId
+            wabot.pairLinkCode = linkCode
             wabot.run()
         except KeyboardInterrupt:        
             print("error")
