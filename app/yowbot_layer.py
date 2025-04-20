@@ -478,6 +478,9 @@ class SendLayer(YowInterfaceLayer):
 
                 self._sendIq(entity, on_pair_device_success, on_pair_device_error)                
 
+        if isinstance(entity,WaOldCodeNotificationProtocolEntity):
+            self.logger.info("Notification: Received a wa_old registration code: %s in %s" % (entity.code,entity.timestamp))                  
+            return 
 
                     
         if isinstance(entity,CreateGroupsNotificationProtocolEntity):
