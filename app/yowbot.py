@@ -60,15 +60,14 @@ class YowBot:
             .pushDefaultLayers()\
             .push(self.sendLayer)\
             .build()
+        
         self._stack.setProp("env",self.env)        
         self._stack.setProp("ID_TYPE",self.idType)
-
         self.bot_type = bot_type              
         self.callback = self.onCallback      
         self.inloop = False
-
         self.manualStop = False                
-
+        self.pairPhoneNumber=None
         self.cmdEventMap = {}
         
         if self.bot_type==YowBotType.TYPE_REG_COMPANION_SCANQR or self.bot_type==YowBotType.TYPE_REG_COMPANION_LINKCODE:                        
@@ -344,7 +343,6 @@ class YowBot:
     def groupAdd(self,params,options):
         return self.sendLayer.groupAdd(params,options)
     
-
     @BotCmd("grouppromote","promote group member (to admin)")
     def groupPromote(self,params,options):
         return self.sendLayer.groupPromote(params,options)
@@ -369,7 +367,6 @@ class YowBot:
     def setGroupPicture(self,params,options):
         return self.sendLayer.setGroupIcon(params,options)
 
-
     @BotCmd("getavatar", "get account avatar")
     def getAvatar(self,params,options):
         return self.sendLayer.getAvatar(params,options)
@@ -384,7 +381,6 @@ class YowBot:
     @BotCmd("mdremove","remove companion(s)")
     def multiDeviceRemove(self,params,options):
         return self.sendLayer.multiDeviceRemove(params,options)       
-
 
                       
 if __name__ == "__main__":    

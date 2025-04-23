@@ -2,7 +2,6 @@ import os,sys
 sys.path.append(os.getcwd())
 
 # coding=UTF-8
-
 from yowsup.common import YowConstants
 from yowsup.layers import EventCallback, YowLayerEvent
 from yowsup.layers.axolotl.protocolentities.iq_keys_get_result import ResultGetKeysIqProtocolEntity
@@ -23,42 +22,31 @@ from yowsup.layers.protocol_privacy.protocolentities  import *
 from yowsup.layers.protocol_historysync.protocolentities.history_sync import HistorySync
 from yowsup.layers.protocol_historysync.protocolentities.attributes import *
 from yowsup.layers.axolotl.protocolentities.iq_key_get import GetKeysIqProtocolEntity
-
 from yowsup.layers.protocol_appstate.protocolentities.patch_builder import PatchBuilder
 from yowsup.layers.protocol_appstate.protocolentities.attributes import *
 from yowsup.layers.protocol_appstate.protocolentities.mutation_keys import MutationKeys
 from yowsup.layers.protocol_appstate.protocolentities.hash_state import HashState
 from Crypto.Random import get_random_bytes
-
-
 from yowsup.layers.axolotl.props import PROP_IDENTITY_AUTOTRUST
 from google.protobuf.json_format import MessageToDict
-
-
 from yowsup.layers.protocol_presence.protocolentities import *
-
 from yowsup.layers.protocol_ib.protocolentities import *
 from yowsup.config.v1.config import Config
 from common.utils import Utils
 from yowsup.common.tools import WATools
 from yowsup.layers.protocol_media.mediacipher import MediaCipher
-
 from yowsup.common.tools import Jid
 import requests,logging,io,os,time,mimetypes,base64,random,threading,qrcode
-
 from yowsup.common.optionalmodules import PILOptionalModule
 from conf.constants import SysVar
 from threading import Thread
-
 from proto import wsend_pb2,wa_struct_pb2
-
 from yowsup.profile.profile import YowProfile
 from pathlib import Path
 from .yowbot_values import YowBotType
 from axolotl.ecc.curve import Curve
 from axolotl.ecc.djbec import *
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-
 
 from yowsup.layers.protocol_presence.protocolentities.presence_subscribe import SubscribePresenceProtocolEntity
 
@@ -183,12 +171,10 @@ class SendLayer(YowInterfaceLayer):
         regInfo = self.getProp("reg_info")
         regid = regInfo["regid"]
         keypair = regInfo["keypair"]
-
         jid = self.getProp("jid")
         phone,a,deviceid = WATools.jidDecode(jid)
         identity = regInfo["identity"]
         cc = Utils.getMobileCC(phone)        
-
         mccmnc = {
             "mcc":"000",
             "mnc":"000"
@@ -206,7 +192,6 @@ class SendLayer(YowInterfaceLayer):
         Utils.assureDir(account_dir)        
         profile = YowProfile(SysVar.ACCOUNT_PATH+phone+"_"+str(deviceid), config)
         profile.write_config(config)
-
         db = profile.axolotl_manager
 
         q = "UPDATE identities SET registration_id=? , public_key=? , private_key=?,device_id=? WHERE recipient_id=-1"
@@ -227,7 +212,6 @@ class SendLayer(YowInterfaceLayer):
         self.logger.info("Disconnect")       
         error = self.getStack().getProp("exception")                
         if self.getProp("jid") is not None:           
-
             if self._qrThread:
                 self._qrThread.stop()
             waNum,a,deviceid = WATools.jidDecode(self.getProp("jid"))
@@ -253,7 +237,6 @@ class SendLayer(YowInterfaceLayer):
             time.sleep(1)
             self.getStack().broadcastEvent(YowLayerEvent(YowNetworkLayer.EVENT_STATE_CONNECT))  
         else:     
-
             if not self.getProp("HC_MODE"):                                
                 self.eventCallback(wsend_pb2.BotEvent.Event.QUIT)                
                 if self.userQuit :                
@@ -262,7 +245,6 @@ class SendLayer(YowInterfaceLayer):
                     Utils.exit(1)         
             else:                
                 time.sleep(1)        
-
     
     @ProtocolEntityCallback("notification")
     def onNotification(self,entity):        
@@ -368,7 +350,6 @@ class SendLayer(YowInterfaceLayer):
                 conniq = RequestMediaConnIqProtocolEntity()
                 self._sendIq(conniq,on_get_conn_success,on_get_conn_error)
 
-
             def on_get_encrypt_error(entity, on_get_encrypt_error):
                 print("error get encrypt")
 
@@ -378,34 +359,22 @@ class SendLayer(YowInterfaceLayer):
             self.logger.info("Notification: Received a LinkCodeCompanionReg, stage=%s",entity.stage)
 
             if entity.stage == "primary_hello":                
-
                 linkCode = self.bot.pairLinkCode
-
                 #这个时候是配对请求，直接回复一个hello就行了
                 #丢到应用层处理            
-                primaryEphemeralPub = Utils.link_code_decrypt(linkCode,entity.linkCodePairingWrappedPrimaryEphemeralPub)                
-
-                
-                shareEphemeralSecret = Curve.calculateAgreement(DjbECPublicKey(primaryEphemeralPub),DjbECPrivateKey(self.getProp("reg_info")["keypair"].private.data))                
-                
+                primaryEphemeralPub = Utils.link_code_decrypt(linkCode,entity.linkCodePairingWrappedPrimaryEphemeralPub)                                
+                shareEphemeralSecret = Curve.calculateAgreement(DjbECPublicKey(primaryEphemeralPub),DjbECPrivateKey(self.getProp("reg_info")["keypair"].private.data))                                
                 linkCodePairingEphemeralRootSecret = get_random_bytes(32)
                 encryptPayload  = self.getProp("reg_info")["identity"].publicKey.serialize()[1:]+entity.primaryIdentityPublic+linkCodePairingEphemeralRootSecret
-
                 companionFinishKdfSalt = get_random_bytes(32)
-
-                linkCodePairingKeyBundleEncryptionKey = Utils.extract_and_expand(shareEphemeralSecret,"link_code_pairing_key_bundle_encryption_key".encode(),32,companionFinishKdfSalt)
-                
+                linkCodePairingKeyBundleEncryptionKey = Utils.extract_and_expand(shareEphemeralSecret,"link_code_pairing_key_bundle_encryption_key".encode(),32,companionFinishKdfSalt)                
                 companionFinishIV  = get_random_bytes(12)
-
                 cipher = AESGCM(linkCodePairingKeyBundleEncryptionKey)
                 encrypted  = cipher.encrypt(companionFinishIV,encryptPayload, b'')                
-
                 encryptedPayload = companionFinishKdfSalt + companionFinishIV + encrypted
-
                 identitySharedKey = Curve.calculateAgreement(DjbECPublicKey(entity.primaryIdentityPublic),DjbECPrivateKey(self.getProp("reg_info")["identity"].privateKey.serialize()))
                 linkingSecretKeyMaterial = shareEphemeralSecret+identitySharedKey+linkCodePairingEphemeralRootSecret
                 advSecretPublicKey = Utils.extract_and_expand(linkingSecretKeyMaterial,"adv_secret".encode(),32)                  
-
                 entity = MultiDevicePairCompanionFinishIqProtocolEntity(self.bot.pairPhoneNumber+"@s.whatsapp.net",encryptedPayload, self.getProp("reg_info")["identity"].publicKey.serialize()[1:],entity.linkCodePairingRef)
                 self.toLower(entity)
 
@@ -421,15 +390,12 @@ class SendLayer(YowInterfaceLayer):
                 self.setProp("companionEphemerPub",companionEphemerPub)
                 self.setProp("companionAuthKeyPub",entity.companionServerAuthKeyPub)
                 self.setProp("keypair",primaryEphemerKeyPair)                
-
-                linkCodePairingWrappedPrimaryEphemeralPub = Utils.link_code_encrypt(linkCode,primaryEphemerKeyPair.public.data)
-                                
+                linkCodePairingWrappedPrimaryEphemeralPub = Utils.link_code_encrypt(linkCode,primaryEphemerKeyPair.public.data)                                
                 #发送primary_hello回包
                 entity = MultiDevicePairPrimaryHelloIqProtocolEntity(linkCodePairingWrappedPrimaryEphemeralPub = linkCodePairingWrappedPrimaryEphemeralPub,primaryIdentityPub=self.db.identity.publicKey.serialize()[1:],linkCodePairingRef=entity.linkCodePairingRef)
                 self.toLower(entity)
 
             if entity.stage == "companion_finish":
-
                 if self.getProp("keypair") is None:
                     return 
 
@@ -438,38 +404,28 @@ class SendLayer(YowInterfaceLayer):
                 companionEphemerPub = self.getProp("companionEphemerPub")
                 companionIdentityPublic = entity.companionIdentityPublic
                 companionServerAuthKeyPub = self.getProp("companionAuthKeyPub")
-
                 companionFinishKdfSalt = entity.linkCodePairingWrappedKeyBundle[:32]
                 companionFinishIV = entity.linkCodePairingWrappedKeyBundle[32:44]
                 linkCodePairingEncryptedKeyBundle = entity.linkCodePairingWrappedKeyBundle[44:]
-
                 shareEphemeralSecret = Curve.calculateAgreement(DjbECPublicKey(companionEphemerPub),DjbECPrivateKey(self.getProp("keypair").private.data))
                 linkCodePairingKeyBundleEncryptionKey = Utils.extract_and_expand(shareEphemeralSecret,"link_code_pairing_key_bundle_encryption_key".encode(),32,companionFinishKdfSalt)
-
                 cipher = AESGCM(linkCodePairingKeyBundleEncryptionKey)
                 linkCodePairingKeyBundle  = cipher.decrypt(companionFinishIV,linkCodePairingEncryptedKeyBundle, b'')                     
-
                 identitySharedKey = Curve.calculateAgreement(DjbECPublicKey(companionIdentityPublic),DjbECPrivateKey(self.db.identity.privateKey.serialize()))
-
                 linkCodePairingEphemeralRootSecret = linkCodePairingKeyBundle[-32:]
-
                 linkingSecretKeyMaterial = shareEphemeralSecret+identitySharedKey+linkCodePairingEphemeralRootSecret
- 
                 advSecretPublicKey = Utils.extract_and_expand(linkingSecretKeyMaterial,"adv_secret".encode(),32)                  
-
                 self.resetSync([],{})
-                time.sleep(3)
-                
+                time.sleep(3)                
                 profile = self.getProp("profile")
-                ref,pubKey,deviceIdentity,keyIndexList = Utils.generateMultiDeviceParams(ref,companionServerAuthKeyPub,companionIdentityPublic,advSecretPublicKey,profile)
-                                                
+                ref,pubKey,deviceIdentity,keyIndexList = Utils.generateMultiDeviceParams(ref,companionServerAuthKeyPub,companionIdentityPublic,advSecretPublicKey,profile)                                                
                 entity = MultiDevicePairDeviceIqProtocolEntity(ref=ref,pubKey=pubKey,deviceIdentity=deviceIdentity,keyIndexList=keyIndexList)                
+
                 def on_pair_device_success(entity, original_iq_entity):                    
                     companionJid = entity.deviceJid
                     deviceIdx =  int(companionJid.split("@")[0].split(":")[1])
                     profile.config.add_device_to_list(deviceIdx)
                     profile.write_config(profile.config)
-
                     self.getStack().setProp("pair-companion-jid",companionJid)
                     
                 def on_pair_device_error(entity, original_iq):         
@@ -481,7 +437,6 @@ class SendLayer(YowInterfaceLayer):
         if isinstance(entity,WaOldCodeNotificationProtocolEntity):
             self.logger.info("Notification: Received a wa_old registration code: %s in %s" % (entity.code,entity.timestamp))                  
             return 
-
                     
         if isinstance(entity,CreateGroupsNotificationProtocolEntity):
             self.logger.info("Notification: Group %s created" % entity.groupId)
@@ -606,7 +561,6 @@ class SendLayer(YowInterfaceLayer):
             p3 = wa_struct_pb2.ADVDeviceIdentity()
             p3.ParseFromString(p2.details)        
             identity = self.getProp("reg_info")["identity"]
-
             buffer=b'\x06\x01'+p2.details+identity.publicKey.serialize()[1:]+p2.account_signature_key            
             devicesign = Curve.calculateSignature(identity.privateKey,buffer)
             p4 = wa_struct_pb2.ADVSignedDeviceIdentity()            
@@ -721,9 +675,7 @@ class SendLayer(YowInterfaceLayer):
                             'target':num,
                             'status': wsend_pb2.MsgLogItem.Status.Value("SENT")
                     })
-            else:   
-
-                    pass                    
+            else:                
                     self.eventCallback(wsend_pb2.BotEvent.Event.MSG_LOG,msgLog={
                             'msgId':entity.getId(),                            
                             'sender':self.bot.botId,
@@ -746,7 +698,6 @@ class SendLayer(YowInterfaceLayer):
         filename = params["filename"]
         ext = None
 
-
         if params["type"]=="IMAGE":
             media_info = MediaCipher.INFO_IMAGE            
         elif params["type"]=="VIDEO":
@@ -760,7 +711,6 @@ class SendLayer(YowInterfaceLayer):
         else:
             logger.error("Unsupported type")
             return None  
-
 
         filedata = MediaCipher().decrypt(enc_data, params["media_key"], media_info)
         
@@ -785,16 +735,20 @@ class SendLayer(YowInterfaceLayer):
         
         return filename
     
-
-
+    def parseMediaCommonAttributes(self,msg,media_specific_attributes):        
+        if media_specific_attributes is not None:
+            msg.url = media_specific_attributes.url
+            msg.direct_path = media_specific_attributes.direct_path
+            msg.file_enc_sha256 = media_specific_attributes.file_enc_sha256
+            msg.media_key_timestamp = media_specific_attributes.media_key_timestamp
+            msg.file_sha256 = media_specific_attributes.file_sha256
+            msg.file_length = media_specific_attributes.file_length
+            msg.mimetype = media_specific_attributes.mimetype
+            msg.media_key = media_specific_attributes.media_key
+    
     @ProtocolEntityCallback("message")
     def onMessage(self, messageProtocolEntity):            
-        
-        if messageProtocolEntity.getParticipant() is not None:
-            _from = messageProtocolEntity.getFrom(False)+"::"+messageProtocolEntity.getParticipant(False)
-        else:
-            _from = messageProtocolEntity.getFrom(False)
-        
+           
         if messageProtocolEntity.getType() == 'text' :
 
             type = "text"
@@ -825,12 +779,9 @@ class SendLayer(YowInterfaceLayer):
                 msg.ad_message.thumbnail = messageProtocolEntity.context_info.external_ad_reply.thumbnail
                 msg.ad_message.url = messageProtocolEntity.context_info.external_ad_reply.source_url
                 msg.ad_message.larger_thumbnail = messageProtocolEntity.context_info.external_ad_reply.render_larger_thumbnail
-
             
             self.messageCallback(msg)
-
-                 
-
+                
         elif messageProtocolEntity.getType() == 'media':  
 
             msg = wsend_pb2.Message()                                
@@ -870,123 +821,77 @@ class SendLayer(YowInterfaceLayer):
                     msg.url_message.url  = messageProtocolEntity.matched_text
                           
                 self.messageCallback(msg)                
-                    
-                               
+                
+                                                   
             elif isinstance(messageProtocolEntity,ImageDownloadableMediaMessageProtocolEntity):
                 text = "[image]"                      
                 msg.type = wsend_pb2.Message.Type.Value("IMAGE") 
-                msg.image_message.url = messageProtocolEntity.downloadablemedia_specific_attributes.url
-                msg.image_message.mimetype = messageProtocolEntity.downloadablemedia_specific_attributes.mimetype
+                self.parseMediaCommonAttributes(msg.image_message,messageProtocolEntity.downloadablemedia_specific_attributes)                                
                 if  messageProtocolEntity.caption:
-                    msg.image_message.caption = messageProtocolEntity.caption 
-                msg.image_message.file_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_sha256
-                msg.image_message.file_length = messageProtocolEntity.downloadablemedia_specific_attributes.file_length
-                msg.image_message.height = messageProtocolEntity.height
-                msg.image_message.width  = messageProtocolEntity.width
-                msg.image_message.media_key = messageProtocolEntity.downloadablemedia_specific_attributes.media_key
-                msg.image_message.file_enc_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_enc_sha256
-                msg.image_message.direct_path = messageProtocolEntity.downloadablemedia_specific_attributes.direct_path
-                msg.image_message.media_key_timestamp = messageProtocolEntity.downloadablemedia_specific_attributes.media_key_timestamp
+                    msg.image_message.caption = messageProtocolEntity.caption                                 
                 if  messageProtocolEntity.jpeg_thumbnail:
                     msg.image_message.jpeg_thumbnail = messageProtocolEntity.jpeg_thumbnail
+                msg.image_message.height = messageProtocolEntity.height
+                msg.image_message.width  = messageProtocolEntity.width                                
+                                                    
                 self.messageCallback(msg)                             
 
             elif isinstance(messageProtocolEntity,VideoDownloadableMediaMessageProtocolEntity):
                 text = "[video]"      
                 msg.type = wsend_pb2.Message.Type.Value("VIDEO") 
-                msg.video_message.url = messageProtocolEntity.downloadablemedia_specific_attributes.url
-                msg.video_message.mimetype = messageProtocolEntity.downloadablemedia_specific_attributes.mimetype
+                self.parseMediaCommonAttributes(msg.video_message,messageProtocolEntity.downloadablemedia_specific_attributes)                               
                 if  messageProtocolEntity.caption:
                     msg.video_message.caption = messageProtocolEntity.caption 
-                msg.video_message.file_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_sha256
-                msg.video_message.file_length = messageProtocolEntity.downloadablemedia_specific_attributes.file_length
                 msg.video_message.height = messageProtocolEntity.height
                 msg.video_message.width  = messageProtocolEntity.width
                 msg.video_message.seconds= messageProtocolEntity.seconds
                 msg.video_message.gif_playback = messageProtocolEntity.gif_playback
-                msg.video_message.media_key = messageProtocolEntity.downloadablemedia_specific_attributes.media_key
-                msg.video_message.file_enc_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_enc_sha256
-                msg.video_message.direct_path = messageProtocolEntity.downloadablemedia_specific_attributes.direct_path
-                msg.video_message.media_key_timestamp = messageProtocolEntity.downloadablemedia_specific_attributes.media_key_timestamp
                 msg.video_message.jpeg_thumbnail = messageProtocolEntity.jpeg_thumbnail
                 self.messageCallback(msg)   
 
             elif isinstance(messageProtocolEntity,AudioDownloadableMediaMessageProtocolEntity):
                 text = "[audio]"      
                 msg.type = wsend_pb2.Message.Type.Value("AUDIO") 
-                msg.audio_message.url = messageProtocolEntity.downloadablemedia_specific_attributes.url
-                msg.audio_message.mimetype = messageProtocolEntity.downloadablemedia_specific_attributes.mimetype
-                msg.audio_message.file_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_sha256
-                msg.audio_message.file_length = messageProtocolEntity.downloadablemedia_specific_attributes.file_length
+                self.parseMediaCommonAttributes(msg.audio_message,messageProtocolEntity.downloadablemedia_specific_attributes)
                 msg.audio_message.seconds= messageProtocolEntity.seconds
-                msg.audio_message.ptt = messageProtocolEntity.ptt
-                msg.audio_message.media_key = messageProtocolEntity.downloadablemedia_specific_attributes.media_key
-                msg.audio_message.file_enc_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_enc_sha256
-                msg.audio_message.direct_path = messageProtocolEntity.downloadablemedia_specific_attributes.direct_path
-                msg.audio_message.media_key_timestamp = messageProtocolEntity.downloadablemedia_specific_attributes.media_key_timestamp                
+                msg.audio_message.ptt = messageProtocolEntity.ptt                                                                
 
                 self.messageCallback(msg)     
 
             elif isinstance(messageProtocolEntity,DocumentDownloadableMediaMessageProtocolEntity):
                 text = "[document]"
-                msg.type = wsend_pb2.Message.Type.Value("DOCUMENT")                 
-
-                if messageProtocolEntity.downloadablemedia_specific_attributes:                    
-                    msg.document_message.url = messageProtocolEntity.downloadablemedia_specific_attributes.url
-                    msg.document_message.mimetype = messageProtocolEntity.downloadablemedia_specific_attributes.mimetype                                    
-                    if  messageProtocolEntity.caption:
-                        msg.document_message.caption = messageProtocolEntity.caption                 
-
-                    if messageProtocolEntity.title:
-                        msg.document_message.title = messageProtocolEntity.title
-                    msg.document_message.file_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_sha256
-                    msg.document_message.file_length = messageProtocolEntity.downloadablemedia_specific_attributes.file_length
-
-                    if messageProtocolEntity.page_count:
-                        msg.document_message.page_count= messageProtocolEntity.page_count
+                msg.type = wsend_pb2.Message.Type.Value("DOCUMENT")        
+                self.parseMediaCommonAttributes(msg.document_message,messageProtocolEntity.downloadablemedia_specific_attributes)                
+                if  messageProtocolEntity.caption:
+                    msg.document_message.caption = messageProtocolEntity.caption                 
+                if messageProtocolEntity.title:
+                    msg.document_message.title = messageProtocolEntity.title
+                if messageProtocolEntity.page_count:
+                    msg.document_message.page_count= messageProtocolEntity.page_count
                     msg.document_message.file_name = messageProtocolEntity.file_name
-                    msg.document_message.media_key = messageProtocolEntity.downloadablemedia_specific_attributes.media_key
-                    msg.document_message.file_enc_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_enc_sha256
-                    msg.document_message.direct_path = messageProtocolEntity.downloadablemedia_specific_attributes.direct_path
-                    msg.document_message.media_key_timestamp = messageProtocolEntity.downloadablemedia_specific_attributes.media_key_timestamp                                            
 
-                    self.messageCallback(msg)   
+                self.messageCallback(msg)   
 
             elif  isinstance(messageProtocolEntity,StickerDownloadableMediaMessageProtocolEntity):
                 text = "[sticker]"
-                msg.type = wsend_pb2.Message.Type.Value("STICKER")                 
-                if messageProtocolEntity.downloadablemedia_specific_attributes:                    
-                    msg.sticker_message.url = messageProtocolEntity.downloadablemedia_specific_attributes.url
-                    msg.sticker_message.mimetype = messageProtocolEntity.downloadablemedia_specific_attributes.mimetype                                    
-                    msg.sticker_message.file_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_sha256
-                    msg.sticker_message.file_length = messageProtocolEntity.downloadablemedia_specific_attributes.file_length
-
-                    msg.sticker_message.height = messageProtocolEntity.height
-                    msg.sticker_message.width  = messageProtocolEntity.width
-                    
-                    msg.sticker_message.media_key = messageProtocolEntity.downloadablemedia_specific_attributes.media_key
-                    msg.sticker_message.file_enc_sha256 = messageProtocolEntity.downloadablemedia_specific_attributes.file_enc_sha256
-                    msg.sticker_message.direct_path = messageProtocolEntity.downloadablemedia_specific_attributes.direct_path
-                    msg.sticker_message.media_key_timestamp = messageProtocolEntity.downloadablemedia_specific_attributes.media_key_timestamp           
-
-                    msg.sticker_message.is_animated = messageProtocolEntity.is_animated                    
-                    msg.sticker_message.sticker_sent_ts = messageProtocolEntity.sticker_sent_ts
-                    msg.sticker_message.is_avatar = messageProtocolEntity.is_avatar
-                    msg.sticker_message.is_ai_sticker = messageProtocolEntity.is_ai_sticker
-                    msg.sticker_message.is_lottie = messageProtocolEntity.is_lottie
-                    self.messageCallback(msg)   
+                msg.type = wsend_pb2.Message.Type.Value("STICKER")     
+                self.parseMediaCommonAttributes(msg.sticker_message,messageProtocolEntity.downloadablemedia_specific_attributes)                
+                msg.sticker_message.height = messageProtocolEntity.height
+                msg.sticker_message.width  = messageProtocolEntity.width                    
+                msg.sticker_message.is_animated = messageProtocolEntity.is_animated                    
+                msg.sticker_message.sticker_sent_ts = messageProtocolEntity.sticker_sent_ts
+                msg.sticker_message.is_avatar = messageProtocolEntity.is_avatar
+                msg.sticker_message.is_ai_sticker = messageProtocolEntity.is_ai_sticker
+                msg.sticker_message.is_lottie = messageProtocolEntity.is_lottie
+                self.messageCallback(msg)   
             else:          
                 text = "[media]" 
                 msg.type = wsend_pb2.Message.Type.Value("OTHER") 
                 self.messageCallback(msg)
-                                
-
-      
+                                      
         self.toLower(messageProtocolEntity.ack())
         self.toLower(messageProtocolEntity.ack(True))
                                   
-
-
     @ProtocolEntityCallback("receipt")
     def onReceipt(self, entity):
 
@@ -1022,7 +927,6 @@ class SendLayer(YowInterfaceLayer):
         #超时返回false，正常登录返回true        
         return self.loginEvent.wait(20)
     
-
     def multiSend(self,cmdParams,options):
         tos, *other = cmdParams
         toArr = tos.split(",")
@@ -1041,7 +945,6 @@ class SendLayer(YowInterfaceLayer):
                 time.sleep(3)
                             
         return "JUSTWAIT"
-
     
     def assureContactsAndSend(self,cmdParams,options,send_func,redo_func):        
         to,message,*other = cmdParams
