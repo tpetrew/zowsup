@@ -40,7 +40,8 @@ class AttributesConverter(object):
         out.remote_jid = message_key.remote_jid
         out.from_me = message_key.from_me
         out.id = message_key.id
-        out.participant = message_key.participant
+        if message_key.participant:
+            out.participant = message_key.participant.participant
         return out
 
     def proto_to_message_key(self, proto):
@@ -65,6 +66,9 @@ class AttributesConverter(object):
         if protocol.history_sync_notification is not None:
             message.history_sync_notification.MergeFrom(protocol.history_sync_notification.encode())
 
+        if protocol.edited_message is not None:
+            message.edited_message.MergeFrom(self.message_to_proto(protocol.edited_message))
+       
         return message
     
     def initial_security_notification_setting_sync_to_proto(self,initial_security_notification_setting_sync_attributes):
@@ -116,7 +120,8 @@ class AttributesConverter(object):
             self.proto_to_message_key(proto.key),
             proto.type,
             initial_security_notification_setting_sync=self.proto_to_initial_security_notification_setting_sync(proto.initial_security_notification_setting_sync) if proto.HasField("initial_security_notification_setting_sync") else None,
-            history_sync_notification=HistorySyncNotificationAttribute.decodeFrom(proto.history_sync_notification) if proto.HasField("history_sync_notification") else None
+            history_sync_notification=HistorySyncNotificationAttribute.decodeFrom(proto.history_sync_notification) if proto.HasField("history_sync_notification") else None,
+            edited_message=self.proto_to_message(proto.edited_message) if proto.HasField("edited_message") else None
         )
     
     def proto_to_initial_security_notification_setting_sync(self,proto):
@@ -552,13 +557,10 @@ class AttributesConverter(object):
                 button.call_button.display_text=btn_item["text"]
                 button.call_button.phone_number=btn_item["phone"]
                 button.index = i
-            
             if btn_item["type"]=="quickreply":
-            
                 button.quick_reply_button.display_text=btn_item["text"]
                 button.quick_reply_button.id=btn_item["id"]
                 button.index = i
-            
 
             m.hydrated_template.hydrated_buttons.extend([button])            
             i += 1
@@ -588,6 +590,7 @@ class AttributesConverter(object):
                 else:
                     #没有标识rowid，就用默认序号标记
                     r.row_id = str(i)
+
                 i += 1
                 section.rows.append(r)
 
@@ -609,7 +612,6 @@ class AttributesConverter(object):
             button.button_id = btn_item["id"]
             button.button_text.display_text = btn_item["text"]
             button.type = 1
-
             m.buttons.extend([button]) 
             m.header_type = 1
         
@@ -620,7 +622,6 @@ class AttributesConverter(object):
             proto.selected_button_id, proto.selected_display_text, proto.type
         )
 
-    
     def proto_to_list_response(self,proto):        
         return ListResponseAttributes(
             proto.single_select_reply.selected_row_id, proto.title, proto.list_type
@@ -917,8 +918,6 @@ class AttributesConverter(object):
         ) if proto.HasField("sender_key_distribution_message") else None
         protocol = self.proto_to_protocol(proto.protocol_message) if proto.HasField("protocol_message") else None
 
-
-
         return MessageAttributes(
             conversation=conversation,
             image=image,
@@ -948,13 +947,9 @@ class AttributesConverter(object):
     def protobytes_to_message(self, protobytes,from_jid=None,message_db=None):        
         m = e2e_pb2.Message()                
         m.ParseFromString(protobytes)                
-        
-                
-
         return self.proto_to_message(m,from_jid,message_db)
 
     def message_to_protobytes(self, message):
-
         # type: (MessageAttributes) -> bytes                
         return self.message_to_proto(message).SerializeToString()
 

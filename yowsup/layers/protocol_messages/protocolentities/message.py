@@ -38,6 +38,7 @@ class MessageProtocolEntity(ProtocolEntity):
         self.fromme = messageMetaAttributes.fromMe   
         self.category = messageMetaAttributes.category     
         self.phash = messageMetaAttributes.phash
+        self.edit = messageMetaAttributes.edit
 
     def getFromMe(self):
         return self.fromme        
@@ -108,7 +109,8 @@ class MessageProtocolEntity(ProtocolEntity):
             if self.retry:
                 attribs["retry"] = str(self.retry)
 
-
+        if self.edit:
+            attribs["edit"] = self.edit
         xNode = None
         #if self.isOutgoing():
         #    serverNode = ProtocolTreeNode("server", {})

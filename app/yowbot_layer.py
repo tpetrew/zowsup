@@ -1276,6 +1276,44 @@ class SendLayer(YowInterfaceLayer):
         errorFn = lambda errorEntity, originalEntity: onRequestMediaConnError(cmdParams, errorEntity, originalEntity)
         self._sendIq(entity, successFn, errorFn)
 
+    def revokeMsg(self,cmdParams,options):
+        attr = ProtocolAttributes(
+            key=MessageKeyAttributes(
+                id=cmdParams[1],
+                from_me=True,
+                remote_jid=Jid.normalize(cmdParams[0])                
+            ),
+            type=ProtocolAttributes.TYPE_REVOKE
+        )
+        messageEntity = ProtocolMessageProtocolEntity(attr,
+            MessageMetaAttributes(id=self.bot.idType,recipient=Jid.normalize(cmdParams[0]),timestamp=int(time.time()),edit="7")            
+        )
+        self.toLower(messageEntity)
+        return "JUSTWAIT"
+    
+    def editMsg(self,cmdParams,options):
+        attr = ProtocolAttributes(
+            key=MessageKeyAttributes(
+                id=cmdParams[1],
+                from_me=True,
+                remote_jid=Jid.normalize(cmdParams[0])                
+            ),
+            type=ProtocolAttributes.TYPE_MESSAGE_EDIT,            
+            edited_message=MessageAttributes(
+                extended_text=ExtendedTextAttributes(
+                    text = cmdParams[2],            
+                    preview_type=0,
+                    context_info=ContextInfoAttributes()
+                )
+            ),
+            timestamp_ms=int(time.time()*1000)
+        )        
+        messageEntity = ProtocolMessageProtocolEntity(attr,
+            MessageMetaAttributes(id=self.bot.idType,recipient=Jid.normalize(cmdParams[0]),timestamp=int(time.time()),edit="1")            
+        )
+        self.toLower(messageEntity)
+        return "JUSTWAIT"
+
     def syncContacts(self,cmdParams,options):            
         if "mode" not in options:
             options["mode"] = "delta"                      

@@ -285,6 +285,14 @@ class YowBot:
     @BotCmd("sendmedia","send media message to  peer")
     def sendMediaMsg(self,params,options):                    
         return self.sendLayer.sendMediaMsg(params,options)  
+    
+    @BotCmd("revokemsg","revoke message")
+    def revokeMsg(self,params,options):
+        return self.sendLayer.revokeMsg(params,options)
+
+    @BotCmd("editmsg","edit message")
+    def editMsg(self,params,options):
+        return self.sendLayer.editMsg(params,options)
 
 
     @BotCmd("sync", "sync contacts")
