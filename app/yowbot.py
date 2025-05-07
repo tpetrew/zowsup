@@ -341,9 +341,9 @@ class YowBot:
     def set2FA(self,params,options):
         return self.sendLayer.set2FA(params,options)
 
-    @BotCmd("makegroup","make group with members")
+    @BotCmd("creategroup","create group")
     def makeGroup(self,params,options):
-        return self.sendLayer.makeGroup(params,options)
+        return self.sendLayer.createGroup(params,options)
     
     @BotCmd("groupadd","add member to group")
     def groupAdd(self,params,options):
@@ -377,14 +377,14 @@ class YowBot:
     def getAvatar(self,params,options):
         return self.sendLayer.getAvatar(params,options)
     
-    @BotCmd("mdlink","use a qrcode to link to a companion")
+    @BotCmd("mdlink","link to companion device with qrcode-str")
     def multiDeviceLink(self,params,options):
         self.sendLayer.resetSync(params,options)
         time.sleep(3)
         self.sendLayer.multiDeviceLink(params,options)
         return "JUSTWAIT"
     
-    @BotCmd("mdremove","remove companion(s)")
+    @BotCmd("mdremove","remove companion device(s)")
     def multiDeviceRemove(self,params,options):
         return self.sendLayer.multiDeviceRemove(params,options)       
 

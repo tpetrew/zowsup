@@ -95,8 +95,9 @@ DEFAULT_ENV=android                       #default environment
 ```
 main.py [account-number] [command] [commandParams]
 
-[command]           |   [description]                              
+[command]           |   [description]
 -----------------------------------------------------------------------
+editmsg             |   edit message
 getavatar           |   get account avatar
 getgroupinvite      |   get the invite code of a group
 groupadd            |   add member to group
@@ -108,9 +109,10 @@ groupremove         |   remove member from group
 init                |   initialize (first login)
 joingroup           |   join group with a invite code
 leavegroup          |   leave group
-makegroup           |   make group with members
-mdlink              |   use a qrcode to link to a companion
-mdremove            |   remove companion(s)
+creategroup         |   create group
+mdlink              |   link to companion device with qrcode-str
+mdremove            |   remove companion device(s)
+revokemsg           |   revoke message
 sendmedia           |   send media message to  peer
 send                |   send message to peer
 set2fa              |   set account 2fa

@@ -1353,7 +1353,7 @@ class SendLayer(YowInterfaceLayer):
     def setMode(self,mode):
         self.mode = mode
 
-    def makeGroup(self,params,options):        
+    def createGroup(self,params,options):        
         if len(params)!=2:
             self.setCmdResult()
         if params[1]=="":
