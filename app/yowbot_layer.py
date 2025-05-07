@@ -1441,6 +1441,18 @@ class SendLayer(YowInterfaceLayer):
         )
         self.toLower(entity)
         return entity.getId()
+    
+    def checkDevice(self,cmdParams,options):
+        def on_success(entity, original_iq_entity):  
+            self.logger.info("checkDevice success")            
+
+        def on_error(entity, original_iq):            
+            self.logger.error("checkDevice error")
+
+        entity = DevicesGetSyncIqProtocolEntity([cmdParams[0]])
+        self._sendIq(entity, on_success, on_error)   
+        return entity.getId()
+
 
     def groupDemote(self,cmdParams,options):
         entity = DemoteParticipantsIqProtocolEntity(
