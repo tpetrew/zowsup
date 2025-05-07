@@ -1,5 +1,5 @@
 class MessageKeyAttributes(object):
-    def __init__(self, remote_jid, from_me, id, participant):
+    def __init__(self, remote_jid, from_me, id, participant=None):
         self._remote_jid = remote_jid
         self._from_me = from_me
         self._id = id

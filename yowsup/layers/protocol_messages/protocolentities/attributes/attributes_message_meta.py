@@ -5,7 +5,7 @@ class MessageMetaAttributes(object):
 
     def __init__(
             self, id=None, sender=None, recipient=None, notify=None, timestamp=None, participant=None, offline=None,
-            retry=None,fromMe=False,category=None,phash=None
+            retry=None,fromMe=False,category=None,phash=None,edit=None
     ):
         self.id = id
         self.sender = sender
@@ -18,6 +18,7 @@ class MessageMetaAttributes(object):
         self.fromMe = fromMe if fromMe else False      
         self.category = category
         self.phash = phash
+        self.edit = edit
 
     @staticmethod
     def from_message_protocoltreenode(node,proto=None):
@@ -32,5 +33,5 @@ class MessageMetaAttributes(object):
 
         return MessageMetaAttributes(
             node["id"], node["from"], node["to"] if to is None else to, node["notify"], node["t"], node["participant"], node["offline"],
-            node["retry"],fromMe,node["category"],node["phash"]
+            node["retry"],fromMe,node["category"],node["phash"],node["edit"]
         )

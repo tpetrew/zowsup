@@ -26,3 +26,4 @@ from .attributes_interactive_header import InteractiveHeaderAttributes
 from .attributes_business_message_forward_info import BusinessMessageForwardInfoAttributes
 
 from .attributes_reaction import ReactionAttributes
+from .attributes_message_key import MessageKeyAttributes
