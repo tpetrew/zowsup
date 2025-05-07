@@ -13,7 +13,6 @@ from yowsup.common.tools import WATools
 from axolotl.util.keyhelper import KeyHelper
 from yowsup.profile.profile import YowProfile
 from proto import wsend_pb2
-from common.utils import Utils
 from app.bot_env import BotEnv
 from app.device_env import DeviceEnv
 from app.network_env import NetworkEnv
@@ -103,7 +102,6 @@ class YowBot:
                     logger.info("MsgLog %s-%s (ID=%s) from %s" % (wsend_pb2.MsgLogItem.Status.Name(event.msg_log.status),event.msg_log.error_code,event.msg_log.msg_id,event.bot_id))
                 else:
                     logger.info("MsgLog %s(ID=%s) from %s" % (wsend_pb2.MsgLogItem.Status.Name(event.msg_log.status),event.msg_log.msg_id,event.msg_log.target))
-
             else:
                 logger.info("Event %s from %s" % (wsend_pb2.BotEvent.Event.Name(event.event),event.bot_id))
             

@@ -28,7 +28,6 @@ from yowsup.layers.protocol_appstate.protocolentities.mutation_keys import Mutat
 from yowsup.layers.protocol_appstate.protocolentities.hash_state import HashState
 from Crypto.Random import get_random_bytes
 from yowsup.layers.axolotl.props import PROP_IDENTITY_AUTOTRUST
-from google.protobuf.json_format import MessageToDict
 from yowsup.layers.protocol_presence.protocolentities import *
 from yowsup.layers.protocol_ib.protocolentities import *
 from yowsup.config.v1.config import Config
@@ -1202,7 +1201,6 @@ class SendLayer(YowInterfaceLayer):
         def on_error(entity, original_iq):            
             self.logger.error("syncContacts error")
             
-
         self._sendIq(entity,on_success,on_error)
         return entity.getId()
  
@@ -1310,7 +1308,6 @@ class SendLayer(YowInterfaceLayer):
         def on_error(entity, original_iq):          
             logger.error("listGroup error")            
 
-        #更新profile中的名字
         entity = SetBusinessNameIqProtocolEntity(profile = self.getStack().getProp("profile"), name = cmdParams[0])
         self._sendIq(entity,on_success,on_error)
         return entity.getId()
@@ -1341,7 +1338,6 @@ class SendLayer(YowInterfaceLayer):
         return entity.getId()
 
     def groupInfo(self,cmdParams,options):
-
         def on_success(entity, original_iq_entity):  
             self.logger.info("groupinfo success")            
             self.setCmdResult(entity.getId(),{
@@ -1355,11 +1351,8 @@ class SendLayer(YowInterfaceLayer):
             self.setCmdError(entity.getId(),entity.code)
 
         entity = InfoGroupsIqProtocolEntity(group_jid = Jid.normalize(cmdParams[0]))
-
         self._sendIq(entity,on_success,on_error)
-
         return entity.getId()
-
 
     def getGroupInvite(self,cmdParams,options):
 
@@ -1381,7 +1374,6 @@ class SendLayer(YowInterfaceLayer):
         return entity.getId()
 
     def groupAdd(self,cmdParams,options):
-
         def on_success(entity, original_iq_entity):  
             self.logger.info("groupadd success")
 
@@ -1428,7 +1420,6 @@ class SendLayer(YowInterfaceLayer):
         return entity.getId()
 
     def groupApprove(self,cmdParams,options):
-
         if len(cmdParams)>=3:
             action = cmdParams[2]
         else:
@@ -1443,17 +1434,14 @@ class SendLayer(YowInterfaceLayer):
 
     def setGroupIcon(self,cmdParams,options):
         group_jid = Jid.normalize(cmdParams[0])
-        url = cmdParams[1]
-        
+        url = cmdParams[1]        
         with PILOptionalModule(failMessage = "No PIL library installed, try install pillow") as imp:
             Image = imp("Image")
-
             src = Image.open(io.BytesIO(requests.get(url).content)).convert("RGB")
             picture = io.BytesIO()
             preview = io.BytesIO()
             src.resize((640, 640)).save(picture,format="jpeg")
-            src.resize((96, 96)).save(preview,format="jpeg")
-                                    
+            src.resize((96, 96)).save(preview,format="jpeg")                                    
             entity = SetPictureIqProtocolEntity("s.whatsapp.net", preview.getvalue(), picture.getvalue(),target=Jid.normalize(group_jid))   
             self.toLower(entity)
             return entity.getId()        
@@ -1509,7 +1497,7 @@ class SendLayer(YowInterfaceLayer):
     def generateAppStateSyncKeys(self,n):
         profile = self.getStack().getProp("profile")        
         keys = []
-        for i in range(0,10):
+        for i in range(0,n):
             key = AppStateSyncKeyAttribute(
                 key_id= AppStateSyncKeyIdAttribute(key_id=random.randint(10000,20000).to_bytes(6,'big')),
                 key_data=AppStateSyncKeyDataAttribute(

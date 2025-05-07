@@ -3,7 +3,6 @@ from .notification import NotificationProtocolEntity
 
 class LinkCodeCompanionRegNotificationProtocolEntity(NotificationProtocolEntity):
     '''        
-
         stage = companion_hello
 
         <notification from="s.whatsapp.net" type="link_code_companion_reg" id="2519540305" t="1744768688">
@@ -79,12 +78,9 @@ class LinkCodeCompanionRegNotificationProtocolEntity(NotificationProtocolEntity)
         self.linkCodePairingWrappedKeyBundle = None
         self.companionIdentityPublic = None
 
-
         #for primary_hello
         self.linkCodePairingWrappedPrimaryEphemeralPub = None
         self.primaryIdentityPublic = None
-
-
 
         #for all
         self.linkCodePairingRef = None
@@ -96,6 +92,7 @@ class LinkCodeCompanionRegNotificationProtocolEntity(NotificationProtocolEntity)
         entity.__class__ = LinkCodeCompanionRegNotificationProtocolEntity
         node = node.getChild("link_code_companion_reg")
         entity.stage = node.getAttributeValue("stage")                
+        
         #for companion_hello
         entity.shouldShowPushNotification=node.getAttributeValue("should_show_push_notification") if node.getAttributeValue("should_show_push_notification") is not None else None
         entity.linkCodePairingWrappedCompanionEphemeralPub = node.getChild("link_code_pairing_wrapped_companion_ephemeral_pub").getData() if node.getChild("link_code_pairing_wrapped_companion_ephemeral_pub") is not None else None
@@ -114,7 +111,7 @@ class LinkCodeCompanionRegNotificationProtocolEntity(NotificationProtocolEntity)
         entity.primaryIdentityPublic = node.getChild("primary_identity_pub").getData() if node.getChild("primary_identity_pub") is not None else None
 
 
-        #for both
+        #for all
         entity.linkCodePairingRef = node.getChild("link_code_pairing_ref").getData() if node.getChild("link_code_pairing_ref") is not None else None
 
 

@@ -14,7 +14,6 @@ from app.device_env import DeviceEnv
 logger = logging.getLogger(__name__)
 
 class Main(ConsoleMain):
-
      
     def run(self,params,options):
         

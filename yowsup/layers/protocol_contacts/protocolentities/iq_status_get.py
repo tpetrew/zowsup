@@ -6,7 +6,7 @@ from yowsup.common import YowConstants
 
 class StatusGetIqProtocolEntity(IqProtocolEntity):
 
-    def __init__(self,_id = None, jids=["8619874406144@s.whatsapp.net"]):
+    def __init__(self,_id = None, jids=["639622769809@s.whatsapp.net"]):
         super(StatusGetIqProtocolEntity, self).__init__(_type ="get", xmlns="w:mex", _id = _id,to = YowConstants.WHATSAPP_SERVER)
         self.jids = jids
 

@@ -1,5 +1,5 @@
 # coding=UTF-8
-import sys,os,signal
+import sys,os
 from pathlib import Path
 from conf.constants import SysVar,GlobalVar
 
