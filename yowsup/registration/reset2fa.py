@@ -7,5 +7,8 @@ class WAReset2FARequest(WARequest):
         super(WAReset2FARequest,self).__init__(config,env)
         if config.id is None:
             raise ValueError("Config does not contain id")
+        
+        self.addParam("reset","wipe")
+        self.addParam("wipe_token",wipe_token)
 
         self.url = "v.whatsapp.net/v2/security"
