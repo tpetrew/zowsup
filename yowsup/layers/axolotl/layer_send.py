@@ -154,7 +154,7 @@ class AxolotlSendLayer(AxolotlBaseLayer):
                     return self.sentQueue[i]
                 return self.sentQueue.pop(i)
             
-    def sendEncEntities(self, node, encEntities, participant=None):
+    def sendEncEntities(self, node, encEntities, participant=None,tctoken=None):
         logger.debug("sendEncEntities(node=[omitted], encEntities=[omitted], participant=%s)" % participant)
 
         message_attrs = MessageMetaAttributes.from_message_protocoltreenode(node)
@@ -175,9 +175,25 @@ class AxolotlSendLayer(AxolotlBaseLayer):
         
         if participant is None:        
             self.enqueueSent(node)
+            
+        nodeSend = messageEntity.toProtocolTreeNode()
+        #把biz节点复制转发
+
+        if participant is None:        
+            self.enqueueSent(node)
 
         nodeSend = messageEntity.toProtocolTreeNode()
         #把biz节点复制转发
+
+        reporting = ProtocolTreeNode("reporting")
+        reporting_token = ProtocolTreeNode("reporting_token",{"v":"1"})
+        reporting_token.setData(os.urandom(16))            
+        reporting.addChild(reporting_token)
+        nodeSend.addChild(reporting)
+
+        if tctoken:            
+            tctoken = ProtocolTreeNode("tctoken",{},None,tctoken)
+            nodeSend.addChild(tctoken)            
 
         biz = node.getChild("biz")
         if biz is not None:
@@ -266,6 +282,9 @@ class AxolotlSendLayer(AxolotlBaseLayer):
 
         jids = jids or []
         targetJid = node["to"]
+        db = self.getStack().getProp("profile").axolotl_manager
+        tctoken = db._store.getTcToken(targetJid)        
+
         protoNode = node.getChild("proto")
         encEntities = []       
         messageData = protoNode.getData()        
@@ -286,7 +305,7 @@ class AxolotlSendLayer(AxolotlBaseLayer):
                 )
             )
         
-        self.sendEncEntities(node, encEntities, participant)
+        self.sendEncEntities(node, encEntities, participant,tctoken)
 
     def sendToGroupWithSessions(self, node, jidsNeedSenderKey = None, retryCount=0):
         """

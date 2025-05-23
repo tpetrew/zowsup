@@ -12,6 +12,7 @@ HEX:33089eb3c90312210510e0196be72fe65913c6a84e75a54f40a3ee290574d6a23f408df990e7
 
     def __init__(self, encEntities, _type, messageAttributes):
         super(EncryptedMessageProtocolEntity, self).__init__(_type, messageAttributes)
+        self.attrs = messageAttributes
         self.setEncEntities(encEntities)
 
     def setEncEntities(self, encEntities = None):
@@ -29,23 +30,32 @@ HEX:33089eb3c90312210510e0196be72fe65913c6a84e75a54f40a3ee290574d6a23f408df990e7
 
     def toProtocolTreeNode(self):
         node = super(EncryptedMessageProtocolEntity, self).toProtocolTreeNode()
-        participantsNode = ProtocolTreeNode("participants")
-        for enc in self.encEntities:
-            encNode = enc.toProtocolTreeNode()
-            if encNode.tag == "to":
-                participantsNode.addChild(encNode)
-            else:
-                node.addChild(encNode)
-
-        if len(participantsNode.getAllChildren()):
-            node.addChild(participantsNode)
-
+        
+        if self.attrs is not None and self.attrs.category == "peer":
+            #peer-msg单发
+            encNode = self.encEntities[0]
+            node.addChild(ProtocolTreeNode("meta",{"appdata":"default"}))            
+            node.addChild(encNode.toProtocolTreeNode())
+        else:
+            #正常多发        
+            participantsNode = ProtocolTreeNode("participants")
+            for enc in self.encEntities:
+                encNode = enc.toProtocolTreeNode()                
+                if encNode.tag == "to":                                                                                
+                    participantsNode.addChild(encNode)                                        
+                else:
+                    node.addChild(encNode)
+                                            
+            if len(participantsNode.getAllChildren()):
+                node.addChild(participantsNode)
+                        
         return node
 
     @staticmethod
     def fromProtocolTreeNode(node):
         entity = MessageProtocolEntity.fromProtocolTreeNode(node)
         entity.__class__ = EncryptedMessageProtocolEntity
+        entity.attrs = None
         entity.setEncEntities(
             [EncProtocolEntity.fromProtocolTreeNode(encNode) for encNode in node.getAllChildren("enc")]
         )

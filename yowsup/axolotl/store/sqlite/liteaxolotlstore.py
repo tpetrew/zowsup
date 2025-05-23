@@ -8,6 +8,7 @@ from .litepollstore import LitePollStore
 from .liteappstatekeystore import LiteAppStateStore
 from .litecontactstore import LiteContactStore
 from .litebroadcaststore import LiteBroadcastStore
+from .litetrustedcontactstore import LiteTrustedContactStore
 import sqlite3
 
 
@@ -25,6 +26,7 @@ class LiteAxolotlStore(AxolotlStore):
         self.appStateStore = LiteAppStateStore(conn)
         self.contactStore = LiteContactStore(conn)
         self.broadcastStore = LiteBroadcastStore(conn)
+        self.trustedContactStore = LiteTrustedContactStore(conn)
 
     def __str__(self):
         return self._db
@@ -136,4 +138,10 @@ class LiteAxolotlStore(AxolotlStore):
     
     def findParticipantsByBcid(self,bcid):
         return self.broadcastStore.findParticipantsByBcid(bcid)
+    
+    def updateTrustedContact(self,jid,tctoken):
+        return self.trustedContactStore.updateTrustedContact(jid,tctoken)
+    
+    def getTcToken(self,jid):
+        return self.trustedContactStore.getTcToken(jid)    
         
