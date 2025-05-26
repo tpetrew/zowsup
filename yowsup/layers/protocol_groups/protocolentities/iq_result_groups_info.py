@@ -101,8 +101,13 @@ class InfoGroupsResultIqProtocolEntity(ResultIqProtocolEntity):
     def fromProtocolTreeNode(node):
         groupNode = node.getChild("group")
         participants = {}
+
+        valueName = "jid"
+        if groupNode.getAttributeValue("addressing_mode")=="lid":
+            valueName = "phone_number"
+            
         for p in groupNode.getAllChildren("participant"):
-            participants[p["jid"]] = p["type"]
+            participants[p[valueName]] = p["type"]
         return InfoGroupsResultIqProtocolEntity(
             node["id"], node["from"],
             groupNode["id"], groupNode["creation"], groupNode["creator"], groupNode["subject"],

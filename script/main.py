@@ -36,6 +36,7 @@ class Main(ConsoleMain):
         logger.info("LG=%s, LC=%s" % (lg,lc))
 
         self.commonOptionsProcess(options)
+
                                       
         config_file = Path(SysVar.ACCOUNT_PATH+botId+"/config.json")
         if not config_file.exists():
