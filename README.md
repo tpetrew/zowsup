@@ -4,10 +4,6 @@ zowsup is a python whatsapp-protocol project based on [yowsup](https://github.co
 
 Since the original yowsup project has not been maintained for a long time, we forked yowsup and some associated projects(axolotl, consonance) and intergrated into an All-In-One Project and keep updating with latest version of Whatsapp.
 
-## Groups
- * telegram:  [zowsup](https://t.me/+au1dTQz7jyU0YjU5)
-
-
 ```
 - ZOWSUP VERSION : 0.6.0
 
@@ -20,6 +16,11 @@ Since the original yowsup project has not been maintained for a long time, we fo
     2.25.5.74(SMB iOS) 
 
 ```
+
+
+## Discussion Groups
+ * telegram:  [zowsup](https://t.me/+au1dTQz7jyU0YjU5)
+
 
 ## What's New 0.6.0
  * new commands mdlink and mdremove
