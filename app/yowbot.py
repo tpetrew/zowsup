@@ -291,7 +291,6 @@ class YowBot:
     def editMsg(self,params,options):
         return self.sendLayer.editMsg(params,options)
 
-
     @BotCmd("sync", "sync contacts")
     def syncContacts(self,params,options):                
         return self.sendLayer.syncContacts(params,options)
@@ -319,7 +318,10 @@ class YowBot:
     @BotCmd("setavatar", "set account avatar")
     def setAvatar(self,params,options):                
         return self.sendLayer.setAvatar(params,options)  
-
+    
+    @BotCmd("trustcontact","trust contact")
+    def trustContact(self,params,options):
+        return self.sendLayer.trustContact(params,options)    
 
     @BotCmd("setselfname", "set account name")
     def setSelfName(self, params,options):            
@@ -328,7 +330,7 @@ class YowBot:
         self.profile.config.pushname = params[0]
         self.profile.write_config(self.profile.config)                         
         if self.env.deviceEnv.getOSName() in ["SMBA","SMB iOS"]:
-            #call the api if set a business name
+            #call the api if business 
             return self.sendLayer.setBusinessName(params,options)
         else:            
             id = str(uuid.uuid4())

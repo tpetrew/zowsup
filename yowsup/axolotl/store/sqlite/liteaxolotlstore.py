@@ -117,10 +117,7 @@ class LiteAxolotlStore(AxolotlStore):
     
     def addContact(self,jid):
         return self.contactStore.addContact(jid,"")
-    
-    def addContacts(self,jids):
-        return self.contactStore.addContacts(jids)
-    
+        
     def removeContact(self,jid):
         return self.contactStore.removeContact(jid)
     
@@ -130,8 +127,8 @@ class LiteAxolotlStore(AxolotlStore):
     def findContact(self,jid):
         return self.contactStore.findContact(jid)
     
-    def findNewContacts(self,jids):
-        return self.contactStore.findNewContacts(jids)
+    def isNewContact(self,jids):
+        return self.contactStore.isNewContact(jids)
     
     def addBroadcast(self,jids,senderJid,name=None):
         return self.broadcastStore.addBroadcast(jids,senderJid,name)

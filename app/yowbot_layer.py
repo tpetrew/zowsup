@@ -946,31 +946,31 @@ class SendLayer(YowInterfaceLayer):
         return "JUSTWAIT"
     
     def assureContactsAndSend(self,cmdParams,options,send_func,redo_func):        
-        to,message,*other = cmdParams
+        to,*other = cmdParams
 
         isCompanion = "_" in self.bot.botId
 
-        newContacts = self.db._store.findNewContacts(Jid.normalize(to))        
-        if len(newContacts)>0 and not isCompanion:
-            self.db._store.addContacts(newContacts) 
-            entity = GetSyncIqProtocolEntity(numbers=newContacts,mode = "delta")    
+        jid = Jid.normalize(to)
+
+        isNewContact = self.db._store.isNewContact(jid)        
+        if isNewContact and not isCompanion:
+            self.db._store.addContact(jid) 
+            entity = GetSyncIqProtocolEntity([jid],mode = "delta")    
             def on_success(entity, original_iq_entity):  
                 #同步成功,重新调用一次
-                logger.info("add target(s) to contacts")      
+                logger.info("add target to contacts")      
+                entity = TrustContactIqProtocolEntity(jid)
+                self.toLower(entity)                
                 redo_func(cmdParams,options)                
             def on_error(entity, original_iq):         
                 print("ERROR")   
 
             self._sendIq(entity,on_success,on_error)                        
         else:
-            if not isCompanion:
-                logger.info("target(s) in contacts ")       
-            else:
-                logger.info("companion send ")       
-
+            logger.info("target in contacts")                       
             send_func(cmdParams,options)        
             return False    
-
+        
     def sendMsgDirect(self,cmdParams,options):
         to,message,*other = cmdParams
         context_info = ContextInfoAttributes()
@@ -1065,8 +1065,7 @@ class SendLayer(YowInterfaceLayer):
         else:
             ctxId = str(uuid.uuid4())            
             self.ctxMap[ctxId] = {"event":threading.Event()}
-            options["ctxId"] = ctxId                        
-            print(ctxId)
+            options["ctxId"] = ctxId                                    
             self.assureContactsAndSend(cmdParams,options,send_func=self.sendMsgDirect,redo_func=self.sendMsg)            
             #等待消息ID的返回
             ret = self.ctxMap[ctxId]["event"].wait(int(options["waitMsgId"]))
@@ -1328,15 +1327,17 @@ class SendLayer(YowInterfaceLayer):
         self.toLower(entity)
         return entity.getId()
 
-    def addTrustedContact(self,cmdParams,options):
-        def onSuccess(resultIqEntity, originalIqEntity):
-            self.logger.info("setPrivacy Success")
+    def trustContact(self,cmdParams,options):
+        def onSuccess(entity, originalIqEntity):
+            self.setCmdResult(entity.getId(),{"status":"OK"})
+            self.logger.info("trust contact  success")
 
         def onError(errorIqEntity, originalIqEntity):
-            self.logger.info("setPrivacy Error")
+            self.logger.info("trust contact error")
         
-        entity = SetPrivacyIqProtocolEntity(Jid.normalize(cmdParams[0]),int(time.time()))
+        entity = TrustContactIqProtocolEntity(Jid.normalize(cmdParams[0]),int(time.time()))
         self._sendIq(entity, onSuccess, onError)    
+        return entity.getId() 
     
     def setBusinessName(self,cmdParams,options):     
 

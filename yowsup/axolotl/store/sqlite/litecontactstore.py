@@ -29,13 +29,6 @@ class LiteContactStore(TaskMsgStore):
             return jid                
         return None
 
-    def addContacts(self,jids):               
-        ret = []
-        for jid in jids:
-            r = self.addContact(jid,None)
-            if r is not None:
-                ret.append(r)
-        return ret
 
     def findContact(self,jid):      
         if not (jid.endswith("s.whatsapp.net") or jid.endswith("lid")):
@@ -50,14 +43,10 @@ class LiteContactStore(TaskMsgStore):
         else:            
             return False
         
-    def findNewContacts(self,jids):        
-        jidArray = jids.split(",")        
-        ret = []
-        for jid in jidArray:
-            if jid.endswith("@s.whatsapp.net") or jid.endswith("@c.us"):
-                if not self.findContact(jid):
-                    ret.append(jid)
-        return ret
+    def isNewContact(self,jid):                        
+        if jid.endswith("@s.whatsapp.net") or jid.endswith("@c.us"):
+            return (not self.findContact(jid))
+        return False
                 
     def removeContact(self,jid):
         q = "DELETE FROM contact where jid = ?"

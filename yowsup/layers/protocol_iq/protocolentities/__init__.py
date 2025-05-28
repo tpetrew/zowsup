@@ -14,7 +14,7 @@ from .iq_set_business_profile import SetBusinessProfileIqProtocolEntity
 from .iq_set_business_name import SetBusinessNameIqProtocolEntity
 from .iq_clean_dirty import CleanDirtyIqProtocolEntity
 from .iq_passive import PassiveIqProtocolEntity
-from .iq_set_privacy import SetPrivacyIqProtocolEntity
+from .iq_trust_contact import TrustContactIqProtocolEntity
 from .iq_wmex_query import WmexQueryIqProtocolEntity
 from .iq_wmex_result import WmexResultIqProtocolEntity
 from .iq_account_info import AccountInfoIqProtocolEntity

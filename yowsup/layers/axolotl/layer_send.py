@@ -14,7 +14,7 @@ from yowsup.common.tools import WATools
 from yowsup.layers.protocol_acks.protocolentities.ack_incoming import IncomingAckProtocolEntity
 
 from yowsup.structs import  ProtocolTreeNode
-import base64
+import base64,os
 
 import logging
 

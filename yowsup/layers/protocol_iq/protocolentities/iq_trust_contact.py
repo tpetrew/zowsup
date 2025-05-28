@@ -1,14 +1,14 @@
 from yowsup.structs import ProtocolEntity, ProtocolTreeNode
 from .iq import IqProtocolEntity
-class SetPrivacyIqProtocolEntity(IqProtocolEntity):
+class TrustContactIqProtocolEntity(IqProtocolEntity):
     
     def __init__(self, jids,timestamp,_id = None ):
-        super(SetPrivacyIqProtocolEntity, self).__init__("privacy" , _id = _id, _type = "set",to="s.whatsapp.net")     
+        super(TrustContactIqProtocolEntity, self).__init__("privacy" , _id = _id, _type = "set",to="s.whatsapp.net")     
         self.jids = jids 
         self.timestamp = timestamp  
 
     def toProtocolTreeNode(self):
-        node = super(SetPrivacyIqProtocolEntity, self).toProtocolTreeNode()
+        node = super(TrustContactIqProtocolEntity, self).toProtocolTreeNode()
         tokens = ProtocolTreeNode("tokens",{})
         jidList = self.jids.split(",")
 
