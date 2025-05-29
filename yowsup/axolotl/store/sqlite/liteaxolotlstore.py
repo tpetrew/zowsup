@@ -127,8 +127,8 @@ class LiteAxolotlStore(AxolotlStore):
     def findContact(self,jid):
         return self.contactStore.findContact(jid)
     
-    def isNewContact(self,jids):
-        return self.contactStore.isNewContact(jids)
+    def isNewContact(self,jid):
+        return self.contactStore.isNewContact(jid)
     
     def addBroadcast(self,jids,senderJid,name=None):
         return self.broadcastStore.addBroadcast(jids,senderJid,name)

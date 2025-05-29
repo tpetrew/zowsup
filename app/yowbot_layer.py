@@ -959,7 +959,7 @@ class SendLayer(YowInterfaceLayer):
             def on_success(entity, original_iq_entity):  
                 #同步成功,重新调用一次
                 logger.info("add target to contacts")      
-                entity = TrustContactIqProtocolEntity(jid)
+                entity = TrustContactIqProtocolEntity(jid,int(time.time()))
                 self.toLower(entity)                
                 redo_func(cmdParams,options)                
             def on_error(entity, original_iq):         
