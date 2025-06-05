@@ -7,11 +7,11 @@ Since the original yowsup project has not been maintained for a long time, we fo
 ```
 - ZOWSUP VERSION : 0.6.0
 
-- UPDATE TIME : 2025-04-18
+- UPDATE TIME : 2025-06-05
 
 - WHATSAPP VERSION : 
-    2.25.10.71(Android) 
-    2.25.11.4(SMB Android) 
+    2.25.16.84(Android) 
+    2.25.16.82(SMB Android) 
     2.25.5.74(iOS) 
     2.25.5.74(SMB iOS) 
 
@@ -102,29 +102,30 @@ main.py [account-number] [command] [commandParams]
 
 [command]           |   [description]
 -----------------------------------------------------------------------
-editmsg             |   edit message
-getavatar           |   get account avatar
-getgroupinvite      |   get the invite code of a group
-groupadd            |   add member to group
-groupapprove        |   approve participants to join the group
-groupdemote         |   demote group member (from admin)
-groupinfo           |   show the group info
-grouppromote        |   promote group member (to admin)
-groupremove         |   remove member from group
-init                |   initialize (first login)
-joingroup           |   join group with a invite code
-leavegroup          |   leave group
-creategroup         |   create group
-mdlink              |   link to companion device with qrcode-str
-mdremove            |   remove companion device(s)
-revokemsg           |   revoke message
-sendmedia           |   send media message to  peer
-send                |   send message to peer
-set2fa              |   set account 2fa
-setavatar           |   set account avatar
-setgroupicon        |   set icon for group
-setselfname         |   set account name
-sync                |   sync contacts
+editmsg             |   edit message                                      
+getavatar           |   get account avatar                                
+getgroupinvite      |   get the invite code of a group                    
+groupadd            |   add member to group                               
+groupapprove        |   approve participants to join the group            
+groupdemote         |   demote group member (from admin)                  
+groupinfo           |   show the group info                               
+grouppromote        |   promote group member (to admin)                   
+groupremove         |   remove member from group                          
+init                |   initialize (first login)                          
+joingroup           |   join group with a invite code                     
+leavegroup          |   leave group                                       
+creategroup         |   create group                                      
+mdlink              |   link to companion device with qrcode-str          
+mdremove            |   remove companion device(s)                        
+revokemsg           |   revoke message                                    
+sendmedia           |   send media message to  peer                       
+send                |   send message to peer                              
+set2fa              |   set account 2fa                                   
+setavatar           |   set account avatar                                
+setgroupicon        |   set icon for group                                
+setselfname         |   set account name                                  
+sync                |   sync contacts                                     
+trustcontact        |   trust contact                                     
 -----------------------------------------------------------------------
 ```
 
