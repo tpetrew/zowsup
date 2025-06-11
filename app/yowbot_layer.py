@@ -304,7 +304,7 @@ class SendLayer(YowInterfaceLayer):
                     et = hs.createRecentMessage()
                     self.toLower(et)
                     
-                    et = SetPrivacyIqProtocolEntity(Jid.normalize(self.bot.botId),int(time.time()))
+                    et = TrustContactIqProtocolEntity(Jid.normalize(self.bot.botId),int(time.time()))
                     self.toLower(et)
 
 
