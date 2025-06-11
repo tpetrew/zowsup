@@ -4,7 +4,7 @@ from .env_tools import EnvTools
 
 class EnvAndroid(object):
     def __init__(self,
-                 version = "2.25.10.71",                 
+                 version = "2.25.16.84",                 
                  osVersion = "11.0.0",
                  deviceName = "Mi11 Pro 5G",
                  buildVersion = "Mi9 Pro 5G-user 9.0.0 R16AA WS0001 release-keys",
@@ -187,8 +187,8 @@ class EnvAndroid(object):
     def getToken(self,phoneNumber):                
         # https://the-x.cn/zh-cn/hash/MessageDigestAlgorithm.aspx       
       
-        self.version="2.25.10.71"
-        _MD5_CLASSES = "uc6ppE7wMTFjqzaTe4o1Ew=="
+        self.version="2.25.16.84"
+        _MD5_CLASSES = "gZM83YSolP5cvgbsWBPA2Q=="
         _KEY = "RFObk0NHtvEmCSluaRRbWDCd+U7QqKWi2UB4qOr/hwE+PZWmlkSqG5JGRlMsJ5+LzShVq1XyyLwWk623gAyI/w=="        
         return EnvTools.getAndroidToken(self,phoneNumber,_KEY,_MD5_CLASSES)
     

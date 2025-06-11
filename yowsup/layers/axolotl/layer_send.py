@@ -185,11 +185,14 @@ class AxolotlSendLayer(AxolotlBaseLayer):
         nodeSend = messageEntity.toProtocolTreeNode()
         #把biz节点复制转发
 
-        reporting = ProtocolTreeNode("reporting")
-        reporting_token = ProtocolTreeNode("reporting_token",{"v":"1"})
-        reporting_token.setData(os.urandom(16))            
-        reporting.addChild(reporting_token)
-        nodeSend.addChild(reporting)
+        if node.get("category")=="peer":
+            pass
+        else:
+            reporting = ProtocolTreeNode("reporting")
+            reporting_token = ProtocolTreeNode("reporting_token",{"v":"1"})
+            reporting_token.setData(os.urandom(16))            
+            reporting.addChild(reporting_token)
+            nodeSend.addChild(reporting)
 
         if tctoken:            
             tctoken = ProtocolTreeNode("tctoken",{},None,tctoken)
