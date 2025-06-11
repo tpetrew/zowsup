@@ -185,7 +185,7 @@ class AxolotlSendLayer(AxolotlBaseLayer):
         nodeSend = messageEntity.toProtocolTreeNode()
         #把biz节点复制转发
 
-        if node.get("category")=="peer":
+        if node["category"]=="peer":
             pass
         else:
             reporting = ProtocolTreeNode("reporting")
