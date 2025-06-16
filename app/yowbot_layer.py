@@ -975,6 +975,24 @@ class SendLayer(YowInterfaceLayer):
         to,message,*other = cmdParams
         context_info = ContextInfoAttributes()
 
+        if "disappearing" in options:
+            context_info.expiration = int(options["disappearing"])*86400
+            context_info.ephemeral_setting_timestamp = int(time.time())
+            context_info.disappearing_mode = DisappearingModeAttributes(
+                initiator=DisappearingModeAttributes.INITIATOR_CHANGED_IN_CHAT,
+                trigger=DisappearingModeAttributes.TRIGGER_CHAT_SETTING,
+                initiatedByMe=True
+            )
+        else:
+            context_info.expiration = 0
+            context_info.ephemeral_setting_timestamp = int(time.time())
+            context_info.disappearing_mode = DisappearingModeAttributes(
+                initiator=DisappearingModeAttributes.INITIATOR_CHANGED_IN_CHAT,
+                trigger=DisappearingModeAttributes.TRIGGER_UNKNOWN,
+                initiatedByMe=None
+            )
+
+
         if "source" in options:
             if options["source"]=="random":
                 srcs = ["contact_card","contact_search","global_search_new_chat","phone_number_hyperlink"]
@@ -1545,6 +1563,32 @@ class SendLayer(YowInterfaceLayer):
         self.toLower(entity)
         return entity.getId()        
     
+    def setDisappearing(self,cmdParams,options):
+        if len(cmdParams)==1:
+            disappearingTime = 86400
+        else:
+            disappearingTime = int(cmdParams[1]) * 86400
+
+        attr = ProtocolAttributes(
+            key=MessageKeyAttributes(
+                id=None,
+                from_me=True,
+                remote_jid=Jid.normalize(cmdParams[0])                
+            ),
+            type=ProtocolAttributes.TYPE_EPHEMERAL_SETTING,
+            ephemeral_expiration=disappearingTime,
+            disappearing_mode=DisappearingModeAttributes(
+                trigger=DisappearingModeAttributes.TRIGGER_CHAT_SETTING,
+                initiatedByMe=DisappearingModeAttributes.INITIATOR_INITIATED_BY_ME
+            ),
+            timestamp_ms=int(time.time()*1000)
+        )
+        entity = ProtocolMessageProtocolEntity(protocol_attr=attr,
+            message_meta_attributes=
+            MessageMetaAttributes(id=self.bot.idType,recipient=Jid.normalize(cmdParams[0]),timestamp=int(time.time())))
+        self.toLower(entity)
+        return entity.getId()
+
     def generateAppStateSyncKeys(self,n):
         profile = self.getStack().getProp("profile")        
         keys = []

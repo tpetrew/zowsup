@@ -389,6 +389,10 @@ class YowBot:
     @BotCmd("mdremove","remove companion device(s)")
     def multiDeviceRemove(self,params,options):
         return self.sendLayer.multiDeviceRemove(params,options)       
+    
+    @BotCmd("setdisappearing","set message disappearing time")
+    def setDisappearing(self,params,options):
+        return self.sendLayer.setDisappearing(params,options)
 
                       
 if __name__ == "__main__":    
