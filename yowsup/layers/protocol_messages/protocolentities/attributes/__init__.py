@@ -27,3 +27,5 @@ from .attributes_business_message_forward_info import BusinessMessageForwardInfo
 
 from .attributes_reaction import ReactionAttributes
 from .attributes_message_key import MessageKeyAttributes
+
+from .attributes_disappearing_mode import DisappearingModeAttributes

@@ -39,7 +39,8 @@ class AttributesConverter(object):
         out = protocol_pb2.MessageKey()
         out.remote_jid = message_key.remote_jid
         out.from_me = message_key.from_me
-        out.id = message_key.id
+        if message_key.id is not None:
+            out.id = message_key.id
         if message_key.participant:
             out.participant = message_key.participant.participant
         return out
@@ -68,7 +69,28 @@ class AttributesConverter(object):
 
         if protocol.edited_message is not None:
             message.edited_message.MergeFrom(self.message_to_proto(protocol.edited_message))
+
+        if protocol.ephemeral_expiration is not None:
+            message.ephemeral_expiration = protocol.ephemeral_expiration
+
+        if protocol.disappearing_mode is not None:
+            message.disappearing_mode.MergeFrom(self.disappearing_mode_to_proto(protocol.disappearing_mode))
        
+        return message
+    
+    def disappearing_mode_to_proto(self,disappearing_mode_attributes):
+        message = e2e_pb2.DisappearingMode()
+        print(disappearing_mode_attributes)
+        if disappearing_mode_attributes.initiator is not None:
+            message.initiator = disappearing_mode_attributes.initiator 
+
+        if disappearing_mode_attributes.trigger is not None:
+            message.trigger = disappearing_mode_attributes.trigger
+
+        if disappearing_mode_attributes.initiatedByMe is not None:
+            message.initiatedByMe = disappearing_mode_attributes.initiatedByMe
+        if disappearing_mode_attributes.initiatorDeviceJid is not None:
+            message.initiatorDeviceJid = disappearing_mode_attributes.initiatorDeviceJid if disappearing_mode_attributes.initiatorDeviceJid else None
         return message
     
     def initial_security_notification_setting_sync_to_proto(self,initial_security_notification_setting_sync_attributes):
@@ -121,7 +143,17 @@ class AttributesConverter(object):
             proto.type,
             initial_security_notification_setting_sync=self.proto_to_initial_security_notification_setting_sync(proto.initial_security_notification_setting_sync) if proto.HasField("initial_security_notification_setting_sync") else None,
             history_sync_notification=HistorySyncNotificationAttribute.decodeFrom(proto.history_sync_notification) if proto.HasField("history_sync_notification") else None,
-            edited_message=self.proto_to_message(proto.edited_message) if proto.HasField("edited_message") else None
+            edited_message=self.proto_to_message(proto.edited_message) if proto.HasField("edited_message") else None,
+            ephemeral_expiration=proto.ephemeral_expiration if proto.HasField("ephemeral_expiration") else None,
+            disappearing_mode=self.proto_to_disappearing_mode(proto.disappearing_mode) if proto.HasField("disappearing_mode") else None,
+        )
+    
+    def proto_to_disappearing_mode(self,proto):
+        return DisappearingModeAttributes(
+            initiator=proto.initiator if proto.HasField("initiator") else None,
+            trigger=proto.trigger if proto.HasField("trigger") else None,
+            initiatedByMe=proto.initiatedByMe if proto.HasField("initiatedByMe") else None,
+            initiatorDeviceJid=proto.initiatorDeviceJid if proto.HasField("initiatorDeviceJid") else None
         )
     
     def proto_to_initial_security_notification_setting_sync(self,proto):
@@ -747,6 +779,9 @@ class AttributesConverter(object):
         if contextinfo_attributes.ephemeral_setting_timestamp is not None:
             cxt_info.ephemeral_setting_timestamp = contextinfo_attributes.ephemeral_setting_timestamp   
 
+        if contextinfo_attributes.disappearing_mode is not None:
+            cxt_info.disappearing_mode.MergeFrom(self.disappearing_mode_to_proto(contextinfo_attributes.disappearing_mode))
+
         if contextinfo_attributes.external_ad_reply is not None:
             cxt_info.external_ad_reply.MergeFrom(self.external_ad_reply_to_proto(contextinfo_attributes.external_ad_reply))
                         
@@ -786,6 +821,7 @@ class AttributesConverter(object):
             is_forwarded= proto.is_forwarded if proto.HasField("is_forwarded") else None,
             expiration=  proto.expiration if proto.HasField("expiration") else None,
             ephemeral_setting_timestamp=  proto.ephemeral_setting_timestamp if proto.HasField("ephemeral_setting_timestamp") else None,
+            disappearing_mode=self.proto_to_disappearing_mode(proto.disappearing_mode) if proto.HasField("disappearing_mode") else None,    
             external_ad_reply=self.proto_to_external_ad_reply(proto.external_ad_reply) if proto.HasField("external_ad_reply") else None        
         )
     
@@ -866,6 +902,8 @@ class AttributesConverter(object):
         return message
 
     def proto_to_message(self, proto,from_jid=None,message_db=None):
+
+        print(proto)
 
         # from_jid message_secret 两个参数，目前只在pollupdate里面用到，到时候再优化                    
         if proto.HasField("device_sent_message"):            
