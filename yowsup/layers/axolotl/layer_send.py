@@ -166,10 +166,7 @@ class AxolotlSendLayer(AxolotlBaseLayer):
             node["type"],
             message_attrs
         )
-
-        
-
-        
+            
         # if participant is set, this message is directed to that specific participant as a result of a retry, therefore
         # we already have the original group message and there is no need to store it again.
         
@@ -185,7 +182,7 @@ class AxolotlSendLayer(AxolotlBaseLayer):
         nodeSend = messageEntity.toProtocolTreeNode()
         #把biz节点复制转发
 
-        if node["category"]=="peer":
+        if node.getAttributeValue("category") == "peer":
             pass
         else:
             reporting = ProtocolTreeNode("reporting")
