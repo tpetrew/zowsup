@@ -942,6 +942,7 @@ class AttributesConverter(object):
 
         poll_creation = self.proto_to_poll_creation(proto.pollCreationMessageV3,proto.message_context_info) if proto.HasField("pollCreationMessageV3") else None
 
+
         if proto.HasField("poll_update_message"):            
             poll_update = self.proto_to_poll_update(proto.poll_update_message,from_jid = from_jid,message_db=message_db)
         else:
