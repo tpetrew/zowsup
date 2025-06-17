@@ -838,6 +838,9 @@ class AttributesConverter(object):
     
 
     def message_to_proto(self, message_attributes):
+
+        
+        
         # type: (MessageAttributes) -> Message
         message = e2e_pb2.Message()
         mctx = e2e_pb2.MessageContextInfo()
@@ -898,6 +901,8 @@ class AttributesConverter(object):
             
         if message_attributes.protocol:
             message.protocol_message.MergeFrom(self.protocol_to_proto(message_attributes.protocol))
+
+        
         
         return message
 

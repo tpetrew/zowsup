@@ -304,9 +304,8 @@ class SendLayer(YowInterfaceLayer):
                     et = hs.createRecentMessage()
                     self.toLower(et)
                     
-                    et = SetPrivacyIqProtocolEntity(Jid.normalize(self.bot.botId),int(time.time()))
+                    et = TrustContactIqProtocolEntity(Jid.normalize(self.bot_api.botId),int(time.time()))
                     self.toLower(et)
-
 
                     #######################APP STATE SYNC START###############################
 
@@ -992,7 +991,6 @@ class SendLayer(YowInterfaceLayer):
                 initiatedByMe=None
             )
 
-
         if "source" in options:
             if options["source"]=="random":
                 srcs = ["contact_card","contact_search","global_search_new_chat","phone_number_hyperlink"]
@@ -1579,7 +1577,7 @@ class SendLayer(YowInterfaceLayer):
             ephemeral_expiration=disappearingTime,
             disappearing_mode=DisappearingModeAttributes(
                 trigger=DisappearingModeAttributes.TRIGGER_CHAT_SETTING,
-                initiatedByMe=DisappearingModeAttributes.INITIATOR_INITIATED_BY_ME
+                initiatedByMe=True,
             ),
             timestamp_ms=int(time.time()*1000)
         )
