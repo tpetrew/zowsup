@@ -838,6 +838,9 @@ class AttributesConverter(object):
     
 
     def message_to_proto(self, message_attributes):
+
+        
+        
         # type: (MessageAttributes) -> Message
         message = e2e_pb2.Message()
         mctx = e2e_pb2.MessageContextInfo()
@@ -898,6 +901,8 @@ class AttributesConverter(object):
             
         if message_attributes.protocol:
             message.protocol_message.MergeFrom(self.protocol_to_proto(message_attributes.protocol))
+
+        
         
         return message
 
@@ -941,6 +946,7 @@ class AttributesConverter(object):
         buttons_response = self.proto_to_buttons_response(proto.buttons_response_message) if proto.HasField("buttons_response_message") else None
 
         poll_creation = self.proto_to_poll_creation(proto.pollCreationMessageV3,proto.message_context_info) if proto.HasField("pollCreationMessageV3") else None
+
 
         if proto.HasField("poll_update_message"):            
             poll_update = self.proto_to_poll_update(proto.poll_update_message,from_jid = from_jid,message_db=message_db)

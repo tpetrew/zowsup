@@ -166,7 +166,7 @@ class AxolotlSendLayer(AxolotlBaseLayer):
             node["type"],
             message_attrs
         )
-            
+                
         # if participant is set, this message is directed to that specific participant as a result of a retry, therefore
         # we already have the original group message and there is no need to store it again.
         

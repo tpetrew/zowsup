@@ -307,7 +307,6 @@ class SendLayer(YowInterfaceLayer):
                     et = TrustContactIqProtocolEntity(Jid.normalize(self.bot.botId),int(time.time()))
                     self.toLower(et)
 
-
                     #######################APP STATE SYNC START###############################
 
                     #  critical_block critical_unblock_low
@@ -992,7 +991,6 @@ class SendLayer(YowInterfaceLayer):
                 initiatedByMe=None
             )
 
-
         if "source" in options:
             if options["source"]=="random":
                 srcs = ["contact_card","contact_search","global_search_new_chat","phone_number_hyperlink"]
@@ -1579,7 +1577,7 @@ class SendLayer(YowInterfaceLayer):
             ephemeral_expiration=disappearingTime,
             disappearing_mode=DisappearingModeAttributes(
                 trigger=DisappearingModeAttributes.TRIGGER_CHAT_SETTING,
-                initiatedByMe=DisappearingModeAttributes.INITIATOR_INITIATED_BY_ME
+                initiatedByMe=True,
             ),
             timestamp_ms=int(time.time()*1000)
         )
