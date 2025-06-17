@@ -13,7 +13,7 @@ from yowsup.structs import ProtocolTreeNode
 '''
 
 class SetPrivacyIqProtocolEntity(IqProtocolEntity):
-    NAMES = ["status", "profile", "last"]
+    NAMES = ["readreceipts","profile","online","status", "last","groupadd","calladd","stickers","messages"]
     VALUES = ["all", "contacts", "none"]
     XMLNS = "privacy"
 
