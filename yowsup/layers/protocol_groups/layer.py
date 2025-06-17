@@ -1,6 +1,6 @@
-from yowsup.layers import YowLayer, YowLayerEvent, YowProtocolLayer
-from yowsup.layers.protocol_iq.protocolentities import ErrorIqProtocolEntity
-from yowsup.layers.protocol_iq.protocolentities.iq_result import ResultIqProtocolEntity
+from ...layers import YowLayer, YowLayerEvent, YowProtocolLayer
+from ...layers.protocol_iq.protocolentities import ErrorIqProtocolEntity
+from ...layers.protocol_iq.protocolentities.iq_result import ResultIqProtocolEntity
 from .protocolentities import *
 import logging
 logger = logging.getLogger(__name__)

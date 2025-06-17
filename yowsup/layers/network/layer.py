@@ -1,9 +1,9 @@
-from yowsup.layers import YowLayer, YowLayerEvent, EventCallback
-from yowsup.layers.network.layer_interface import YowNetworkLayerInterface
-from yowsup.layers.network.dispatcher.dispatcher import ConnectionCallbacks
-from yowsup.layers.network.dispatcher.dispatcher import YowConnectionDispatcher
-from yowsup.layers.network.dispatcher.dispatcher_socket import SocketConnectionDispatcher
-from yowsup.layers.network.dispatcher.dispatcher_asyncore import AsyncoreConnectionDispatcher
+from ...layers import YowLayer, YowLayerEvent, EventCallback
+from ...layers.network.layer_interface import YowNetworkLayerInterface
+from ...layers.network.dispatcher.dispatcher import ConnectionCallbacks
+from ...layers.network.dispatcher.dispatcher import YowConnectionDispatcher
+from ...layers.network.dispatcher.dispatcher_socket import SocketConnectionDispatcher
+from ...layers.network.dispatcher.dispatcher_asyncore import AsyncoreConnectionDispatcher
 import logging
 
 logger = logging.getLogger(__name__)

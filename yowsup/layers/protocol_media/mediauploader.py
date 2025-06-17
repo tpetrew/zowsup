@@ -1,5 +1,5 @@
-from yowsup.common.http.warequest import WARequest
-from yowsup.common.http.waresponseparser import JSONResponseParser
+from ...common.http.warequest import WARequest
+from ...common.http.waresponseparser import JSONResponseParser
 import socket
 import ssl
 import os
@@ -8,7 +8,7 @@ import sys
 from time import sleep
 import threading
 import logging
-from yowsup.common.tools import MimeTools
+from ...common.tools import MimeTools
 
 logger = logging.getLogger(__name__)
 

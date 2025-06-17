@@ -1,11 +1,11 @@
-from yowsup.layers import YowProtocolLayer
-from yowsup.layers.axolotl.protocolentities import *
-from yowsup.layers.network.layer import YowNetworkLayer
-from yowsup.layers import EventCallback
-from yowsup.profile.profile import YowProfile
+from ...layers import YowProtocolLayer
+from ...layers.axolotl.protocolentities import *
+from ...layers.network.layer import YowNetworkLayer
+from ...layers import EventCallback
+from ...profile.profile import YowProfile
 
-from yowsup.axolotl import exceptions
-from yowsup.layers.axolotl.props import PROP_IDENTITY_AUTOTRUST
+from ...axolotl import exceptions
+from ...layers.axolotl.props import PROP_IDENTITY_AUTOTRUST
 
 import logging
 logger = logging.getLogger(__name__)

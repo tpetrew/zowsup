@@ -1,5 +1,5 @@
-from yowsup.common import YowConstants
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....common import YowConstants
+from ....structs import ProtocolEntity, ProtocolTreeNode
 from .iq_groups import GroupsIqProtocolEntity
 import random
 import uuid

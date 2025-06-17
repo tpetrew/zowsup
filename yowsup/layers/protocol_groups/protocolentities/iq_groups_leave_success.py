@@ -1,6 +1,6 @@
-from yowsup.common import YowConstants
-from yowsup.structs import ProtocolTreeNode
-from yowsup.layers.protocol_iq.protocolentities import ResultIqProtocolEntity
+from ....common import YowConstants
+from ....structs import ProtocolTreeNode
+from ....layers.protocol_iq.protocolentities import ResultIqProtocolEntity
 
 
 class SuccessLeaveGroupsIqProtocolEntity(ResultIqProtocolEntity):

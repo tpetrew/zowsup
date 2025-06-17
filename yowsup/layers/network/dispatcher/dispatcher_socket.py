@@ -1,4 +1,4 @@
-from yowsup.layers.network.dispatcher.dispatcher import YowConnectionDispatcher
+from ....layers.network.dispatcher.dispatcher import YowConnectionDispatcher
 import socket
 import logging
 

@@ -1,11 +1,11 @@
 from .layer_base import AxolotlBaseLayer
-from yowsup.layers import YowLayerEvent, EventCallback
-from yowsup.layers.network.layer import YowNetworkLayer
-from yowsup.layers.axolotl.protocolentities import *
-from yowsup.layers.auth.layer_authentication import YowAuthenticationProtocolLayer
-from yowsup.layers.protocol_acks.protocolentities import OutgoingAckProtocolEntity
-from yowsup.layers.protocol_iq.protocolentities          import *
-from yowsup.layers.protocol_ib.protocolentities          import *
+from ...layers import YowLayerEvent, EventCallback
+from ...layers.network.layer import YowNetworkLayer
+from ...layers.axolotl.protocolentities import *
+from ...layers.auth.layer_authentication import YowAuthenticationProtocolLayer
+from ...layers.protocol_acks.protocolentities import OutgoingAckProtocolEntity
+from ...layers.protocol_iq.protocolentities          import *
+from ...layers.protocol_ib.protocolentities          import *
 from axolotl.util.hexutil import HexUtil
 from axolotl.ecc.curve import Curve
 import logging

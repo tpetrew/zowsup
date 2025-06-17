@@ -1,4 +1,4 @@
-from yowsup.layers import YowLayer, YowLayerEvent, YowProtocolLayer
+from ...layers import YowLayer, YowLayerEvent, YowProtocolLayer
 from .protocolentities import * 
 class YowChatstateProtocolLayer(YowProtocolLayer):
     def __init__(self):

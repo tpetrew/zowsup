@@ -1,7 +1,7 @@
 from .message_media_downloadable import DownloadableMediaMessageProtocolEntity
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_image import ImageAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message import MessageAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_image import ImageAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_message import MessageAttributes
 
 
 class ImageDownloadableMediaMessageProtocolEntity(DownloadableMediaMessageProtocolEntity):

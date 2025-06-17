@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 class PresenceProtocolEntity(ProtocolEntity):
     '''
     <presence type="{{type}} name={{push_name}}"></presence>

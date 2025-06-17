@@ -1,5 +1,5 @@
 from .iq_picture import PictureIqProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 import time
 class SetPictureIqProtocolEntity(PictureIqProtocolEntity):
     '''

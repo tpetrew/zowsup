@@ -1,7 +1,7 @@
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
 from .message_media import MediaMessageProtocolEntity
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_location import LocationAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message import MessageAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_location import LocationAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_message import MessageAttributes
 
 
 class LocationMediaMessageProtocolEntity(MediaMessageProtocolEntity):

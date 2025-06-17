@@ -1,19 +1,19 @@
-from yowsup.common import YowConstants
-from yowsup.layers.axolotl.no_target_exception import NoTargetException
+from ...common import YowConstants
+from ...layers.axolotl.no_target_exception import NoTargetException
 from proto.e2e_pb2 import Message
-from yowsup.layers.axolotl.protocolentities import *
-from yowsup.layers.auth.layer_authentication import YowAuthenticationProtocolLayer
-from yowsup.layers.protocol_groups.protocolentities import InfoGroupsIqProtocolEntity, InfoGroupsResultIqProtocolEntity
+from ...layers.axolotl.protocolentities import *
+from ...layers.auth.layer_authentication import YowAuthenticationProtocolLayer
+from ...layers.protocol_groups.protocolentities import InfoGroupsIqProtocolEntity, InfoGroupsResultIqProtocolEntity
 from axolotl.protocol.whispermessage import WhisperMessage
-from yowsup.layers.protocol_messages.protocolentities.message import MessageMetaAttributes
-from yowsup.layers.axolotl.protocolentities.iq_keys_get_result import MissingParametersException
-from yowsup.layers.protocol_contacts.protocolentities  import *
-from yowsup.axolotl import exceptions
+from ...layers.protocol_messages.protocolentities.message import MessageMetaAttributes
+from ...layers.axolotl.protocolentities.iq_keys_get_result import MissingParametersException
+from ...layers.protocol_contacts.protocolentities  import *
+from ...axolotl import exceptions
 from .layer_base import AxolotlBaseLayer
-from yowsup.common.tools import WATools
-from yowsup.layers.protocol_acks.protocolentities.ack_incoming import IncomingAckProtocolEntity
+from ...common.tools import WATools
+from ...layers.protocol_acks.protocolentities.ack_incoming import IncomingAckProtocolEntity
 
-from yowsup.structs import  ProtocolTreeNode
+from ...structs import  ProtocolTreeNode
 import base64,os
 
 import logging

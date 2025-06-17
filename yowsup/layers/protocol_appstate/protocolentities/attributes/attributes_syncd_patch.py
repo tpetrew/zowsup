@@ -1,7 +1,7 @@
 
 from proto import protocol_pb2
 
-from yowsup.layers.protocol_appstate.protocolentities.attributes import *
+from .....layers.protocol_appstate.protocolentities.attributes import *
 
 #这个就是patch内的内容
 

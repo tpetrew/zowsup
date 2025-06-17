@@ -1,4 +1,4 @@
-from yowsup.layers.protocol_iq.protocolentities import ResultIqProtocolEntity
+from ....layers.protocol_iq.protocolentities import ResultIqProtocolEntity
 class SuccessGetInviteCodeGroupsIqProtocolEntity(ResultIqProtocolEntity):
     '''
     <iq type="result" id="{{id}}" from="group_jid">

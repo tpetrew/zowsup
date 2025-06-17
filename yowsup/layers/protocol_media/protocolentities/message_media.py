@@ -1,6 +1,6 @@
-from yowsup.layers.protocol_messages.protocolentities.protomessage import ProtomessageProtocolEntity
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message import MessageAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
+from ....layers.protocol_messages.protocolentities.protomessage import ProtomessageProtocolEntity
+from ....layers.protocol_messages.protocolentities.attributes.attributes_message import MessageAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
 
 import logging
 logger = logging.getLogger(__name__)

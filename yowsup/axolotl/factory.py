@@ -1,6 +1,6 @@
-from yowsup.axolotl.manager import AxolotlManager
-from yowsup.common.tools import StorageTools
-from yowsup.axolotl.store.sqlite.liteaxolotlstore import LiteAxolotlStore
+from ..axolotl.manager import AxolotlManager
+from ..common.tools import StorageTools
+from ..axolotl.store.sqlite.liteaxolotlstore import LiteAxolotlStore
 import logging
 
 logger = logging.getLogger(__name__)

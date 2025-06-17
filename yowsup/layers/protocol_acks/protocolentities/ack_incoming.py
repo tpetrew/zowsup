@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 from .ack import AckProtocolEntity
 from .ack_outgoing import OutgoingAckProtocolEntity
 class IncomingAckProtocolEntity(AckProtocolEntity):

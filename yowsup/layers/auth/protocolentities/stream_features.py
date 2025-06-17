@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 class StreamFeaturesProtocolEntity(ProtocolEntity):
     def __init__(self,  features = None):
         super(StreamFeaturesProtocolEntity, self).__init__("stream:features")

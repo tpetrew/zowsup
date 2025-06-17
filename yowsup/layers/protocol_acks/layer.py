@@ -1,4 +1,4 @@
-from yowsup.layers import YowProtocolLayer
+from ...layers import YowProtocolLayer
 from .protocolentities import * 
 class YowAckProtocolLayer(YowProtocolLayer):
     def __init__(self):

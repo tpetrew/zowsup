@@ -1,4 +1,4 @@
-from yowsup.layers.protocol_media.mediacipher import MediaCipher
+from ...layers.protocol_media.mediacipher import MediaCipher
 import base64
 import unittest
 

@@ -1,6 +1,6 @@
-from yowsup.common import YowConstants
-from yowsup.layers.protocol_notifications.protocolentities import NotificationProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....common import YowConstants
+from ....layers.protocol_notifications.protocolentities import NotificationProtocolEntity
+from ....structs import ProtocolTreeNode
 
 
 class RequestKeysEncryptNotification(NotificationProtocolEntity):

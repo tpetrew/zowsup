@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 from .ib import IbProtocolEntity
 class EdgeRoutingIbProtocolEntity(IbProtocolEntity):
     '''

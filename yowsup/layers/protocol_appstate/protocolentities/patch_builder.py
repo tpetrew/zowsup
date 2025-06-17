@@ -2,7 +2,7 @@
 from common.utils import Utils
 from .lthash import LTHash
 import hmac
-from yowsup.layers.protocol_appstate.protocolentities.attributes import *
+from ....layers.protocol_appstate.protocolentities.attributes import *
 import hashlib
 import copy
 

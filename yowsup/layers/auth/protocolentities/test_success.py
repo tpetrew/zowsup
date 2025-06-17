@@ -1,6 +1,6 @@
-from yowsup.layers.auth.protocolentities.success import SuccessProtocolEntity
-from yowsup.structs import ProtocolTreeNode
-from yowsup.structs.protocolentity import ProtocolEntityTest
+from ....layers.auth.protocolentities.success import SuccessProtocolEntity
+from ....structs import ProtocolTreeNode
+from ....structs.protocolentity import ProtocolEntityTest
 import unittest
 
 

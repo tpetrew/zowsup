@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 class IbProtocolEntity(ProtocolEntity):
     '''
     <ib></ib>

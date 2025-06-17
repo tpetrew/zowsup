@@ -1,15 +1,15 @@
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_image import ImageAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_extendedtext import ExtendedTextAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_document import DocumentAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_contact import ContactAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_location import LocationAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_video import VideoAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_audio import AudioAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_sticker import StickerAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_template import TemplateAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_sender_key_distribution_message import \
+from .....layers.protocol_messages.protocolentities.attributes.attributes_image import ImageAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_extendedtext import ExtendedTextAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_document import DocumentAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_contact import ContactAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_location import LocationAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_video import VideoAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_audio import AudioAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_sticker import StickerAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_template import TemplateAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_sender_key_distribution_message import \
     SenderKeyDistributionMessageAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_protocol import ProtocolAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_protocol import ProtocolAttributes
 
 
 class MessageAttributes(object):

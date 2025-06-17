@@ -1,6 +1,6 @@
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 from .iq_sync import SyncIqProtocolEntity
-from yowsup.common import YowConstants
+from ....common import YowConstants
 
 class DevicesResultSyncIqProtocolEntity(SyncIqProtocolEntity):
     '''

@@ -1,4 +1,4 @@
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia import \
+from .....layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia import \
     DownloadableMediaMessageAttributes
 import os
 import requests

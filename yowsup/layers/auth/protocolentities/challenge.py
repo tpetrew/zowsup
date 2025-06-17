@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 class ChallengeProtocolEntity(ProtocolEntity):
     def __init__(self, nonce):
         super(ChallengeProtocolEntity, self).__init__("challenge")

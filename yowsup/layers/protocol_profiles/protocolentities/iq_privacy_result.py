@@ -1,5 +1,5 @@
-from yowsup.structs import ProtocolTreeNode
-from yowsup.layers.protocol_iq.protocolentities import ResultIqProtocolEntity
+from ....structs import ProtocolTreeNode
+from ....layers.protocol_iq.protocolentities import ResultIqProtocolEntity
 
 '''
 <iq type="result" from="{{JID}}@s.whatsapp.net" id="{{IQ:ID}}">

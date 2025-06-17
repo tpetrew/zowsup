@@ -1,7 +1,7 @@
-from yowsup.config.manager import ConfigManager
-from yowsup.config.v1.config import Config
-from yowsup.axolotl.manager import AxolotlManager
-from yowsup.axolotl.factory import AxolotlManagerFactory
+from ..config.manager import ConfigManager
+from ..config.v1.config import Config
+from ..axolotl.manager import AxolotlManager
+from ..axolotl.factory import AxolotlManagerFactory
 import logging
 
 logger = logging.getLogger(__name__)

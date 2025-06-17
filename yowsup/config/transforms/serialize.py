@@ -1,4 +1,4 @@
-from yowsup.config.transforms.props import PropsTransform
+from ...config.transforms.props import PropsTransform
 
 
 class SerializeTransform(PropsTransform):

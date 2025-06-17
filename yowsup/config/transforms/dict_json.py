@@ -1,4 +1,4 @@
-from yowsup.config.base.transform import ConfigTransform
+from ...config.base.transform import ConfigTransform
 import json
 
 

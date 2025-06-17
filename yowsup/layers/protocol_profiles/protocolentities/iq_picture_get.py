@@ -1,7 +1,7 @@
 from .iq_picture import PictureIqProtocolEntity
-from yowsup.structs import ProtocolTreeNode
-from yowsup.layers.protocol_iq.protocolentities import IqProtocolEntity
-from yowsup.common import YowConstants
+from ....structs import ProtocolTreeNode
+from ....layers.protocol_iq.protocolentities import IqProtocolEntity
+from ....common import YowConstants
 
 class GetPictureIqProtocolEntity(IqProtocolEntity):
     '''

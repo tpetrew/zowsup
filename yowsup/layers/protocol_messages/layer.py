@@ -1,9 +1,9 @@
-from yowsup.layers import YowProtocolLayer
+from ...layers import YowProtocolLayer
 from .protocolentities import *
-from yowsup.layers.protocol_messages.protocolentities.attributes.converter import AttributesConverter
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
-from yowsup.layers.protocol_receipts.protocolentities import OutgoingReceiptProtocolEntity
-from yowsup.layers.protocol_acks.protocolentities import OutgoingAckProtocolEntity
+from ...layers.protocol_messages.protocolentities.attributes.converter import AttributesConverter
+from ...layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
+from ...layers.protocol_receipts.protocolentities import OutgoingReceiptProtocolEntity
+from ...layers.protocol_acks.protocolentities import OutgoingAckProtocolEntity
 
 import logging
 logger = logging.getLogger(__name__)

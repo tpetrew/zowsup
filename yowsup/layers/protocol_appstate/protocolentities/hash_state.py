@@ -1,5 +1,5 @@
 
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 
 class HashState:
 

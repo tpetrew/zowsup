@@ -1,4 +1,4 @@
-from yowsup.layers import YowLayer, YowLayerEvent, YowProtocolLayer
+from ...layers import YowLayer, YowLayerEvent, YowProtocolLayer
 from .protocolentities import *
 class YowReceiptProtocolLayer(YowProtocolLayer):
     def __init__(self):
