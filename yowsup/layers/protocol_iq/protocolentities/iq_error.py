@@ -1,4 +1,4 @@
-from yowsup.structs import  ProtocolTreeNode
+from ....structs import  ProtocolTreeNode
 from .iq import IqProtocolEntity
 class ErrorIqProtocolEntity(IqProtocolEntity):
 

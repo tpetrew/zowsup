@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 from .presence import PresenceProtocolEntity
 class UnavailablePresenceProtocolEntity(PresenceProtocolEntity):
     '''

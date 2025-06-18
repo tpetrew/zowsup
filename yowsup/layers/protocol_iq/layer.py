@@ -1,20 +1,20 @@
 import time
 import logging
 from threading import Thread, Lock
-from yowsup.layers import YowProtocolLayer, YowLayerEvent, EventCallback
-from yowsup.common import YowConstants
-from yowsup.layers.axolotl.protocolentities.iq_keys_get_result import ResultGetKeysIqProtocolEntity
-from yowsup.layers.axolotl.protocolentities.iq_key_count_result import ResultKeyCountIqProtocolEntity 
+from ...layers import YowProtocolLayer, YowLayerEvent, EventCallback
+from ...common import YowConstants
+from ...layers.axolotl.protocolentities.iq_keys_get_result import ResultGetKeysIqProtocolEntity
+from ...layers.axolotl.protocolentities.iq_key_count_result import ResultKeyCountIqProtocolEntity 
 
-from yowsup.layers.protocol_profiles.protocolentities import *
-from yowsup.layers.protocol_groups.protocolentities import *
-from yowsup.layers.protocol_contacts.protocolentities import *
-from yowsup.layers.network import YowNetworkLayer
-from yowsup.layers.auth import YowAuthenticationProtocolLayer
+from ...layers.protocol_profiles.protocolentities import *
+from ...layers.protocol_groups.protocolentities import *
+from ...layers.protocol_contacts.protocolentities import *
+from ...layers.network import YowNetworkLayer
+from ...layers.auth import YowAuthenticationProtocolLayer
 from .protocolentities import *
 
-from yowsup.layers.protocol_media.protocolentities  import *
-from yowsup.layers.protocol_media.protocolentities.iq_requestmediaconn_result import ResultRequestMediaConnIqProtocolEntity
+from ...layers.protocol_media.protocolentities  import *
+from ...layers.protocol_media.protocolentities.iq_requestmediaconn_result import ResultRequestMediaConnIqProtocolEntity
 
 class YowIqProtocolLayer(YowProtocolLayer):
     

@@ -1,6 +1,6 @@
 import time
 
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 from .receipt import ReceiptProtocolEntity
 class OutgoingReceiptProtocolEntity(ReceiptProtocolEntity):
 

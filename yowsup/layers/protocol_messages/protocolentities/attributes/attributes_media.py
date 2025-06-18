@@ -1,4 +1,4 @@
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_context_info import ContextInfoAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_context_info import ContextInfoAttributes
 
 
 class MediaAttributes(object):

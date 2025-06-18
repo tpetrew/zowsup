@@ -16,13 +16,13 @@ from axolotl.invalidkeyidexception import InvalidKeyIdException
 from axolotl.nosessionexception import NoSessionException
 from axolotl.protocol.senderkeydistributionmessage import SenderKeyDistributionMessage
 from axolotl.state.axolotlstore import AxolotlStore
-from yowsup.axolotl.store.sqlite.liteaxolotlstore import LiteAxolotlStore
-from yowsup.axolotl import exceptions
+from ..axolotl.store.sqlite.liteaxolotlstore import LiteAxolotlStore
+from ..axolotl import exceptions
 import random
 import logging
 import sys
 import base64
-from yowsup.common.tools import WATools
+from ..common.tools import WATools
 
 logger = logging.getLogger(__name__)
 

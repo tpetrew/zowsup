@@ -1,6 +1,6 @@
-from yowsup.structs import  ProtocolTreeNode
+from ....structs import  ProtocolTreeNode
 from .iq import IqProtocolEntity
-from yowsup.common import YowConstants
+from ....common import YowConstants
 class MultiDevicePairIqProtocolEntity(IqProtocolEntity):
 
     '''

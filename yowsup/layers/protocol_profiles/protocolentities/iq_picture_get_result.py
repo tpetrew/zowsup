@@ -1,5 +1,5 @@
 from .iq_picture import PictureIqProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 class ResultGetPictureIqProtocolEntity(PictureIqProtocolEntity):
     '''
     <iq type="result" from="{{jid}}" id="{{id}}">

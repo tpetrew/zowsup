@@ -1,7 +1,7 @@
 import time
 
 from proto import protocol_pb2
-from yowsup.layers.protocol_appstate.protocolentities.attributes import *
+from .....layers.protocol_appstate.protocolentities.attributes import *
 
 import json
 

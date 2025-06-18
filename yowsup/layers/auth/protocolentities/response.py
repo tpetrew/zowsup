@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 class ResponseProtocolEntity(ProtocolEntity):
     def __init__(self, data, xmlns = "urn:ietf:params:xml:ns:xmpp-sasl"):
         super(ResponseProtocolEntity, self).__init__("response")

@@ -1,1 +1,1 @@
-from yowsup.common.http.warequest import WARequest
+from ...common.http.warequest import WARequest

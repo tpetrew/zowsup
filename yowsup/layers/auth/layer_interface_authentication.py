@@ -1,4 +1,4 @@
-from yowsup.layers import YowLayerInterface
+from ...layers import YowLayerInterface
 
 class YowAuthenticationProtocolLayerInterface(YowLayerInterface):
     def setCredentials(self, phone, keypair):

@@ -1,4 +1,4 @@
-from yowsup.layers import YowLayer
+from ...layers import YowLayer
 from .encoder import WriteEncoder
 from .decoder import ReadDecoder
 from .tokendictionary import TokenDictionary

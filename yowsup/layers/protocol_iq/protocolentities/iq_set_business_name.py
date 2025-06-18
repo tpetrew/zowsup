@@ -1,6 +1,6 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 from .iq import IqProtocolEntity
-from yowsup.axolotl.factory import AxolotlManagerFactory
+from ....axolotl.factory import AxolotlManagerFactory
 from proto import e2e_pb2
 from axolotl.ecc.curve import Curve
 import random

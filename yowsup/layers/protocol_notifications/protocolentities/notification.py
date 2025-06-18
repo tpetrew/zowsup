@@ -1,5 +1,5 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
-from yowsup.layers.protocol_receipts.protocolentities  import OutgoingReceiptProtocolEntity
+from ....structs import ProtocolEntity, ProtocolTreeNode
+from ....layers.protocol_receipts.protocolentities  import OutgoingReceiptProtocolEntity
 
 class NotificationProtocolEntity(ProtocolEntity):
     '''

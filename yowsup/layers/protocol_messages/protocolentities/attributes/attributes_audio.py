@@ -1,7 +1,7 @@
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia import \
+from .....layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia import \
     DownloadableMediaMessageAttributes
 
-from yowsup.common.tools import AudioTools
+from .....common.tools import AudioTools
 import os
 import requests
 from conf.constants import SysVar

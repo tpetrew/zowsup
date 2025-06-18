@@ -1,5 +1,5 @@
-from yowsup.structs import ProtocolTreeNode
-from yowsup.layers.protocol_iq.protocolentities import IqProtocolEntity
+from ....structs import ProtocolTreeNode
+from ....layers.protocol_iq.protocolentities import IqProtocolEntity
 from .iq_sync import SyncIqProtocolEntity
 
 class GetSyncIqProtocolEntity(SyncIqProtocolEntity):

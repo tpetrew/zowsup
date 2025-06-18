@@ -1,6 +1,6 @@
-from yowsup.common.tools import VideoTools
+from .....common.tools import VideoTools
 import os
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia \
+from .....layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia \
     import DownloadableMediaMessageAttributes
 import random
 import requests

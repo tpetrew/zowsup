@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 class AuthProtocolEntity(ProtocolEntity):
     def __init__(self, user, mechanism = "WAUTH-2", passive = False, nonce = None):
         super(AuthProtocolEntity, self).__init__("auth")

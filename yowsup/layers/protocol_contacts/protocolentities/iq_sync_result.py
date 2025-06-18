@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 from .iq_sync import SyncIqProtocolEntity
 
 class ResultSyncIqProtocolEntity(SyncIqProtocolEntity):

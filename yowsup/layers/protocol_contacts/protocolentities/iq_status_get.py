@@ -1,8 +1,8 @@
-from yowsup.structs import ProtocolTreeNode
-from yowsup.layers.protocol_iq.protocolentities import IqProtocolEntity
+from ....structs import ProtocolTreeNode
+from ....layers.protocol_iq.protocolentities import IqProtocolEntity
 import time
 import json
-from yowsup.common import YowConstants
+from ....common import YowConstants
 
 class StatusGetIqProtocolEntity(IqProtocolEntity):
 

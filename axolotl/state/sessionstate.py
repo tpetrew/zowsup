@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from . import storageprotos_pb2 as storageprotos
+from ..protobuf import LocalStorageProtocol_pb2 as storageprotos
 from ..identitykeypair import IdentityKey, IdentityKeyPair
 from ..ratchet.rootkey import RootKey
 from ..kdf.hkdf import HKDF

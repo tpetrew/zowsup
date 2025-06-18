@@ -1,5 +1,5 @@
-from yowsup.config.base.transform import ConfigTransform
-from yowsup.config.transforms.props import PropsTransform
+from ...config.base.transform import ConfigTransform
+from ...config.transforms.props import PropsTransform
 
 
 class MetaPropsTransform(ConfigTransform):

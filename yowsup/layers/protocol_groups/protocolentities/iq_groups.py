@@ -1,5 +1,5 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
-from yowsup.layers.protocol_iq.protocolentities import IqProtocolEntity
+from ....structs import ProtocolEntity, ProtocolTreeNode
+from ....layers.protocol_iq.protocolentities import IqProtocolEntity
 class GroupsIqProtocolEntity(IqProtocolEntity):
     '''
     <iq type="{{get | set?}}" id="{{id}}" xmlns="w:g2", to="{{group_jid}}">

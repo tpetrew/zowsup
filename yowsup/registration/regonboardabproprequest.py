@@ -1,7 +1,7 @@
 
 
-from yowsup.common.http.warequest import WARequest
-from yowsup.common.http.waresponseparser import JSONResponseParser
+from ..common.http.warequest import WARequest
+from ..common.http.waresponseparser import JSONResponseParser
 
 
 class WARegOnBoardAbPropRequest(WARequest):

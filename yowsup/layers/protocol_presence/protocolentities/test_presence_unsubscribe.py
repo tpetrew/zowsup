@@ -1,5 +1,5 @@
-from yowsup.layers.protocol_presence.protocolentities.presence_unsubscribe import UnsubscribePresenceProtocolEntity
-from yowsup.layers.protocol_presence.protocolentities.test_presence import PresenceProtocolEntityTest
+from ....layers.protocol_presence.protocolentities.presence_unsubscribe import UnsubscribePresenceProtocolEntity
+from ....layers.protocol_presence.protocolentities.test_presence import PresenceProtocolEntityTest
 
 class UnsubscribePresenceProtocolEntityTest(PresenceProtocolEntityTest):
     def setUp(self):

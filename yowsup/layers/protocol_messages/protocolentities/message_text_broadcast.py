@@ -1,5 +1,5 @@
 from .message_text import TextMessageProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 import time
 from .message import MessageMetaAttributes
 class BroadcastTextMessage(TextMessageProtocolEntity):

@@ -1,5 +1,5 @@
 from axolotl.state.taskmsgstore import TaskMsgStore
-from yowsup.common.tools import Jid,WATools
+from ....common.tools import Jid,WATools
 import time,hashlib,base64
 
 class LiteBroadcastStore(TaskMsgStore):

@@ -1,6 +1,6 @@
-from yowsup.layers.protocol_messages.protocolentities import MessageProtocolEntity
-from yowsup.structs import ProtocolTreeNode
-from yowsup.layers.axolotl.protocolentities.enc import EncProtocolEntity
+from ....layers.protocol_messages.protocolentities import MessageProtocolEntity
+from ....structs import ProtocolTreeNode
+from ....layers.axolotl.protocolentities.enc import EncProtocolEntity
 class EncryptedMessageProtocolEntity(MessageProtocolEntity):
     '''
     <message retry="1" from="49xxxxxxxx@s.whatsapp.net" t="1418906418" offline="1" type="text" id="1418906377-1" notify="Tarek Galal">

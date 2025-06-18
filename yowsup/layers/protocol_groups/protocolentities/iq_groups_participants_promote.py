@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 from .iq_groups_participants  import ParticipantsGroupsIqProtocolEntity
 
 class PromoteParticipantsIqProtocolEntity(ParticipantsGroupsIqProtocolEntity):

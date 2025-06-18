@@ -1,5 +1,5 @@
 from .iq import IqProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 
 import base64
 class PushSetIdIqProtocolEntity(IqProtocolEntity):

@@ -1,4 +1,4 @@
-from yowsup.config.base import config
+from ...config.base import config
 import logging
 
 logger = logging.getLogger(__name__)
@@ -69,8 +69,8 @@ class Config(config.Config):
         self._fcm_cat = fcm_cat
 
     def __str__(self):
-        from yowsup.config.v1.serialize import ConfigSerialize
-        from yowsup.config.transforms.dict_json import DictJsonTransform
+        from ...config.v1.serialize import ConfigSerialize
+        from ...config.transforms.dict_json import DictJsonTransform
         return DictJsonTransform().transform(ConfigSerialize(self.__class__).serialize(self))
 
     @property

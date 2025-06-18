@@ -1,6 +1,6 @@
 from axolotl.state.appstatestore import AppStateStore
 import time
-from yowsup.layers.protocol_historysync.protocolentities.attributes import *
+from ....layers.protocol_historysync.protocolentities.attributes import *
 
 class LiteAppStateStore(AppStateStore):
 

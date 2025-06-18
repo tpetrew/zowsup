@@ -1,5 +1,5 @@
-from yowsup.layers.network.dispatcher.dispatcher import YowConnectionDispatcher
-from yowsup.common import asyncore
+from ....layers.network.dispatcher.dispatcher import YowConnectionDispatcher
+from ....common import asyncore
 import logging
 import socket
 import traceback

@@ -1,12 +1,12 @@
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_media import MediaAttributes
-from yowsup.common.tools import MimeTools
+from .....layers.protocol_messages.protocolentities.attributes.attributes_media import MediaAttributes
+from .....common.tools import MimeTools
 import base64
 import hashlib
 import os
 import random
 import time
-from yowsup.layers.protocol_messages.mediacipher import MediaCipher
-from yowsup.common.tools import WATools
+from .....layers.protocol_messages.mediacipher import MediaCipher
+from .....common.tools import WATools
 import requests
 import base64
 

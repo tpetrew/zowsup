@@ -1,6 +1,6 @@
-from yowsup.common import YowConstants
-from yowsup.layers import YowLayerEvent, YowProtocolLayer, EventCallback
-from yowsup.layers.network import YowNetworkLayer
+from ...common import YowConstants
+from ...layers import YowLayerEvent, YowProtocolLayer, EventCallback
+from ...layers.network import YowNetworkLayer
 from .protocolentities import *
 from .layer_interface_authentication import YowAuthenticationProtocolLayerInterface
 from .protocolentities import StreamErrorProtocolEntity
