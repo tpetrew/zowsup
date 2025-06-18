@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 class SuccessProtocolEntity(ProtocolEntity):
     def __init__(self, creation, props, t, location):
         super(SuccessProtocolEntity, self).__init__("success")

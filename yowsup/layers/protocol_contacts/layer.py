@@ -1,4 +1,4 @@
-from yowsup.layers import YowProtocolLayer
+from ...layers import YowProtocolLayer
 from .protocolentities import *
 import logging
 

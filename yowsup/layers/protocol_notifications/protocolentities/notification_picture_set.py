@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 from .notification_picture import PictureNotificationProtocolEntity
 class SetPictureNotificationProtocolEntity(PictureNotificationProtocolEntity):
     '''

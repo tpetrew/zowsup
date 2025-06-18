@@ -1,5 +1,5 @@
 from .iq import IqProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 class PropsIqProtocolEntity(IqProtocolEntity):
     def __init__(self):
         super(PropsIqProtocolEntity, self).__init__("w", _type="get",to="s.whatsapp.net")

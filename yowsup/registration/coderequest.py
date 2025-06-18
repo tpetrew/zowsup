@@ -1,8 +1,8 @@
-from yowsup.common.http.warequest import WARequest
-from yowsup.common.http.waresponseparser import JSONResponseParser
-from yowsup.common.tools import WATools
-from yowsup.registration.existsrequest import WAExistsRequest
-from yowsup.registration.clientlogrequest import WAClientLogRequest
+from ..common.http.warequest import WARequest
+from ..common.http.waresponseparser import JSONResponseParser
+from ..common.tools import WATools
+from ..registration.existsrequest import WAExistsRequest
+from ..registration.clientlogrequest import WAClientLogRequest
 
 import time
 import random

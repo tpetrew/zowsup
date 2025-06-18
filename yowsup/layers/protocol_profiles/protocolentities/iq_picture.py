@@ -1,4 +1,4 @@
-from yowsup.layers.protocol_iq.protocolentities import IqProtocolEntity
+from ....layers.protocol_iq.protocolentities import IqProtocolEntity
 class PictureIqProtocolEntity(IqProtocolEntity):
     '''
     When receiving a profile picture:

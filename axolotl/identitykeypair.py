@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .state.storageprotos_pb2 import IdentityKeyPairStructure
+from .protobuf.LocalStorageProtocol_pb2 import IdentityKeyPairStructure
 from .identitykey import IdentityKey
 from .ecc.curve import Curve
 

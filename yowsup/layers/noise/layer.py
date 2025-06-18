@@ -1,13 +1,13 @@
-from yowsup.layers.noise.workers.handshake import WANoiseProtocolHandshakeWorker
-from yowsup.layers import YowLayer, EventCallback
-from yowsup.layers.auth.layer_authentication import YowAuthenticationProtocolLayer
-from yowsup.layers.network.layer import YowNetworkLayer
-from yowsup.layers.noise.layer_noise_segments import YowNoiseSegmentsLayer
-from yowsup.layers import YowLayerEvent
-from yowsup.structs.protocoltreenode import ProtocolTreeNode
-from yowsup.layers.coder.encoder import WriteEncoder
-from yowsup.layers.coder.tokendictionary import TokenDictionary
-from yowsup.common.tools import WATools
+from ...layers.noise.workers.handshake import WANoiseProtocolHandshakeWorker
+from ...layers import YowLayer, EventCallback
+from ...layers.auth.layer_authentication import YowAuthenticationProtocolLayer
+from ...layers.network.layer import YowNetworkLayer
+from ...layers.noise.layer_noise_segments import YowNoiseSegmentsLayer
+from ...layers import YowLayerEvent
+from ...structs.protocoltreenode import ProtocolTreeNode
+from ...layers.coder.encoder import WriteEncoder
+from ...layers.coder.tokendictionary import TokenDictionary
+from ...common.tools import WATools
 from consonance.protocol import WANoiseProtocol
 from consonance.config.client import ClientConfig
 from consonance.config.useragent import UserAgentConfig

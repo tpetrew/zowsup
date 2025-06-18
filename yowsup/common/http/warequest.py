@@ -2,10 +2,10 @@ from .waresponseparser import ResponseParser
 
 import logging
 from axolotl.ecc.curve import Curve
-from yowsup.common.tools import WATools
+from ...common.tools import WATools
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from yowsup.config.v1.config import Config
-from yowsup.profile.profile import YowProfile
+from ...config.v1.config import Config
+from ...profile.profile import YowProfile
 import struct
 import base64
 import requests

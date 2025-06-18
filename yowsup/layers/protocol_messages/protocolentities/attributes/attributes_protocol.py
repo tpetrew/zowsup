@@ -1,4 +1,4 @@
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message_key import MessageKeyAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_message_key import MessageKeyAttributes
 
 
 class ProtocolAttributes(object):

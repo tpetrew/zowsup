@@ -1,6 +1,6 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
+from ....structs import ProtocolEntity, ProtocolTreeNode
 from .receipt import ReceiptProtocolEntity
-from yowsup.layers.protocol_acks.protocolentities  import OutgoingAckProtocolEntity
+from ....layers.protocol_acks.protocolentities  import OutgoingAckProtocolEntity
 
 class IncomingReceiptProtocolEntity(ReceiptProtocolEntity):
 

@@ -1,4 +1,4 @@
-from yowsup.common.http.warequest import WARequest
+from ..common.http.warequest import WARequest
 import random
 
 class WADobConsentRequest(WARequest):

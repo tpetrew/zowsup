@@ -1,4 +1,4 @@
-from yowsup.layers import YowProtocolLayer
+from ...layers import YowProtocolLayer
 from .protocolentities import *
 from ..protocol_iq.protocolentities import CleanDirtyIqProtocolEntity
 import logging

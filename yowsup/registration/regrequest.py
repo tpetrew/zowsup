@@ -1,14 +1,14 @@
 
-from yowsup.common.http.warequest import WARequest
-from yowsup.common.http.waresponseparser import JSONResponseParser
+from ..common.http.warequest import WARequest
+from ..common.http.waresponseparser import JSONResponseParser
 import base64
 
 from axolotl.ecc.curve import Curve
-from yowsup.axolotl.factory import AxolotlManagerFactory
+from ..axolotl.factory import AxolotlManagerFactory
 
 from proto import e2e_pb2
 import random
-from yowsup.registration.clientlogrequest import WAClientLogRequest
+from ..registration.clientlogrequest import WAClientLogRequest
 
 class WARegRequest(WARequest):
 

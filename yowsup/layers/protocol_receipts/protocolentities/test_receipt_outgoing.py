@@ -1,5 +1,5 @@
-from yowsup.layers.protocol_receipts.protocolentities import OutgoingReceiptProtocolEntity
-from yowsup.structs.protocolentity import ProtocolEntityTest
+from ....layers.protocol_receipts.protocolentities import OutgoingReceiptProtocolEntity
+from ....structs.protocolentity import ProtocolEntityTest
 import unittest
 
 class OutgoingReceiptProtocolEntityTest(ProtocolEntityTest, unittest.TestCase):

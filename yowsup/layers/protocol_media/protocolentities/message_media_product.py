@@ -1,7 +1,7 @@
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_message_meta import MessageMetaAttributes
 from .message_media import MediaMessageProtocolEntity
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_buttons_response import ButtonsResponseAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message import MessageAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_buttons_response import ButtonsResponseAttributes
+from ....layers.protocol_messages.protocolentities.attributes.attributes_message import MessageAttributes
 
 
 class ProductMediaMessageProtocolEntity(MediaMessageProtocolEntity):

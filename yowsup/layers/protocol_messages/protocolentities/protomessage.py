@@ -1,6 +1,6 @@
 from .message import MessageProtocolEntity
 from .proto import ProtoProtocolEntity
-from yowsup.layers.protocol_messages.protocolentities.attributes.converter import AttributesConverter
+from ....layers.protocol_messages.protocolentities.attributes.converter import AttributesConverter
 from proto.e2e_pb2 import Message
 import logging
 

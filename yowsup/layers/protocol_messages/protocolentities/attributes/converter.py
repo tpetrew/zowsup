@@ -2,14 +2,14 @@ from proto  import e2e_pb2
 from proto import protocol_pb2
 from proto.e2e_pb2 import ContextInfo
 import os,time
-from yowsup.layers.protocol_messages.protocolentities.attributes  import *
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_sender_key_distribution_message import \
+from .....layers.protocol_messages.protocolentities.attributes  import *
+from .....layers.protocol_messages.protocolentities.attributes.attributes_sender_key_distribution_message import \
     SenderKeyDistributionMessageAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_protocol import ProtocolAttributes
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_message_key import MessageKeyAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_protocol import ProtocolAttributes
+from .....layers.protocol_messages.protocolentities.attributes.attributes_message_key import MessageKeyAttributes
 
-from yowsup.layers.protocol_historysync.protocolentities.attributes.attributes_initial_security_notification_setting_sync import InitialSecurityNotificationSettingSyncAttribute
-from yowsup.layers.protocol_historysync.protocolentities.attributes.attributes_history_sync_notification import HistorySyncNotificationAttribute
+from .....layers.protocol_historysync.protocolentities.attributes.attributes_initial_security_notification_setting_sync import InitialSecurityNotificationSettingSyncAttribute
+from .....layers.protocol_historysync.protocolentities.attributes.attributes_history_sync_notification import HistorySyncNotificationAttribute
 
 class AttributesConverter(object):
 

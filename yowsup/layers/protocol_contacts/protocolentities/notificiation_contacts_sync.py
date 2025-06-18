@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 from .notification_contact import ContactNotificationProtocolEntity
 class ContactsSyncNotificationProtocolEntity(ContactNotificationProtocolEntity):
     '''

@@ -1,4 +1,4 @@
-from yowsup.structs import ProtocolTreeNode
+from ...structs import ProtocolTreeNode
 import math
 import binascii
 import sys

@@ -1,4 +1,4 @@
-from yowsup.layers import YowLayerInterface
+from ...layers import YowLayerInterface
 class YowNetworkLayerInterface(YowLayerInterface):
     def connect(self):
         self._layer.createConnection()

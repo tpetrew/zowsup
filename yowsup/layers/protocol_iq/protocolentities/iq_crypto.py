@@ -1,5 +1,5 @@
 from .iq import IqProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....structs import ProtocolTreeNode
 import codecs
 class CryptoIqProtocolEntity(IqProtocolEntity):
     def __init__(self):

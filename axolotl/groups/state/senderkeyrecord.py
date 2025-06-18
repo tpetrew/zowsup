@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from ...state.storageprotos_pb2 import SenderKeyRecordStructure
+from ...protobuf.LocalStorageProtocol_pb2  import SenderKeyRecordStructure
 from .senderkeystate import SenderKeyState
 from ...invalidkeyidexception import InvalidKeyIdException
 

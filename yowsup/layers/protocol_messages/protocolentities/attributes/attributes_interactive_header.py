@@ -1,7 +1,7 @@
 from .attributes_image import ImageAttributes
 from .attributes_video import VideoAttributes
 from .attributes_document import DocumentAttributes
-from yowsup.common.optionalmodules import PILOptionalModule
+from .....common.optionalmodules import PILOptionalModule
 import io
 import requests
 import base64

@@ -1,5 +1,5 @@
-from yowsup.common.tools import ImageTools
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia \
+from .....common.tools import ImageTools
+from .....layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia \
     import DownloadableMediaMessageAttributes
 import os
 import requests

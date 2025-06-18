@@ -1,8 +1,8 @@
 
-from yowsup.layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia import DownloadableMediaMessageAttributes
-from yowsup.layers.protocol_messages.protocolentities import *
-from yowsup.layers.protocol_messages.protocolentities.attributes import * 
-from yowsup.layers.protocol_historysync.protocolentities.attributes import *
+from ....layers.protocol_messages.protocolentities.attributes.attributes_downloadablemedia import DownloadableMediaMessageAttributes
+from ....layers.protocol_messages.protocolentities import *
+from ....layers.protocol_messages.protocolentities.attributes import * 
+from ....layers.protocol_historysync.protocolentities.attributes import *
 from common.utils import Utils
 class HistorySync(object):
 

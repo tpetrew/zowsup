@@ -1,5 +1,5 @@
-from yowsup.layers.protocol_iq.protocolentities import IqProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....layers.protocol_iq.protocolentities import IqProtocolEntity
+from ....structs import ProtocolTreeNode
 class PrivacyListIqProtocolEntity(IqProtocolEntity):
     def __init__(self, name = "default"):
         super(PrivacyListIqProtocolEntity, self).__init__("jabber:iq:privacy", _type="get")

@@ -1,4 +1,4 @@
-from yowsup.layers import YowProtocolLayer
+from ...layers import YowProtocolLayer
 from .protocolentities import ImageDownloadableMediaMessageProtocolEntity
 from .protocolentities import AudioDownloadableMediaMessageProtocolEntity
 from .protocolentities import VideoDownloadableMediaMessageProtocolEntity
@@ -12,7 +12,7 @@ from .protocolentities import ExtendedTextMediaMessageProtocolEntity
 from .protocolentities import ButtonsResponseMediaMessageProtocolEntity
 from .protocolentities import ListResponseMediaMessageProtocolEntity
 from .protocolentities import ProductMediaMessageProtocolEntity
-from yowsup.layers.protocol_iq.protocolentities import IqProtocolEntity, ErrorIqProtocolEntity
+from ...layers.protocol_iq.protocolentities import IqProtocolEntity, ErrorIqProtocolEntity
 import logging
 import traceback
 

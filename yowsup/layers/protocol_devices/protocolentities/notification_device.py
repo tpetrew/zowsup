@@ -1,5 +1,5 @@
-from yowsup.structs import ProtocolEntity, ProtocolTreeNode
-from yowsup.layers.protocol_notifications.protocolentities import NotificationProtocolEntity
+from ....structs import ProtocolEntity, ProtocolTreeNode
+from ....layers.protocol_notifications.protocolentities import NotificationProtocolEntity
 class DeviceNotificationProtocolEntity(NotificationProtocolEntity):
     '''
     <notification  id="{{NOTIFICATION_ID}}"  type="contacts" 

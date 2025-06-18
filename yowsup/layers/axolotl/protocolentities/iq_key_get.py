@@ -1,6 +1,6 @@
-from yowsup.common import YowConstants
-from yowsup.layers.protocol_iq.protocolentities import IqProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....common import YowConstants
+from ....layers.protocol_iq.protocolentities import IqProtocolEntity
+from ....structs import ProtocolTreeNode
 
 
 class GetKeysIqProtocolEntity(IqProtocolEntity):

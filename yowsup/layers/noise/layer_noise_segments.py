@@ -1,4 +1,4 @@
-from yowsup.layers import YowLayer
+from ...layers import YowLayer
 
 import logging
 import struct

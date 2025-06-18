@@ -1,9 +1,9 @@
-from yowsup.config.base import serialize
-from yowsup.config.transforms.filter import FilterTransform
-from yowsup.config.transforms.meta import MetaPropsTransform
-from yowsup.config.transforms.map import MapTransform
-from yowsup.config.transforms.config_dict import ConfigDictTransform
-from yowsup.config.transforms.props import PropsTransform
+from ...config.base import serialize
+from ...config.transforms.filter import FilterTransform
+from ...config.transforms.meta import MetaPropsTransform
+from ...config.transforms.map import MapTransform
+from ...config.transforms.config_dict import ConfigDictTransform
+from ...config.transforms.props import PropsTransform
 
 from consonance.structs.keypair import KeyPair
 from consonance.structs.publickey import PublicKey

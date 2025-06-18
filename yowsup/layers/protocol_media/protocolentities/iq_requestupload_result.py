@@ -1,6 +1,6 @@
-from yowsup.common import YowConstants
-from yowsup.layers.protocol_iq.protocolentities import ResultIqProtocolEntity
-from yowsup.structs import ProtocolTreeNode
+from ....common import YowConstants
+from ....layers.protocol_iq.protocolentities import ResultIqProtocolEntity
+from ....structs import ProtocolTreeNode
 class ResultRequestUploadIqProtocolEntity(ResultIqProtocolEntity):
     def __init__(self, _id, url, ip = None, resumeOffset = 0, duplicate = False):
         super(ResultRequestUploadIqProtocolEntity, self).__init__(_id = _id, _from = "s.whatsapp.net")

@@ -1,5 +1,5 @@
-from yowsup.layers.protocol_iq.protocolentities import ResultIqProtocolEntity
-from yowsup.common import YowConstants
+from ....layers.protocol_iq.protocolentities import ResultIqProtocolEntity
+from ....common import YowConstants
 
 class ResultKeyCountIqProtocolEntity(ResultIqProtocolEntity):
 
