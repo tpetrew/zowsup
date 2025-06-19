@@ -100,34 +100,38 @@ DEFAULT_ENV=android                       #default environment
 ```
 main.py [account-number] [command] [commandParams]
 
-[command]           |   [description]
------------------------------------------------------------------------
-account.getavatar   |   get account avatar                                
-account.init        |   initialize the account (for the 1st login)        
-account.set2fa      |   set 2fa for account                               
-account.setavatar   |   set account avatar                                
-account.setname     |   set account name                                  
-contact.getavatar   |   get account avatar                                
-contact.sync        |   sync contacts                                     
-contact.trust       |   trust contact                                     
-group.add           |   add member(s) to group                            
-group.approve       |   approve participants to join the group            
-group.create        |   create a group                                    
-group.demote        |   demote group member(s) from admin                 
-group.getinvite     |   get the invite code of group                      
-group.info          |   show group information                            
-group.join          |   join group with an invite code                    
-group.leave         |   leave group                                       
-group.promote       |   promote group member(s) to admin                  
-group.remove        |   remove a member from group                        
-group.seticon       |   set icon for group                                
-md.linkdevice       |   link to companion device with qrcode-str          
-md.removedevice     |   remove companion device(s)                        
-msg.edit            |   edit message                                      
-msg.revoke          |   revoke message                                    
-msg.send            |   send message                                      
-msg.sendmedia       |   send media message                                
------------------------------------------------------------------------
+[command]                     |   [description]
+----------------------------------------------------------------------------
+account.getavatar             | get account avatar
+account.getemail              | get account email
+account.init                  | initialize the account (for the 1st login)
+account.set2fa                | set account 2fa
+account.setavatar             | set account avatar
+account.setemail              | set account email
+account.setname               | set account name
+account.verifyemail           | request email verification
+account.verifyemailcode       | verify email code
+contact.getavatar             | get account avatar
+contact.sync                  | sync contacts
+contact.trust                 | trust contact
+group.add                     | add member(s) to group
+group.approve                 | approve participants to join the group
+group.create                  | create a group
+group.demote                  | demote group member(s) from admin
+group.getinvite               | get the invite code of group
+group.info                    | show group information
+group.join                    | join group with an invite code
+group.leave                   | leave group
+group.promote                 | promote group member(s) to admin
+group.remove                  | remove a member from group
+group.seticon                 | set icon for group
+md.link                       | link to companion device with qrcode-str
+md.remove                     | remove companion device(s)
+msg.edit                      | edit message
+msg.revoke                    | revoke message
+msg.send                      | send message
+msg.sendmedia                 | send media message
+----------------------------------------------------------------------------
 ```
 
 
