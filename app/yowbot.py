@@ -155,9 +155,14 @@ class YowBot:
 
     def printUsage():
         members = inspect.getmembers(YowBot, predicate = inspect.isfunction)
+
+        cmdmembers = list(filter(lambda m: hasattr(m[1], "desc"), members))
+
+        cmdmembers.sort(key=lambda m: m[1].cmd)
+        
         print("[command]           |   [description]")
         print("-----------------------------------------------------------------------")
-        for m in members:            
+        for m in cmdmembers:            
             if hasattr(m[1], "desc"):                
                 fn = m[1]
                 print("%s|\t%s" % (m[1].cmd.ljust(20,' '), m[1].desc.ljust(50,' ')))
@@ -275,27 +280,27 @@ class YowBot:
     =========================THE FOLLOWING is THE DEMO COMMANDS ==========================
     '''
     
-    @BotCmd("send","send message to peer")
+    @BotCmd("msg.send","send message")
     def sendMsg(self,params,options):                 
         return self.sendLayer.sendMsg(params,options)     
 
-    @BotCmd("sendmedia","send media message to  peer")
+    @BotCmd("msg.sendmedia","send media message")
     def sendMediaMsg(self,params,options):                    
         return self.sendLayer.sendMediaMsg(params,options)  
     
-    @BotCmd("revokemsg","revoke message")
+    @BotCmd("msg.revoke","revoke message")
     def revokeMsg(self,params,options):
         return self.sendLayer.revokeMsg(params,options)
 
-    @BotCmd("editmsg","edit message")
+    @BotCmd("msg.edit","edit message")
     def editMsg(self,params,options):
         return self.sendLayer.editMsg(params,options)
 
-    @BotCmd("sync", "sync contacts")
+    @BotCmd("contact.sync", "sync contacts")
     def syncContacts(self,params,options):                
         return self.sendLayer.syncContacts(params,options)
 
-    @BotCmd("init", "initialize (first login)")        
+    @BotCmd("account.init", "initialize the account (for the 1st login)")        
     def intialize(self,params,options):    
         time.sleep(5)  #wait 5 seconds
         self.sendLayer.getConfig(params,options)    
@@ -303,27 +308,27 @@ class YowBot:
         self.setSelfName(params,options)
         return "JUSTWAIT"     
     
-    @BotCmd("getgroupinvite", "get the invite code of a group")
+    @BotCmd("group.getinvite", "get the invite code of group")
     def getgroupinvite(self,params,options):
         return self.sendLayer.getGroupInvite(params,options)    
         
-    @BotCmd("joingroup", "join group with a invite code")        
+    @BotCmd("group.join", "join group with an invite code")        
     def joinGroupWithCode(self,params,options):   
         return self.sendLayer.joinGroupWithCode(params,options)
 
-    @BotCmd("leavegroup", "leave group")        
+    @BotCmd("group.leave", "leave group")        
     def leavegroup(self,params,options):   
         return self.sendLayer.leaveGroup(params,options)
 
-    @BotCmd("setavatar", "set account avatar")
+    @BotCmd("account.setavatar", "set account avatar")
     def setAvatar(self,params,options):                
         return self.sendLayer.setAvatar(params,options)  
     
-    @BotCmd("trustcontact","trust contact")
+    @BotCmd("contact.trust","trust contact")
     def trustContact(self,params,options):
         return self.sendLayer.trustContact(params,options)    
 
-    @BotCmd("setselfname", "set account name")
+    @BotCmd("account.setname", "set account name")
     def setSelfName(self, params,options):            
         if len(params)==0:
             params=[names.get_full_name()]
@@ -339,61 +344,60 @@ class YowBot:
             })        
             return id
             
-    @BotCmd("set2fa","set account 2fa")
+    @BotCmd("account.set2fa","set 2fa for account")
     def set2FA(self,params,options):
         return self.sendLayer.set2FA(params,options)
 
-    @BotCmd("creategroup","create group")
+    @BotCmd("group.create","create a group")
     def makeGroup(self,params,options):
         return self.sendLayer.createGroup(params,options)
     
-    @BotCmd("groupadd","add member to group")
+    @BotCmd("group.add","add member(s) to group")
     def groupAdd(self,params,options):
         return self.sendLayer.groupAdd(params,options)
     
-    @BotCmd("grouppromote","promote group member (to admin)")
+    @BotCmd("group.promote","promote group member(s) to admin")
     def groupPromote(self,params,options):
         return self.sendLayer.groupPromote(params,options)
 
-    @BotCmd("groupdemote","demote group member (from admin) ")
+    @BotCmd("group.demote","demote group member(s) from admin")
     def groupDemote(self,params,options):
         return self.sendLayer.groupDemote(params,options)
 
-    @BotCmd("groupremove","remove member from group ")
+    @BotCmd("group.remove","remove a member from group ")
     def groupRemove(self,params,options):
         return self.sendLayer.groupRemove(params,options)
 
-    @BotCmd("groupinfo","show the group info")
+    @BotCmd("group.info","show group information")
     def groupInfo(self,params,options):
         return self.sendLayer.groupInfo(params,options)
 
-    @BotCmd("groupapprove","approve participants to join the group")
+    @BotCmd("group.approve","approve participants to join the group")
     def groupApprove(self,params,options):
         self.sendLayer.groupApprove(params,options)
 
-    @BotCmd("setgroupicon","set icon for group")
+    @BotCmd("group.seticon","set icon for group")
     def setGroupPicture(self,params,options):
         return self.sendLayer.setGroupIcon(params,options)
 
-    @BotCmd("getavatar", "get account avatar")
-    def getAvatar(self,params,options):
+    @BotCmd("account.getavatar", "get account avatar")
+    def getSelfAvatar(self,params,options):
         return self.sendLayer.getAvatar(params,options)
     
-    @BotCmd("mdlink","link to companion device with qrcode-str")
+    @BotCmd("contact.getavatar", "get account avatar")
+    def getContactAvatar(self,params,options):
+        return self.sendLayer.getAvatar(params,options)
+    
+    @BotCmd("md.linkdevice","link to companion device with qrcode-str")
     def multiDeviceLink(self,params,options):
         self.sendLayer.resetSync(params,options)
         time.sleep(3)
         self.sendLayer.multiDeviceLink(params,options)
         return "JUSTWAIT"
     
-    @BotCmd("mdremove","remove companion device(s)")
+    @BotCmd("md.removedevice","remove companion device(s)")
     def multiDeviceRemove(self,params,options):
         return self.sendLayer.multiDeviceRemove(params,options)       
-    
-    @BotCmd("setdisappearing","set message disappearing time")
-    def setDisappearing(self,params,options):
-        return self.sendLayer.setDisappearing(params,options)
-
                       
 if __name__ == "__main__":    
     

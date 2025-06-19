@@ -1,4 +1,3 @@
-from ....structs import ProtocolEntity, ProtocolTreeNode
 from .notification import NotificationProtocolEntity
 from proto import e2e_pb2
 class BusinessNameUpdateNotificationProtocolEntity(NotificationProtocolEntity):
@@ -21,7 +20,6 @@ class BusinessNameUpdateNotificationProtocolEntity(NotificationProtocolEntity):
         self.v = v
         self.name = name
 
-    
     @staticmethod
     def fromProtocolTreeNode(node):
         entity = NotificationProtocolEntity.fromProtocolTreeNode(node)
