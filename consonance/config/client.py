@@ -16,6 +16,7 @@ class ClientConfig(object):
                  useragent,
                  pushname,
                  short_connect=True,
+                 connect_reason=None
                  ):
         """
         :param username:
@@ -34,6 +35,7 @@ class ClientConfig(object):
         self._useragent = useragent
         self._pushname = pushname
         self._short_connect = short_connect
+        self._connect_reason = connect_reason
 
     def __str__(self):
         return self.STR_TEMPLATE.format(
@@ -41,7 +43,8 @@ class ClientConfig(object):
             passive=self.passive,
             useragent=self.useragent,
             pushname=self.pushname,
-            short_connect=self.short_connect
+            short_connect=self.short_connect,
+            connect_reason = self._connect_reason
         )
 
     @property
@@ -63,3 +66,7 @@ class ClientConfig(object):
     @property
     def short_connect(self):
         return self._short_connect
+    
+    @property
+    def connect_reason(self):
+        return self._connect_reason

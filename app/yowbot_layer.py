@@ -228,22 +228,25 @@ class SendLayer(YowInterfaceLayer):
         if self.isConnected:     
             self.eventCallback(wsend_pb2.BotEvent.Event.LOGOUT)
 
-        self.isConnected = False        
-    
-        if (not self.detect40x) and (not self.userQuit):      
-            self.bot.wa_old = None               
-            self.loginEvent.clear()
-            time.sleep(1)
-            self.getStack().broadcastEvent(YowLayerEvent(YowNetworkLayer.EVENT_STATE_CONNECT))  
-        else:     
-            if not self.getProp("HC_MODE"):                                
-                self.eventCallback(wsend_pb2.BotEvent.Event.QUIT)                
-                if self.userQuit :                
-                    Utils.exit(0)    
-                else:            
-                    Utils.exit(1)         
-            else:                
-                time.sleep(1)        
+
+            self.isConnected = False        
+        
+            if (not self.detect40x) and (not self.userQuit):      
+                self.bot.wa_old = None               
+                self.loginEvent.clear()
+                time.sleep(1)
+                self.getStack().broadcastEvent(YowLayerEvent(YowNetworkLayer.EVENT_STATE_CONNECT))  
+            else:     
+                if not self.getProp("HC_MODE"):                                
+                    self.eventCallback(wsend_pb2.BotEvent.Event.QUIT)                
+                    if self.userQuit :                
+                        Utils.exit(0)    
+                    else:            
+                        Utils.exit(1)         
+                else:                
+                    time.sleep(1)        
+        else:
+            self.logger.info("NOT CONNECTED WHEN DISCONNECT")
     
     @ProtocolEntityCallback("notification")
     def onNotification(self,entity):        

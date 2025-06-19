@@ -169,6 +169,7 @@ message ClientPayload {
       HARDCODED = 2;
       OVERRIDE = 3;
       FALLBACK = 4;
+      MNS = 5;
     }
 
     optional DNSResolutionMethod dns_method = 15;
@@ -195,10 +196,19 @@ message ClientPayload {
     MESSENGER = 1;
     INTEROP =2;
     INTEROP_MSGR =3;
+    WHATSAPP_LID = 4;
   }
 
-	  
+	enum AccountType {
+		DEFAULT = 0;
+		GUEST = 1;
+	}  
 
+	enum TrafficAnonymization {
+		OFF = 0;
+		STANDARD = 1;
+	}  
+	  
   optional uint64 username = 1;  // phone number for WhatsApp, FBID for Messenger/IG
   // optional bytes legacy_password = 2 [deprecated=true];
   optional bool passive = 3;
@@ -236,8 +246,10 @@ message ClientPayload {
   optional bytes padding_bytes = 34;
   optional int32 year_class = 36;
   optional int32 mem_class = 37;
-  optional InteropData interop_data = 38;
-  optional bool is_pcr = 39;
+  optional InteropData interop_data = 38;  
+	optional TrafficAnonymization traffic_anonymization = 40;
+	optional bool lid_db_migrated = 41;
+	optional AccountType account_type = 42;  
 }
 
 // NOTE: when you make any change, please update both wa5.proto and wa5_chatd.proto

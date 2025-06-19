@@ -215,7 +215,7 @@ class YowNoiseLayer(YowLayer):
                         device_model_type=yowsupenv.getDeviceModelType()
                     ),
                     pushname=config.pushname or self.DEFAULT_PUSHNAME,
-                    short_connect=True
+                    short_connect=True                                      
                 )
 
                 if not self._in_handshake():

@@ -23,9 +23,9 @@ class AsyncoreConnectionDispatcher(YowConnectionDispatcher, asyncore.dispatcher_
     def connect(self, host):
         logger.debug("connect(%s)" % str(host))
         self.connectionCallbacks.onConnecting()
-        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-        asyncore.dispatcher_with_send.connect(self, host)
-        asyncore.loop(timeout=1)
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)        
+        asyncore.dispatcher_with_send.connect(self, host)        
+        asyncore.loop(timeout=10)
 
     def handle_connect(self):
         logger.debug("handle_connect")

@@ -130,6 +130,8 @@ def readwrite(obj, flags):
 def poll(timeout=0.0, map=None):    
     if map is None:
         map = socket_map
+
+     
     if map:
         r = []; w = []; e = []
         for fd, obj in list(map.items()):
@@ -196,14 +198,13 @@ def poll2(timeout=0.0, map=None):
 def loop(timeout=30.0, use_poll=True, map=None, count=None):
     if map is None:
         map = socket_map
-
-
     
+    time.sleep(0.2) #some proxied network issue， temporary code
 
     if use_poll and hasattr(select, 'poll'):        
-        poll_fun = poll2
+        poll_fun = poll2        
     else:        
-        poll_fun = poll
+        poll_fun = poll        
 
     if count is None:
         while map:            

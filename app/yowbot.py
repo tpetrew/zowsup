@@ -127,27 +127,21 @@ class YowBot:
         else:
             logger.info("Login start")           
             logger.info("AccountFile=%s" % self.profile)
+                           
+        try :                            
+            self.inloop = True            
+            self._stack.broadcastEvent(YowLayerEvent(YowNetworkLayer.EVENT_STATE_CONNECT))                                         
+            self._stack.loop()                   
 
-        while True:                     
-            try :                            
-                self.inloop = True            
-                self._stack.broadcastEvent(YowLayerEvent(YowNetworkLayer.EVENT_STATE_CONNECT))                                         
-                self._stack.loop()   
-
-                if self.sendLayer.userQuit:
-                    break
-
-            except KeyboardInterrupt:      
-                self.inloop = False
-                self.disconnect()       
-                break     
-            except socks.SOCKS5Error:
-                logger.info("PROXY ERROR, CHANGE IP AND RECONNECT")
-                self.env.networkEnv.changeIP(self.bot_api.botId)     
-            except OSError:
-                self.inloop = False 
-                self.disconnect()              
-                break
+        except KeyboardInterrupt:      
+            self.inloop = False
+            self.disconnect()                   
+        except socks.SOCKS5Error:
+            logger.info("PROXY ERROR, CHANGE IP AND RECONNECT")
+            self.env.networkEnv.changeIP(self.bot_api.botId)     
+        except OSError:
+            self.inloop = False 
+            self.disconnect()                          
     
             
     def waitLogin(self):
