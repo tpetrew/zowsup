@@ -160,13 +160,13 @@ class YowBot:
 
         cmdmembers.sort(key=lambda m: m[1].cmd)
         
-        print("[command]           |   [description]")
-        print("-----------------------------------------------------------------------")
+        print("[command]                     |   [description]")
+        print("----------------------------------------------------------------------------")
         for m in cmdmembers:            
             if hasattr(m[1], "desc"):                
                 fn = m[1]
-                print("%s|\t%s" % (m[1].cmd.ljust(20,' '), m[1].desc.ljust(50,' ')))
-        print("-----------------------------------------------------------------------")
+                print("%s|\t%s" % (m[1].cmd.ljust(30,' '), m[1].desc.ljust(50,' ')))
+        print("----------------------------------------------------------------------------")
 
     def disconnect(self):        
         self.sendLayer.userQuit = True        
@@ -343,8 +343,26 @@ class YowBot:
                 "status":"OK"
             })        
             return id
+        
+    @BotCmd("account.setemail", "set account email")
+    def setEmail(self,params,options):
+        self.sendLayer.setEmail(params,options)   
+        time.sleep(2)
+        return self.sendLayer.verifyEmail([],{})
+    
+    @BotCmd("account.getemail", "get account email")
+    def getEmail(self,params,options):
+        return self.sendLayer.getEmail(params,options)  
+    
+    @BotCmd("account.verifyemail", "request email verification")
+    def verifyEmail(self,params,options):
+        return self.sendLayer.verifyEmail(params,options)  
+    
+    @BotCmd("account.verifyemailcode", "verify email code")
+    def verifyEmailCode(self,params,options):
+        return self.sendLayer.verifyEmailCode(params,options)          
             
-    @BotCmd("account.set2fa","set 2fa for account")
+    @BotCmd("account.set2fa","set account 2fa")
     def set2FA(self,params,options):
         return self.sendLayer.set2FA(params,options)
 
@@ -388,14 +406,14 @@ class YowBot:
     def getContactAvatar(self,params,options):
         return self.sendLayer.getAvatar(params,options)
     
-    @BotCmd("md.linkdevice","link to companion device with qrcode-str")
+    @BotCmd("md.link","link to companion device with qrcode-str")
     def multiDeviceLink(self,params,options):
         self.sendLayer.resetSync(params,options)
         time.sleep(3)
         self.sendLayer.multiDeviceLink(params,options)
         return "JUSTWAIT"
     
-    @BotCmd("md.removedevice","remove companion device(s)")
+    @BotCmd("md.remove","remove companion device(s)")
     def multiDeviceRemove(self,params,options):
         return self.sendLayer.multiDeviceRemove(params,options)       
                       
