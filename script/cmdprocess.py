@@ -36,9 +36,12 @@ class CmdProcess:
                 self.bot.disconnect()                 
             else:
                 logger.info("BOT %s ready，starting command" % self.bot.botId)                
-                waitTime = 0                
+                waitTime = 0            
+
                 if self.args[0]=="init":                
                     waitTime = 10                            
+                elif self.args[0]=="mdlink":
+                    waitTime = 60
                 else:
                     waitTime = 20
 

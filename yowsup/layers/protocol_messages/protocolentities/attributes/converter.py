@@ -79,8 +79,7 @@ class AttributesConverter(object):
         return message
     
     def disappearing_mode_to_proto(self,disappearing_mode_attributes):
-        message = e2e_pb2.DisappearingMode()
-        print(disappearing_mode_attributes)
+        message = e2e_pb2.DisappearingMode()        
         if disappearing_mode_attributes.initiator is not None:
             message.initiator = disappearing_mode_attributes.initiator 
 
@@ -908,8 +907,6 @@ class AttributesConverter(object):
 
     def proto_to_message(self, proto,from_jid=None,message_db=None):
 
-        print(proto)
-
         # from_jid message_secret 两个参数，目前只在pollupdate里面用到，到时候再优化                    
         if proto.HasField("device_sent_message"):            
             proto = proto.device_sent_message.message            
@@ -930,23 +927,15 @@ class AttributesConverter(object):
         image = self.proto_to_image(proto.image_message) if proto.HasField("image_message") else None
         contact = self.proto_to_contact(proto.contact_message) if proto.HasField("contact_message") else None
         location = self.proto_to_location(proto.location_message) if proto.HasField("location_message") else None
-        extended_text = self.proto_to_extendedtext(proto.extended_text_message) \
-            if proto.HasField("extended_text_message") else None
-                
-        document = self.proto_to_document(proto.document_message) \
-            if proto.HasField("document_message") else None
+        extended_text = self.proto_to_extendedtext(proto.extended_text_message) if proto.HasField("extended_text_message") else None                            
+        document = self.proto_to_document(proto.document_message) if proto.HasField("document_message") else None            
         audio = self.proto_to_audio(proto.audio_message) if proto.HasField("audio_message") else None
         video = self.proto_to_video(proto.video_message) if proto.HasField("video_message") else None
         sticker = self.proto_to_sticker(proto.sticker_message) if proto.HasField("sticker_message") else None
-
         reaction = self.proto_to_reaction(proto.reaction_message) if proto.HasField("reaction_message") else None
-
         template = self.proto_to_template(proto.template_message) if proto.HasField("template_message") else None
-
         buttons_response = self.proto_to_buttons_response(proto.buttons_response_message) if proto.HasField("buttons_response_message") else None
-
         poll_creation = self.proto_to_poll_creation(proto.pollCreationMessageV3,proto.message_context_info) if proto.HasField("pollCreationMessageV3") else None
-
 
         if proto.HasField("poll_update_message"):            
             poll_update = self.proto_to_poll_update(proto.poll_update_message,from_jid = from_jid,message_db=message_db)
@@ -954,9 +943,7 @@ class AttributesConverter(object):
             poll_update = None
 
         list_response = self.proto_to_list_response(proto.list_response_message) if proto.HasField("list_response_message") else None
-
         product = self.proto_to_product(proto.product_message) if proto.HasField("product_message") else None
-
         sender_key_distribution_message = self.proto_to_sender_key_distribution_message(
             proto.sender_key_distribution_message
         ) if proto.HasField("sender_key_distribution_message") else None

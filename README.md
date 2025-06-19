@@ -102,30 +102,31 @@ main.py [account-number] [command] [commandParams]
 
 [command]           |   [description]
 -----------------------------------------------------------------------
-editmsg             |   edit message                                      
-getavatar           |   get account avatar                                
-getgroupinvite      |   get the invite code of a group                    
-groupadd            |   add member to group                               
-groupapprove        |   approve participants to join the group            
-groupdemote         |   demote group member (from admin)                  
-groupinfo           |   show the group info                               
-grouppromote        |   promote group member (to admin)                   
-groupremove         |   remove member from group                          
-init                |   initialize (first login)                          
-joingroup           |   join group with a invite code                     
-leavegroup          |   leave group                                       
-creategroup         |   create group                                      
-mdlink              |   link to companion device with qrcode-str          
-mdremove            |   remove companion device(s)                        
-revokemsg           |   revoke message                                    
-sendmedia           |   send media message to  peer                       
-send                |   send message to peer                              
-set2fa              |   set account 2fa                                   
-setavatar           |   set account avatar                                
-setgroupicon        |   set icon for group                                
-setselfname         |   set account name                                  
-sync                |   sync contacts                                     
-trustcontact        |   trust contact                                     
+account.getavatar   |   get account avatar                                
+account.init        |   initialize the account (for the 1st login)        
+account.set2fa      |   set 2fa for account                               
+account.setavatar   |   set account avatar                                
+account.setname     |   set account name                                  
+contact.getavatar   |   get account avatar                                
+contact.sync        |   sync contacts                                     
+contact.trust       |   trust contact                                     
+group.add           |   add member(s) to group                            
+group.approve       |   approve participants to join the group            
+group.create        |   create a group                                    
+group.demote        |   demote group member(s) from admin                 
+group.getinvite     |   get the invite code of group                      
+group.info          |   show group information                            
+group.join          |   join group with an invite code                    
+group.leave         |   leave group                                       
+group.promote       |   promote group member(s) to admin                  
+group.remove        |   remove a member from group                        
+group.seticon       |   set icon for group                                
+md.linkdevice       |   link to companion device with qrcode-str          
+md.removedevice     |   remove companion device(s)                        
+msg.edit            |   edit message                                      
+msg.revoke          |   revoke message                                    
+msg.send            |   send message                                      
+msg.sendmedia       |   send media message                                
 -----------------------------------------------------------------------
 ```
 

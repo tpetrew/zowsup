@@ -1564,6 +1564,27 @@ class SendLayer(YowInterfaceLayer):
         self.toLower(entity)
         return entity.getId()        
     
+    def setEmail(self,cmdParams,options):
+        entity = SetEmailIqProtocolEntity(email=cmdParams[0])
+        self.toLower(entity)
+        return entity.getId()
+    
+    def getEmail(self,cmdParams,options):
+        entity = GetEmailIqProtocolEntity()
+        self.toLower(entity)
+        return entity.getId()
+    
+    def verifyEmail(self,cmdParams,options):
+        entity = VerifyEmailIqProtocolEntity()
+        self.toLower(entity)
+        return entity.getId()
+    
+    def verifyEmailCode(self,cmdParams,options):
+        entity = VerifyEmailCodeIqProtocolEntity(code=cmdParams[0])
+        self.toLower(entity)
+        return entity.getId()
+
+    
     def setDisappearing(self,cmdParams,options):
         if len(cmdParams)==1:
             disappearingTime = 86400
