@@ -51,7 +51,8 @@ class Utils:
         q1 = wa_struct_pb2.ADVKeyIndexList()
         q1.raw_id = p1.raw_id
         q1.timestamp = p1.timestamp
-        q1.valid_indexes.extend(profile.config.device_list)
+        if profile.config.device_list:
+            q1.valid_indexes.extend(profile.config.device_list)
 
         q2 = wa_struct_pb2.ADVSignedKeyIndexList()
         q2.details = q1.SerializeToString()

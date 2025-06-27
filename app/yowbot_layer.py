@@ -419,6 +419,8 @@ class SendLayer(YowInterfaceLayer):
                 self.resetSync([],{})
                 time.sleep(3)                
                 profile = self.getProp("profile")
+                print(profile)
+                print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 ref,pubKey,deviceIdentity,keyIndexList = Utils.generateMultiDeviceParams(ref,companionServerAuthKeyPub,companionIdentityPublic,advSecretPublicKey,profile)                                                
                 entity = MultiDevicePairDeviceIqProtocolEntity(ref=ref,pubKey=pubKey,deviceIdentity=deviceIdentity,keyIndexList=keyIndexList)                
 
