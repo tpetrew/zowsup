@@ -5,8 +5,7 @@ import random
 from .env_tools import EnvTools
 
 class EnvSmbAndroid(object):
-    def __init__(self,
-                 version = "2.25.16.82",                   
+    def __init__(self,                
                  osVersion = "11.0.0",
                  deviceName = "Mi11 Pro 5G",
                  buildVersion = "Mi9 Pro 5G-user 9.0.0 R16AA WISIGHT0001 release-keys",
@@ -15,14 +14,18 @@ class EnvSmbAndroid(object):
                  isAxolotlEnable = True
         ):        
         self.platform = 10
-        self.osName = "SMBA"
-        self.version = version        
+        self.osName = "SMBA"     
         self.osVersion = osVersion
         self.deviceName = deviceName
         self.buildVersion = buildVersion
         self.manufacturer = manufacturer
         self.deviceModelType = deviceModelType
         self.isAxolotlEnable = isAxolotlEnable
+
+        self.version = "2.25.18.82"
+        self.md5Classes = "oYajYFvxysTFrHCTqBHc1A=="
+        self.key = "VROA1coOL6M5ywTDPnPB/6CwjpIl2UjqEbIDpuf4TtgbPMj9sEhhi3gqtaG1PM/Jy4VODs6UQE7SMLcqzf/XVQ=="   
+
 
     def __str__(self):
         return "%d-%s-%s" % (self.platform,self.osName,self.version)
@@ -188,14 +191,8 @@ class EnvSmbAndroid(object):
             deviceModelType=deviceModelType
         )
 
-    def getToken(self,phoneNumber):        
-        # https://the-x.cn/zh-cn/hash/MessageDigestAlgorithm.aspx        
-        #         
-        _KEY = "VROA1coOL6M5ywTDPnPB/6CwjpIl2UjqEbIDpuf4TtgbPMj9sEhhi3gqtaG1PM/Jy4VODs6UQE7SMLcqzf/XVQ=="                
-
-        self.version="2.25.16.82"
-        _MD5_CLASSES = "0mv1UkWkvMlXaDfovhYx7w=="
-        return EnvTools.getAndroidToken(self,phoneNumber,_KEY,_MD5_CLASSES)
+    def getToken(self,phoneNumber):
+        return EnvTools.getAndroidToken(self,phoneNumber,self.key,self.md5Classes)
     
     def getUserAgent(self):
         return EnvTools.getAndroidUserAgent(self)    

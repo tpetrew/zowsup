@@ -1,7 +1,5 @@
-from .device_env_config.env_android import EnvAndroid
-from .device_env_config.env_ios import EnvIos
-from .device_env_config.env_smb_android import EnvSmbAndroid
-from .device_env_config.env_smb_ios import EnvSmbIos
+from .device_env_config import *
+
 
 class DeviceEnv:
 

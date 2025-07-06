@@ -3,8 +3,7 @@ import random
 from .env_tools import EnvTools
 
 class EnvAndroid(object):
-    def __init__(self,
-                 version = "2.25.16.84",                 
+    def __init__(self,               
                  osVersion = "11.0.0",
                  deviceName = "Mi11 Pro 5G",
                  buildVersion = "Mi9 Pro 5G-user 9.0.0 R16AA WS0001 release-keys",
@@ -13,14 +12,21 @@ class EnvAndroid(object):
                  isAxolotlEnable = True
         ):        
         self.platform = 0
-        self.osName = "Android"
-        self.version = version        
+        self.osName = "Android"      
         self.osVersion = osVersion
         self.deviceName = deviceName
         self.buildVersion = buildVersion
         self.manufacturer = manufacturer
         self.deviceModelType = deviceModelType
         self.isAxolotlEnable = isAxolotlEnable
+
+        #在线计算地址_MD5_CLASSES, classes.dex拖进去就可以
+        # https://the-x.cn/zh-cn/hash/MessageDigestAlgorithm.aspx        
+
+        self.version = "2.25.18.80"
+        self.md5Classes = "lDnM7C1QBu9VcymRUCZpQA=="
+        self.key = "RFObk0NHtvEmCSluaRRbWDCd+U7QqKWi2UB4qOr/hwE+PZWmlkSqG5JGRlMsJ5+LzShVq1XyyLwWk623gAyI/w=="   
+
 
 
     @staticmethod
@@ -184,14 +190,9 @@ class EnvAndroid(object):
             deviceModelType=deviceModelType
         )
 
-    def getToken(self,phoneNumber):                
-        # https://the-x.cn/zh-cn/hash/MessageDigestAlgorithm.aspx       
-      
-        self.version="2.25.16.84"
-        _MD5_CLASSES = "gZM83YSolP5cvgbsWBPA2Q=="
-        _KEY = "RFObk0NHtvEmCSluaRRbWDCd+U7QqKWi2UB4qOr/hwE+PZWmlkSqG5JGRlMsJ5+LzShVq1XyyLwWk623gAyI/w=="        
-        return EnvTools.getAndroidToken(self,phoneNumber,_KEY,_MD5_CLASSES)
-    
+    def getToken(self,phoneNumber):        
+        return EnvTools.getAndroidToken(self,phoneNumber,self.key,self.md5Classes)        
+     
     def getUserAgent(self):
         return EnvTools.getAndroidUserAgent(self)
     

@@ -5,13 +5,13 @@ zowsup is a python whatsapp-protocol project based on [yowsup](https://github.co
 Since the original yowsup project has not been maintained for a long time, we forked yowsup and some associated projects(axolotl, consonance) and intergrated into an All-In-One Project and keep updating with latest version of Whatsapp.
 
 ```
-- ZOWSUP VERSION : 0.6.0
+- ZOWSUP VERSION : 0.6.1
 
-- UPDATE TIME : 2025-06-05
+- UPDATE TIME : 2025-07-06
 
 - WHATSAPP VERSION : 
-    2.25.16.84(Android) 
-    2.25.16.82(SMB Android) 
+    2.25.18.80(Android) 
+    2.25.18.82(SMB Android) 
     2.25.5.74(iOS) 
     2.25.5.74(SMB iOS) 
 
