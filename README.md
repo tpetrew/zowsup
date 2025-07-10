@@ -5,15 +5,15 @@ zowsup is a python whatsapp-protocol project based on [yowsup](https://github.co
 Since the original yowsup project has not been maintained for a long time, we forked yowsup and some associated projects(axolotl, consonance) and intergrated into an All-In-One Project and keep updating with latest version of Whatsapp.
 
 ```
-- ZOWSUP VERSION : 0.6.1
+- ZOWSUP VERSION : 0.6.2
 
-- UPDATE TIME : 2025-07-06
+- UPDATE TIME : 2025-07-10
 
 - WHATSAPP VERSION : 
     2.25.18.80(Android) 
     2.25.18.82(SMB Android) 
-    2.25.5.74(iOS) 
-    2.25.5.74(SMB iOS) 
+    2.25.19.5(iOS) 
+    2.25.19.83(SMB iOS) 
 
 ```
 
@@ -122,6 +122,7 @@ group.getinvite               | get the invite code of group
 group.info                    | show group information
 group.join                    | join group with an invite code
 group.leave                   | leave group
+group.list                    | list all groups
 group.promote                 | promote group member(s) to admin
 group.remove                  | remove a member from group
 group.seticon                 | set icon for group
