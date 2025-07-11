@@ -19,7 +19,6 @@ from app.network_env import NetworkEnv
 from app.yowbot_values import YowBotType
 from app.param_not_enough_exception import ParamsNotEnoughException
 from yowsup.structs import ProtocolEntity
-from yowsup.layers.protocol_groups.protocolentities import ListGroupsIqProtocolEntity, ListGroupsResultIqProtocolEntity
 import names
 
 import os,time,threading,uuid,json,inspect,time,socks
@@ -387,30 +386,8 @@ class YowBot:
 
     @BotCmd("group.list","list all groups")
     def listGroups(self,params,options):
-        def on_success(entity, original_iq_entity):
-            if isinstance(entity, ListGroupsResultIqProtocolEntity):
-                groups = []
-                for group in entity.getGroups():
-                    groups.append({
-                        "id": group.getId(),
-                        "subject": group.getSubject(),
-                        "creator": group.getCreator(),
-                        "subjectOwner": group.getSubjectOwner(),
-                        "subjectTime": group.getSubjectTime(),
-                        "creationTime": group.getCreationTime(),
-                        "participants": group.getParticipants()
-                    })
-                self.sendLayer.setCmdResult(entity.getId(), {
-                    "groups": groups,
-                    "count": len(groups)
-                })
+        return self.sendLayer.listGroups(params,options)
 
-        def on_error(entity, original_iq):
-            self.sendLayer.setCmdError(entity.getId(), "Failed to get groups list")
-
-        entity = ListGroupsIqProtocolEntity(participants=True)
-        self.sendLayer._sendIq(entity, on_success, on_error)
-        return entity.getId()
 
     @BotCmd("group.approve","approve participants to join the group")
     def groupApprove(self,params,options):

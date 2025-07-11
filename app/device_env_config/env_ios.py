@@ -7,8 +7,6 @@ class EnvIos(object):
     DEVICE_NAME = ["iPhone_14_Pro_Max","iPhone_15_Pro_Max","iPhone_XS_Max","iPhone_13","iPhone_14","iPhone_15"]
     OS_VERSION =  ["16.7.1","16.7.2","16.7.3","16.7.6","16.7.7","16.7.8","16.7.9","16.7.10","18.0.1","18.1.1"]  
 
-
-
     DEVICE_NAME_FOR_RUN = {
         "iPhone_14_Pro_Max":"iPhone 14 Pro Max",
         "iPhone_15_Pro_Max":"iPhone 15 Pro Max",
@@ -17,7 +15,6 @@ class EnvIos(object):
         "iPhone_14":"iPhone 14",
         "iPhone_15":"iPhone 15"      
     }
-
 
     BUILD_VERSION_FOR_RUN = {
         "16.7.1":"20H30",
@@ -44,7 +41,7 @@ class EnvIos(object):
   
 
     def __init__(self,                 
-                 version = "2.25.5.74",          
+                 version = "2.25.19.5",          
                  osVersion = "17.2.1",
                  deviceName = "iPhone_15_Pro_Max",
                  manufacturer = "Apple",                 

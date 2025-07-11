@@ -1430,6 +1430,33 @@ class SendLayer(YowInterfaceLayer):
         self._sendIq(entity, on_success, on_error)
         
         return entity.getId()
+    
+    def listGroups(self,cmdParams,options):
+        
+        def on_success(entity, original_iq_entity):
+            if isinstance(entity, ListGroupsResultIqProtocolEntity):
+                groups = []
+                for group in entity.getGroups():
+                    groups.append({
+                        "id": group.getId(),
+                        "subject": group.getSubject(),
+                        "creator": group.getCreator(),
+                        "subjectOwner": group.getSubjectOwner(),
+                        "subjectTime": group.getSubjectTime(),
+                        "creationTime": group.getCreationTime(),
+                        "participants": group.getParticipants()
+                    })
+                self.setCmdResult(entity.getId(), {
+                    "groups": groups,
+                    "count": len(groups)
+                })
+
+        def on_error(entity, original_iq):
+            self.setCmdError(entity.getId(), "Failed to get groups list")
+
+        entity = ListGroupsIqProtocolEntity(participants=True)
+        self._sendIq(entity, on_success, on_error)
+        return entity.getId()
 
     def groupAdd(self,cmdParams,options):
         def on_success(entity, original_iq_entity):  

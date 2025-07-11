@@ -41,6 +41,10 @@ class YowGroupsProtocolLayer(YowProtocolLayer):
             if rNode is None:
                 # process in protocol_iq
                 pass
+            elif rNode.tag=="groups":
+                #listgroup
+                self.toUpper(ListGroupsResultIqProtocolEntity.fromProtocolTreeNode(node))
+
             elif rNode.tag=="group":
                 #groupinfo or creategroup or join 都是这个结构
                 if node["from"].endswith("@g.us"):
@@ -52,7 +56,6 @@ class YowGroupsProtocolLayer(YowProtocolLayer):
                         self.toUpper(SuccessCreateGroupsIqProtocolEntity.fromProtocolTreeNode(node))
                     else:
                         logger.warning("unknown group result node, please complete the process-branch")
-
             elif rNode.tag=="add":
                 self.toUpper(SuccessAddParticipantsIqProtocolEntity.fromProtocolTreeNode(node))
             elif rNode.tag=="remove":
