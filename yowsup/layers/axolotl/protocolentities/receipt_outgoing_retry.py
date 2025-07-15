@@ -60,14 +60,15 @@ class RetryOutgoingReceiptProtocolEntity(OutgoingReceiptProtocolEntity):
     def toProtocolTreeNode(self):
         node = super(RetryOutgoingReceiptProtocolEntity, self).toProtocolTreeNode()
         node.setAttribute("type", "retry")
-
         retry_attrs = {
             "count": str(self.count),
             "id":self.getId(),
             "v":str(self.v),
-            "t":  str(self.retry_timestamp)
+            "t":  str(self.retry_timestamp),
+            
         }
 
+        
         retry = ProtocolTreeNode("retry", retry_attrs)
         node.addChild(retry)
         registration = ProtocolTreeNode(
@@ -75,6 +76,7 @@ class RetryOutgoingReceiptProtocolEntity(OutgoingReceiptProtocolEntity):
             data=ResultGetKeysIqProtocolEntity._intToBytes(self.local_registration_id)
         )
         node.addChild(registration)
+        
         return node
 
     def __str__(self):

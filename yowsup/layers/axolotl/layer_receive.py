@@ -58,7 +58,6 @@ class AxolotlReceivelayer(AxolotlBaseLayer):
             if encMessageProtocolEntity.getEnc(EncProtocolEntity.TYPE_SKMSG):
                 self.handleSenderKeyMessage(node)                        
 
-
             if encMessageProtocolEntity.getEnc(EncProtocolEntity.TYPE_PKMSG):
                 self.handlePreKeyWhisperMessage(node)
             elif encMessageProtocolEntity.getEnc(EncProtocolEntity.TYPE_MSG):
@@ -68,14 +67,15 @@ class AxolotlReceivelayer(AxolotlBaseLayer):
 
         except exceptions.InvalidKeyIdException:
             logger.warning("Invalid KeyId for %s, going to send the receipt to ignore subsequence push", encMessageProtocolEntity.getAuthor(False))
-            self.toLower(OutgoingReceiptProtocolEntity(node["id"], node["from"], participant=node["participant"]).toProtocolTreeNode())
-            
+            self.toLower(OutgoingReceiptProtocolEntity(node["id"], node["from"], participant=node["participant"],read=True).toProtocolTreeNode())
+            return 
             if node["id"] in self._retries and self._retries[node["id"]] >=1:
                 #重复三次，如果都是invalid可能是对方的异常，放弃
                 self.toLower(OutgoingReceiptProtocolEntity(node["id"], node["from"], participant=node["participant"]).toProtocolTreeNode())   
             else:             
                 #time.sleep(1)
-                self.send_retry(node, self.manager.registration_id)                        
+                self.send_retry(node, self.manager.registration_id)   
+                #self.toLower(OutgoingReceiptProtocolEntity(node["id"], node["from"], participant=node["participant"]).toProtocolTreeNode())                      
             
         except exceptions.InvalidMessageException:
             logger.warning("InvalidMessage for %s", encMessageProtocolEntity.getAuthor(False))     
@@ -86,6 +86,7 @@ class AxolotlReceivelayer(AxolotlBaseLayer):
             else:            
                 #time.sleep(1) 
                 self.send_retry(node, self.manager.registration_id)
+                #self.toLower(OutgoingReceiptProtocolEntity(node["id"], node["from"], participant=node["participant"]).toProtocolTreeNode())  
 
         except exceptions.NoSessionException:            
             logger.warning("No session for %s, getting their keys now", encMessageProtocolEntity.getAuthor(False))
@@ -174,14 +175,14 @@ class AxolotlReceivelayer(AxolotlBaseLayer):
                 data=enc.getData()
             )
             self.parseAndHandleMessageProto(encMessageProtocolEntity, plaintext)
-
             node = encMessageProtocolEntity.toProtocolTreeNode()
             node.addChild((ProtoProtocolEntity(plaintext, enc.getMediaType())).toProtocolTreeNode())
-
             self.toUpper(node)
         except exceptions.NoSessionException:
-            logger.warning("Got retry to %s, going to send a retry", encMessageProtocolEntity.getAuthor(False))            
-            self.send_retry(node, self.manager.registration_id)
+            print("AAAA")
+            #logger.warning("Got retry to %s, going to send a retry", encMessageProtocolEntity.getAuthor(False))            
+            #self.send_retry(node, self.manager.registration_id)
+            self.toLower(OutgoingReceiptProtocolEntity(node["id"], node["from"], participant=node["participant"],read=True).toProtocolTreeNode())
 
     def parseAndHandleMessageProto(self, encMessageProtocolEntity, serializedData):
         m = Message()
