@@ -55,27 +55,22 @@ class AxolotlReceivelayer(AxolotlBaseLayer):
         if node.getChild("enc")["v"] == "2" and node["from"] not in self.v2Jids:
             self.v2Jids.append(node["from"])
         try:
-            if encMessageProtocolEntity.getEnc(EncProtocolEntity.TYPE_SKMSG):
-                self.handleSenderKeyMessage(node)                        
+            handled = False
+            if encMessageProtocolEntity.getEnc(EncProtocolEntity.TYPE_SKMSG):                
+                handled = self.handleSenderKeyMessage(node)                                  
 
-            if encMessageProtocolEntity.getEnc(EncProtocolEntity.TYPE_PKMSG):
-                self.handlePreKeyWhisperMessage(node)
-            elif encMessageProtocolEntity.getEnc(EncProtocolEntity.TYPE_MSG):
-                self.handleWhisperMessage(node)                
+            if not handled:             
+                if encMessageProtocolEntity.getEnc(EncProtocolEntity.TYPE_PKMSG):
+                    self.handlePreKeyWhisperMessage(node)
+                elif encMessageProtocolEntity.getEnc(EncProtocolEntity.TYPE_MSG):
+                    self.handleWhisperMessage(node)                
 
             self.reset_retries(node["id"])
 
         except exceptions.InvalidKeyIdException:
             logger.warning("Invalid KeyId for %s, going to send the receipt to ignore subsequence push", encMessageProtocolEntity.getAuthor(False))
             self.toLower(OutgoingReceiptProtocolEntity(node["id"], node["from"], participant=node["participant"]).toProtocolTreeNode())
-            return 
-            if node["id"] in self._retries and self._retries[node["id"]] >=1:
-                #重复三次，如果都是invalid可能是对方的异常，放弃
-                self.toLower(OutgoingReceiptProtocolEntity(node["id"], node["from"], participant=node["participant"]).toProtocolTreeNode())   
-            else:             
-                #time.sleep(1)
-                self.send_retry(node, self.manager.registration_id)   
-                #self.toLower(OutgoingReceiptProtocolEntity(node["id"], node["from"], participant=node["participant"]).toProtocolTreeNode())                      
+                   
             
         except exceptions.InvalidMessageException:
             logger.warning("InvalidMessage for %s", encMessageProtocolEntity.getAuthor(False))     
