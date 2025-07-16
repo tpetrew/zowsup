@@ -1,6 +1,6 @@
-import time
 
-from ....structs import ProtocolEntity, ProtocolTreeNode
+
+from ....structs import ProtocolTreeNode
 from .receipt import ReceiptProtocolEntity
 class OutgoingReceiptProtocolEntity(ReceiptProtocolEntity):
 
@@ -23,7 +23,7 @@ class OutgoingReceiptProtocolEntity(ReceiptProtocolEntity):
     '''
 
 
-    def __init__(self, messageIds, to, read = False, participant = None, callId = None):
+    def __init__(self, messageIds, to, read = False, participant = None,recipient=None, callId = None,view=False,serverIds=None):
         if type(messageIds) in (list, tuple):
             if len(messageIds) > 1:
                 receiptId = self._generateId()
@@ -33,15 +33,24 @@ class OutgoingReceiptProtocolEntity(ReceiptProtocolEntity):
             receiptId = messageIds
             messageIds = [messageIds]
 
-        super(OutgoingReceiptProtocolEntity, self).__init__(receiptId)
-        self.setOutgoingData(messageIds, to, read, participant, callId)
+        if serverIds is not None:    
+            if type(serverIds) in (list, tuple):
+                serverIds = serverIds
+            else:
+                serverIds = [serverIds]
 
-    def setOutgoingData(self, messageIds, to, read, participant, callId):
+        super(OutgoingReceiptProtocolEntity, self).__init__(receiptId)
+        self.setOutgoingData(messageIds, to, read, participant,recipient, callId,view,serverIds)
+
+    def setOutgoingData(self, messageIds, to, read, participant,recipient=None, callId=None,view=None, serverIds=None):
         self.messageIds = messageIds
         self.to = to
         self.read = read
         self.participant = participant
         self.callId = callId
+        self.view = view
+        self.serverIds = serverIds
+        self.recipient = recipient
 
     def getMessageIds(self):
         return self.messageIds
@@ -50,17 +59,31 @@ class OutgoingReceiptProtocolEntity(ReceiptProtocolEntity):
         node = super(OutgoingReceiptProtocolEntity, self).toProtocolTreeNode()
         if self.read:
             node.setAttribute("type", "read")
+
+        if self.view:
+            node.setAttribute("type","view")
+
         if self.participant:
             node.setAttribute("participant", self.participant)
+
+        if self.recipient:
+            node.setAttribute("recipient", self.recipient)
+
         if self.callId:
             offer = ProtocolTreeNode("offer", {"call-id": self.callId})
             node.addChild(offer)
 
-        node.setAttribute("to", self.to)
+        if self.to:
+            node.setAttribute("to", self.to)
 
         if len(self.messageIds) > 1:
             listNode = ProtocolTreeNode("list")
             listNode.addChildren([ProtocolTreeNode("item", {"id": mId}) for mId in self.messageIds])
+            node.addChild(listNode)
+
+        if self.serverIds is not None and len(self.serverIds)>0:
+            listNode = ProtocolTreeNode("list")
+            listNode.addChildren([ProtocolTreeNode("item", {"server_id": sId}) for sId in self.serverIds])
             node.addChild(listNode)
 
         return node
@@ -86,5 +109,5 @@ class OutgoingReceiptProtocolEntity(ReceiptProtocolEntity):
             messageIds,
             node["to"],
             node["type"] == "read",
-            node["participant"]
+            node["participant"]        
             )
