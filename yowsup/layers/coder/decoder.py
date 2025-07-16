@@ -199,7 +199,7 @@ class ReadDecoder:
             user = self.readString(data.pop(0),data)
             if xx==1:
                 #xx=1时是lid
-                jid = "{}@lid".format(user)
+                jid = "{}:{}@lid".format(user,device_no)
             else:
                 #其余情况，暂时按照普通id处置
                 jid = "{}.{}:{}@s.whatsapp.net".format(user,xx,device_no)
