@@ -343,7 +343,7 @@ class AxolotlSendLayer(AxolotlBaseLayer):
         jidsNoSession = []    
         standardJids = []
         for jid in jids:
-            standardJids.append(jid.replace(".0:0","").replace(".1:0",":0"))
+            standardJids.append(jid.replace(".0:0","").replace(".1:",":"))
 
         for jid in standardJids:
             if not self.manager.session_exists(jid.split('@')[0]):          
