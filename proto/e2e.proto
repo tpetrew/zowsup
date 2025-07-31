@@ -287,7 +287,18 @@ message Message {
       PEER_DATA_OPERATION_REQUEST_RESPONSE_MESSAGE = 17;
       REQUEST_WELCOME_MESSAGE = 18;
       BOT_FEEDBACK_MESSAGE = 19;
-      MEDIA_NOTIFY_MESSAGE = 20;      
+      MEDIA_NOTIFY_MESSAGE = 20;     
+      CLOUD_API_THREAD_CONTROL_NOTIFICATION = 21;
+      LID_MIGRATION_MAPPING_SYNC = 22;
+      REMINDER_MESSAGE = 23;
+      BOT_MEMU_ONBOARDING_MESSAGE = 24;
+      STATUS_MENTION_MESSAGE = 25;
+      STOP_GENERATION_MESSAGE = 26;
+      LIMIT_SHARING = 27;
+      AI_PSI_METADATA = 28;
+      AI_QUERY_FANOUT = 29;
+      GROUP_MEMBER_LABEL_CHANGE = 30;
+
     }
     // Only present if type == REVOKE
     optional MessageKey key = 1;
@@ -333,10 +344,49 @@ message Message {
     optional string invoker_jid = 19;
     optional RequestWelcomeMessageMetadata request_welcome_message_metadata = 20;
     optional MediaNotifyMessage media_notify_message = 21;    
+    optional CloudAPIThreadControlNotification cloudApiThreadControlNotification = 22;
+    optional LIDMigrationMappingSyncMessage lidMigrationMappingSyncMessage = 23;
+    optional LimitSharing limitSharing = 24;
+    optional bytes aiPsiMetadata = 25;
+    optional AIQueryFanout aiQueryFanout = 26;
+    optional MemberLabel memberLabel = 27;    
   }
 
-  
+  message MemberLabel {
+    optional string label = 1;
+    optional int64 labelTimestamp = 2;
+  }  
 
+  message CloudAPIThreadControlNotification {
+    enum CloudAPIThreadControl {
+      UNKNOWN = 0;
+      CONTROL_PASSED = 1;
+      CONTROL_TAKEN = 2;
+    }
+
+    message CloudAPIThreadControlNotificationContent {
+      optional string handoffNotificationText = 1;
+      optional string extraJSON = 2;
+    }
+
+    optional CloudAPIThreadControl status = 1;
+    optional int64 senderNotificationTimestampMS = 2;
+    optional string consumerLid = 3;
+    optional string consumerPhoneNumber = 4;
+    optional CloudAPIThreadControlNotificationContent notificationContent = 5;
+    optional bool shouldSuppressNotification = 6;
+  }  
+
+  message LIDMigrationMappingSyncMessage {
+    optional bytes encodedMappingPayload = 1;
+  }  
+
+  message AIQueryFanout {
+    optional MessageKey messageKey = 1;
+    optional Message message = 2;
+    optional int64 timestamp = 3;
+  }  
+  
   message AppStateSyncKey {
     optional AppStateSyncKeyId key_id = 1;
     optional AppStateSyncKeyData key_data = 2;
@@ -1092,6 +1142,20 @@ message Message {
       }
   }  
 
+  message SecretEncryptedMessage {
+    enum SecretEncType {
+      UNKNOWN = 0;
+      EVENT_EDIT = 1;
+      MESSAGE_EDIT = 2;
+    }
+
+    optional MessageKey targetMessageKey = 1;
+    optional bytes encPayload = 2;
+    optional bytes encIV = 3;
+    optional SecretEncType secretEncType = 4;
+  }
+
+
 
   optional string conversation = 1;
   optional SenderKeyDistributionMessage sender_key_distribution_message = 2;
@@ -1149,6 +1213,18 @@ message Message {
   optional PollCreationMessage pollCreationMessageV2 = 60;
   optional PollCreationMessage pollCreationMessageV3 = 64;
   optional FutureProofMessage lottie_sticker_message  = 74;
+  optional SecretEncryptedMessage secretEncryptedMessage = 82;
+	optional FutureProofMessage pollCreationOptionImageMessage = 90;
+	optional FutureProofMessage associatedChildMessage = 91;
+	optional FutureProofMessage groupStatusMentionMessage = 92;
+	optional FutureProofMessage pollCreationMessageV4 = 93;
+	optional FutureProofMessage pollCreationMessageV5 = 94;
+	optional FutureProofMessage statusAddYours = 95;
+	optional FutureProofMessage groupStatusMessage = 96;
+	optional FutureProofMessage limitSharingMessage = 99;
+	optional FutureProofMessage botTaskMessage = 100;
+	optional FutureProofMessage questionMessage = 101;
+
 }
 
 message GroupMention {
@@ -1179,7 +1255,11 @@ message ContextInfo {
 			IMAGE = 1;
 			VIDEO = 2;
 		}
-
+    enum AdType {
+			CTWA = 0;
+			CAWC = 1;
+		}    
+    
 		optional string title = 1;
 		optional string body = 2;
 		optional MediaType media_type = 3;
@@ -1202,6 +1282,9 @@ message ContextInfo {
 		optional string cta_payload = 20;
 		optional bool disable_nudge = 21;
 		optional string original_image_url = 22;
+    optional string automated_greeting_message_cta_type = 23;
+    optional bool wtwa_ad_format = 24;
+    optional AdType ad_type = 25;    
 	}
 
   message AdReplyInfo {
@@ -1251,7 +1334,6 @@ message ContextInfo {
 	message BusinessMessageForwardInfo {
 		optional string businessOwnerJID = 1;
 	}
-
 
 
   // stanza_id and participant refer to another message in the chat referred by remote_jid.
@@ -1343,6 +1425,54 @@ message ContextInfo {
 	optional string ctwa_signals = 54;
 	optional bytes ctwa_payload = 55;
 	optional ForwardedAIBotMessageInfo forwarded_ai_bot_message_info = 56;
+  optional StatusAttributionType status_attribution_type = 57;
+  optional UrlTrackingMap url_tracking_map = 58;
+  optional PairedMediaType paired_media_type = 59;
+  optional uint32 ranking_version = 60;
+  optional MemberLabel member_label = 62;
+  optional bool is_question = 63;
+  optional StatusSourceType status_source_type = 64;
+}
+
+enum StatusSourceType {
+  IMAGE = 0;
+  VIDEO = 1;
+  GIF = 2;
+  AUDIO = 3;
+  TEXT = 4;
+  MUSIC_STANDALONE = 5;
+}
+
+message MemberLabel {
+  optional string label = 1;
+  optional int64 labelTimestamp = 2;
+}
+
+message UrlTrackingMap {
+  repeated UrlTrackingMapElement urlTrackingMapElements = 1;
+  message UrlTrackingMapElement {
+      optional string originalUrl = 1;
+      optional string unconsentedUsersUrl = 2;
+      optional string consentedUsersUrl = 3;
+      optional uint32 cardIndex = 4;
+  }
+
+}
+
+enum StatusAttributionType {
+  NONE = 0;
+  RESHARED_FROM_MENTION = 1;
+  RESHARED_FROM_POST = 2;
+}
+
+enum PairedMediaType {
+  NOT_PAIRED_MEDIA = 0;
+  SD_VIDEO_PARENT = 1;
+  HD_VIDEO_CHILD = 2;
+  SD_IMAGE_PARENT = 3;
+  HD_IMAGE_CHILD = 4;
+  MOTION_PHOTO_PARENT = 5;
+  MOTION_PHOTO_CHILD = 6;
 }
 
 message BotAvatarMetadata {
@@ -1528,6 +1658,20 @@ message MessageAssociation {
 	optional int32 messageIndex = 3;
 }
 
+message LimitSharing {
+	enum Trigger {
+		UNKNOWN = 0;
+		CHAT_SETTING = 1;
+		BIZ_SUPPORTS_FB_HOSTING = 2;
+		UNKNOWN_GROUP = 3;
+	}
+
+	optional bool sharingLimited = 1;
+	optional Trigger trigger = 2;
+	optional int64 limitSharingSettingTimestamp = 3;
+	optional bool initiatedByMe = 4;
+}
+
 // Similar to ContextInfo but may be present for any message type, fields
 // should only be added here when they independent of message type including non
 // user visible messages. One example is ADV data which may be present on any
@@ -1556,6 +1700,9 @@ message MessageContextInfo {
 	optional MessageAssociation message_association = 10;
 	optional bool capi_created_group = 11;
 	optional string support_payload = 12;
+	optional LimitSharing limitSharing = 13;
+	optional LimitSharing limitSharingV2 = 14;
+
 }
 
 
