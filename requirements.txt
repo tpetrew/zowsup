@@ -1,4 +1,4 @@
-protobuf==5.29.3
+protobuf==5.29.5
 requests
 six==1.17.0
 appdirs
