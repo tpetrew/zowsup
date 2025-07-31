@@ -8,7 +8,7 @@ class EnvSmbAndroid(object):
     def __init__(self,                
                  osVersion = "11.0.0",
                  deviceName = "Mi11 Pro 5G",
-                 buildVersion = "Mi9 Pro 5G-user 9.0.0 R16AA WISIGHT0001 release-keys",
+                 buildVersion = "R16AAWS001/release-keys",
                  manufacturer = "xiaomi",
                  deviceModelType = "SMBA 11.0.0",
                  isAxolotlEnable = True
@@ -22,8 +22,8 @@ class EnvSmbAndroid(object):
         self.deviceModelType = deviceModelType
         self.isAxolotlEnable = isAxolotlEnable
 
-        self.version = "2.25.18.82"
-        self.md5Classes = "oYajYFvxysTFrHCTqBHc1A=="
+        self.version = "2.25.19.80"
+        self.md5Classes = "cT+JAz4hybLHvEQ4h97tiQ=="
         self.key = "VROA1coOL6M5ywTDPnPB/6CwjpIl2UjqEbIDpuf4TtgbPMj9sEhhi3gqtaG1PM/Jy4VODs6UQE7SMLcqzf/XVQ=="   
 
 

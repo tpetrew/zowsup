@@ -6,7 +6,7 @@ class EnvAndroid(object):
     def __init__(self,               
                  osVersion = "11.0.0",
                  deviceName = "Mi11 Pro 5G",
-                 buildVersion = "Mi9 Pro 5G-user 9.0.0 R16AA WS0001 release-keys",
+                 buildVersion = "R16AAWS001/release-keys",
                  manufacturer = "xiaomi",
                  deviceModelType = "Android 11.0.0",
                  isAxolotlEnable = True
@@ -20,11 +20,8 @@ class EnvAndroid(object):
         self.deviceModelType = deviceModelType
         self.isAxolotlEnable = isAxolotlEnable
 
-        #在线计算地址_MD5_CLASSES, classes.dex拖进去就可以
-        # https://the-x.cn/zh-cn/hash/MessageDigestAlgorithm.aspx        
-
-        self.version = "2.25.18.80"
-        self.md5Classes = "lDnM7C1QBu9VcymRUCZpQA=="
+        self.version = "2.25.20.82"
+        self.md5Classes = "/YrEf/MohpyiBLHW/fenJQ=="
         self.key = "RFObk0NHtvEmCSluaRRbWDCd+U7QqKWi2UB4qOr/hwE+PZWmlkSqG5JGRlMsJ5+LzShVq1XyyLwWk623gAyI/w=="   
 
 
