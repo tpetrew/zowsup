@@ -151,7 +151,7 @@ msg.sendmedia                 | send media message
 
 ## Version diff
 
-| Feature                        | zowsup (Free)         | zowsup-pro (Paid)         |
+| Feature                        | zowsup (FREE)         | zowsup-pro (PAID)         |
 |--------------------------------|-----------------------|---------------------------|
 | Multi-Account Support          | ❌                    | ✅ (LiteCluster)         |
 | Companion Device Registration  | Basic                 | Advanced                  |
@@ -164,11 +164,8 @@ msg.sendmedia                 | send media message
 | Gerenal Features Update        | Basic                 | Priority (2 weeks ahead)  |
 | Support                        | Community             | Priority/Private Support  |
 
-## Pricing
 
-| Plan                       | Price        | Notes                                                      |
-|----------------------------|--------------|------------------------------------------------------------|
-| zowsup                     | Free         | Open-source, limited features                              |
-| zowsup-pro-docker-release  | 1000U /Month | Full features, runnable docker image, no source code       |
-| zowsup-pro-full            | 3000U /Month | Full features, full-access source code                     |
+## Details
+you can contact my telegram account [clarithromcine](https://t.me/clarithromcine) for more details
+
 
