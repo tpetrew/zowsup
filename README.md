@@ -154,5 +154,27 @@ msg.sendmedia                 | send media message
 
 ```
 
+# ONE MORE THING:  zowsup-pro
+
+[zowsup-pro](https://github.com/clarithromycine/zowsup-pro/) is a PRO version of zowsup , which is a private repository
+
+## Version diff
+
+| Feature                        | zowsup (FREE)         | zowsup-pro (PAID)         |
+|--------------------------------|-----------------------|---------------------------|
+| Multi-Account Support          | ❌                    | ✅ (LiteCluster)         |
+| Companion Device Registration  | Basic                 | Advanced                  |
+| Account Info Parser            | Basic                 | Advanced                  |
+| Docker Image                   | ❌                    | ✅                       |
+| FCM/GCM Integration            | ❌                    | ✅                       |
+| Argo Decoder                   | ❌                    | ✅                       |
+| Multi-Device Protocol          | Limited               | Full Support              |
+| API Access                     | ❌                    | ✅                       |
+| Gerenal Features Update        | Basic                 | Priority (2 weeks ahead)  |
+| Support                        | Community             | Priority/Private Support  |
+
+
+## Details
+you can contact my telegram account [clarithromcine](https://t.me/clarithromcine) for more details
 
 
