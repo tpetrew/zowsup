@@ -2,12 +2,12 @@
 
 zowsup is a python whatsapp-protocol project based on [yowsup](https://github.com/tgalal/yowsup/).
 
-Since the original yowsup project has not been maintained for a long time, we forked yowsup and some associated projects(axolotl, consonance) and intergrated into an All-In-One Project and keep updating with latest version of Whatsapp.
+Since the original yowsup project has not been maintained for a long time, we forked yowsup and some associated projects(axolotl, consonance) and intergrated into an All-In-One Project and keep updating with latest version of WhatsApp.
 
 ```
-- ZOWSUP VERSION : 0.6.2
+- ZOWSUP VERSION : 0.6.5
 
-- UPDATE TIME : 2025-07-28
+- UPDATE TIME : 2025-08-23
 
 - WHATSAPP VERSION : 
     2.25.20.82(Android) 
@@ -17,10 +17,11 @@ Since the original yowsup project has not been maintained for a long time, we fo
 
 ```
 
-
 ## Discussion Groups
  * telegram:  [zowsup](https://t.me/+au1dTQz7jyU0YjU5)
 
+## What's New 0.6.5
+ * new interactive mode
 
 ## What's New 0.6.0
  * new commands mdlink and mdremove
@@ -84,6 +85,9 @@ DEFAULT_ENV=android                       #default environment
 
 ```
 
+then you can enter interactive mode with 'CMD > ' prompt
+
+
 * Register as a companion device
 
 ```
@@ -98,7 +102,12 @@ DEFAULT_ENV=android                       #default environment
 * Basic commands
 
 ```
-main.py [account-number] [command] [commandParams]
+python script/main.py [account-number] [command] [commandParams] #in shell console
+
+or
+
+[command] [commandParams]   #in the interactive mode 
+
 
 [command]                     |   [description]
 ----------------------------------------------------------------------------

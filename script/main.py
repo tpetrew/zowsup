@@ -2,10 +2,11 @@
 import os,sys
 sys.path.append(os.getcwd())
 from common.consolemain import ConsoleMain
-import logging
+import logging,time
 from pathlib import Path
 from app.yowbot import YowBot
 from script.cmdprocess import CmdProcess
+from script.interactivecmdprocess import InteractiveProcess
 from conf.constants import SysVar,GlobalVar
 from common.utils import Utils
 from yowsup.profile.profile import YowProfile
@@ -65,19 +66,29 @@ class Main(ConsoleMain):
         logger.info("BotId=%s" % botId)        
         logger.info("RegType=%s" % (info["regType"] if info is not None else "1")) 
         
+
+        
+
         try:  
             wabot = YowBot(bot_id=botId,env=self.env,)
             wabot.manualStop = True
             logger.info(self.env.networkEnv)            
             
             if len(params) == 1:
+                InteractiveProcess(wabot).run()
                 pass            
             else: 
                 if params[1] in wabot.getCmdList():                      
                     CmdProcess(wabot,params[1:],options).run()    
                 else:
-                    logger.info("Unknown Command")                                          
-            wabot.run()
+                    logger.info("Unknown Command")         
+                                                     
+            wabot.runAsThread()
+
+            while True:
+                if wabot.sendLayer.userQuit:
+                    break
+                time.sleep(0.1)
         except KeyboardInterrupt:                
             wabot.disconnect()            
             

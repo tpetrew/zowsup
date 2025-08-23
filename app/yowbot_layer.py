@@ -239,9 +239,9 @@ class SendLayer(YowInterfaceLayer):
             else:     
                 if not self.getProp("HC_MODE"):                                
                     self.eventCallback(wsend_pb2.BotEvent.Event.QUIT)                
-                    if self.userQuit :                
+                    if self.userQuit :              
                         Utils.exit(0)    
-                    else:            
+                    else:             
                         Utils.exit(1)         
                 else:                
                     time.sleep(1)        
@@ -381,21 +381,11 @@ class SendLayer(YowInterfaceLayer):
 
                 return 
                                                 
-            if entity.stage == "companion_hello":                                            
-                linkCode = input("Input the link code (default value: AAAAAAAA):")
-                if linkCode is None or len(linkCode)==0:
-                    linkCode = "AAAAAAAA"
-
-                primaryEphemerKeyPair = WATools.generateKeyPair()
-                companionEphemerPub = Utils.link_code_decrypt(linkCode,entity.linkCodePairingWrappedCompanionEphemeralPub)
-                self.setProp("companionEphemerPub",companionEphemerPub)
-                self.setProp("companionAuthKeyPub",entity.companionServerAuthKeyPub)
-                self.setProp("keypair",primaryEphemerKeyPair)                
-                linkCodePairingWrappedPrimaryEphemeralPub = Utils.link_code_encrypt(linkCode,primaryEphemerKeyPair.public.data)                                
-                #发送primary_hello回包
-                entity = MultiDevicePairPrimaryHelloIqProtocolEntity(linkCodePairingWrappedPrimaryEphemeralPub = linkCodePairingWrappedPrimaryEphemeralPub,primaryIdentityPub=self.db.identity.publicKey.serialize()[1:],linkCodePairingRef=entity.linkCodePairingRef)
-                self.toLower(entity)
-
+            if entity.stage == "companion_hello":              
+                logger.info("ENTERING WAITING CODE STATUS")
+                self.pairingStatus = "WAIT_PAIRINGCODE"
+                self.companionHelloEntity = entity  
+                                                  
             if entity.stage == "companion_finish":
                 if self.getProp("keypair") is None:
                     return 
@@ -1619,6 +1609,28 @@ class SendLayer(YowInterfaceLayer):
         entity = VerifyEmailCodeIqProtocolEntity(code=cmdParams[0])
         self.toLower(entity)
         return entity.getId()
+    
+    def inputPairingCode(self,params,options):
+        if self.pairingStatus!="WAIT_PAIRINGCODE":
+            logger.error("NOT IN WAITING CODE STATUS")
+            return 
+        
+        self.pairingCode = params[0]
+
+        if self.pairingCode:
+            linkCode = self.pairingCode
+            primaryEphemerKeyPair = WATools.generateKeyPair()
+            companionEphemerPub = Utils.link_code_decrypt(linkCode,self.companionHelloEntity.linkCodePairingWrappedCompanionEphemeralPub)
+            self.setProp("companionEphemerPub",companionEphemerPub)
+            self.setProp("companionAuthKeyPub",self.companionHelloEntity.companionServerAuthKeyPub)
+            self.setProp("keypair",primaryEphemerKeyPair)                
+            linkCodePairingWrappedPrimaryEphemeralPub = Utils.link_code_encrypt(linkCode,primaryEphemerKeyPair.public.data)                            
+            #发送primary_hello回包
+            entity = MultiDevicePairPrimaryHelloIqProtocolEntity(linkCodePairingWrappedPrimaryEphemeralPub = linkCodePairingWrappedPrimaryEphemeralPub,primaryIdentityPub=self.db.identity.publicKey.serialize()[1:],linkCodePairingRef=self.companionHelloEntity.linkCodePairingRef)
+            self.toLower(entity)
+            self.pairingStatus = "WAIT_PAIRINGFINISH"
+            self.pairingCode=None
+            return entity.getId()  
 
     
     def setDisappearing(self,cmdParams,options):

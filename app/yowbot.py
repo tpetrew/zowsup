@@ -64,8 +64,7 @@ class YowBot:
         self._stack.setProp("ID_TYPE",self.idType)
         self.bot_type = bot_type              
         self.callback = self.onCallback      
-        self.inloop = False
-        self.manualStop = False                
+        self.inloop = False              
         self.pairPhoneNumber=None
         self.cmdEventMap = {}
         
@@ -88,6 +87,11 @@ class YowBot:
             for m in members:            
                 if hasattr(m[1], "desc"):  
                     self.cmdList[m[1].cmd] = m[1]       
+
+    def runAsThread(self):
+        self.thread = threading.Thread(target=self.run)
+        self.thread.daemon=True       
+        self.thread.start()    
 
     def onCallback(self,event=None,message=None,cmdresult=None,logger=logger,caller=None):
 
@@ -276,7 +280,7 @@ class YowBot:
     
     @BotCmd("msg.send","send message")
     def sendMsg(self,params,options):                 
-        return self.sendLayer.sendMsg(params,options)     
+        return self.sendLayer.sendMsg(params,options)    
 
     @BotCmd("msg.sendmedia","send media message")
     def sendMediaMsg(self,params,options):                    
@@ -415,6 +419,10 @@ class YowBot:
     @BotCmd("md.remove","remove companion device(s)")
     def multiDeviceRemove(self,params,options):
         return self.sendLayer.multiDeviceRemove(params,options)       
+    
+    @BotCmd("md.inputcode","input pair code for companion pairing")
+    def inputPairingCode(self,params,options):
+        return self.sendLayer.inputPairingCode(params,options)
                       
 if __name__ == "__main__":    
     

@@ -184,7 +184,7 @@ class AxolotlSendLayer(AxolotlBaseLayer):
             pass
         else:
             reporting = ProtocolTreeNode("reporting")
-            reporting_token = ProtocolTreeNode("reporting_token",{"v":"1"})
+            reporting_token = ProtocolTreeNode("reporting_token",{"v":"2"})
             reporting_token.setData(os.urandom(16))            
             reporting.addChild(reporting_token)
             nodeSend.addChild(reporting)
