@@ -71,7 +71,6 @@ class Main(ConsoleMain):
 
         try:  
             wabot = YowBot(bot_id=botId,env=self.env,)
-            wabot.manualStop = True
             logger.info(self.env.networkEnv)            
             
             if len(params) == 1:
@@ -82,7 +81,7 @@ class Main(ConsoleMain):
                     CmdProcess(wabot,params[1:],options).run()    
                 else:
                     logger.info("Unknown Command")         
-                                                     
+
             wabot.runAsThread()
 
             while True:
