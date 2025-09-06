@@ -6,7 +6,7 @@ import logging,time
 from pathlib import Path
 from app.yowbot import YowBot
 from script.cmdprocess import CmdProcess
-from script.interactivecmdprocess import InteractiveProcess
+from script.interactiveprocess import InteractiveProcess
 from conf.constants import SysVar,GlobalVar
 from common.utils import Utils
 from yowsup.profile.profile import YowProfile

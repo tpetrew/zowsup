@@ -126,6 +126,7 @@ class SendLayer(YowInterfaceLayer):
         self.pingCount = 0             
         self.ctxMap = {}
         self._qrThread=None
+        self.pairingStatus = None
                 
     def quit(self):
         self.userQuit = True
