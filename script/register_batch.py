@@ -40,7 +40,7 @@ def get_number(country):
     logger.info(f"Пробую получить номер для страны ID={country}...")
     resp = requests.get(API_URL, params={
         "api_key": API_KEY,
-        "action": "getNumbers",
+        "action": "getNumber",
         "service": SERVICE,
         "country": country,
         "operator": OPERATOR
