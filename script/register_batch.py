@@ -29,6 +29,26 @@ OPERATOR = "any"
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("whatsapp_reg")
 
+class Utils:
+    """Stub replacement for missing Utils.getLGLC"""
+    @staticmethod
+    def getLGLC(cc: str):
+        """
+        Returns language and country code based on calling code.
+        Example: 7 -> (ru, RU), 91 -> (en, IN)
+        """
+        mapping = {
+            "7": ("ru", "RU"),
+            "1": ("en", "US"),
+            "91": ("en", "IN"),
+            "55": ("pt", "BR"),  # Brazil
+            "43": ("tr", "TR"),
+            "6": ("id", "ID"),
+            "79": ("en", "KE"),
+            "161": ("en", "NG")
+        }
+        return mapping.get(str(cc), ("en", "US"))
+
 class DummyDeviceEnv:
     """Minimal fake device environment"""
     def __init__(self):
