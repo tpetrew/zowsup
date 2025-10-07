@@ -5,13 +5,12 @@
 Автоматический выбор страны, где есть номера
 """
 
-import os
-import sys
-import time
-import re
-import requests
-import logging
+
+import os, sys, time, re, requests, logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from conf.constants import SysVar
+SysVar.loadConfig()  # <-- инициализация путей и конфигов
 
 from yowsup.registration.coderequest import WACodeRequest
 from yowsup.registration.regrequest import WARegRequest
