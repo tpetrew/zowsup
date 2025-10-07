@@ -108,7 +108,11 @@ def make_config(phone):
 
 def request_code(cfg):
     """Запрашивает код у WhatsApp"""
-    env = DeviceEnv.ENV_MAP["android"]()
+    device_env = DeviceEnv.ENV_MAP["android"]()  # создаёт EnvAndroid
+    class Wrapper:
+        pass
+    env = Wrapper()
+    env.deviceEnv = device_env  # теперь у env есть атрибут deviceEnv
     req = WACodeRequest("sms", cfg, env)
     ok, result = req.rawSend(preview=False)
     logger.info(f"Ответ на запрос кода: {result}")
