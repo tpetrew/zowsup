@@ -10,9 +10,12 @@ import struct
 import base64
 import requests
 import uuid
-from ...utils import Utils
 
 from urllib.parse import quote as urllib_quote
+
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..')))
+from common.utils import Utils
 
 logger = logging.getLogger(__name__)
 
