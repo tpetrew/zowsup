@@ -24,13 +24,11 @@ from yowsup.config.v1.config import Config
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("whatsapp_reg")
 
-# API_KEY = "64d77ffBcfec678398B1467547eB5e32"
-API_KEY = "cb9bA84efAf7cAf0eA1ceb97f7309765"
+API_KEY = "64d77ffBcfec678398B1467547eB5e32"
 API_URL = "https://api.sms-activate.org/stubs/handler_api.php"
 
-# сервис "wa" = WhatsApp
 SERVICE = "wa"
-COUNTRY = 94  # 🇮🇱 Израиль
+COUNTRY = 94
 OPERATOR = "any"
 
 def get_number():
@@ -43,6 +41,7 @@ def get_number():
         "operator": OPERATOR
     })
     text = resp.text.strip()
+    print(text)
     if text.startswith("ACCESS_NUMBER"):
         _, activation_id, phone = text.split(":")
         logger.info(f"Получен номер {phone}, activation_id={activation_id}")
