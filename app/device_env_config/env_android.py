@@ -19,8 +19,8 @@ class EnvAndroid(object):
         self.manufacturer = manufacturer
         self.deviceModelType = deviceModelType
         self.isAxolotlEnable = isAxolotlEnable
-        self.version = "2.23.12.75"
-        self.md5Classes = "mBs2oAj2YwjFWDFwfE1bcA=="
+        self.version = "2.25.14.79"
+        self.md5Classes = "d/vvKPeoHdN2H8FXwJltUg=="
         self.key = "RFObk0NHtvEmCSluaRRbWDCd+U7QqKWi2UB4qOr/hwE+PZWmlkSqG5JGRlMsJ5+LzShVq1XyyLwWk623gAyI/w=="   
 
     @staticmethod
