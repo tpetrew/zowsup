@@ -17,6 +17,8 @@ from yowsup.registration.coderequest import WACodeRequest
 from yowsup.registration.regrequest import WARegRequest
 from yowsup.config.v1.config import Config
 
+from app.device_env_config.device_env import DeviceEnv
+
 # ---------------- CONFIG ----------------
 API_KEY = "64d77ffBcfec678398B1467547eB5e32"  # <-- вставь сюда API-ключ SMS-Activate
 API_URL = "https://api.sms-activate.org/stubs/handler_api.php"
@@ -29,25 +31,6 @@ OPERATOR = "any"
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("whatsapp_reg")
-
-class DummyDeviceEnv:
-    """Minimal fake device environment"""
-    def __init__(self):
-        self.os_name = "Android"
-        self.os_version = "12"
-        self.device = "Pixel 7"
-        self.manufacturer = "Google"
-    def getOSName(self):
-        return self.os_name
-    def getOSVersion(self):
-        return self.os_version
-
-
-class DummyEnv:
-    """Wrapper providing .deviceEnv like in real YowEnvironment"""
-    def __init__(self):
-        self.deviceEnv = DummyDeviceEnv()
-
 
 def get_available_country():
     return 73
@@ -124,7 +107,7 @@ def make_config(phone):
 
 def request_code(cfg):
     """Запрашивает код у WhatsApp"""
-    env = DummyEnv()
+    env = DeviceEnv.ENV_MAP["android"]()
     req = WACodeRequest("sms", cfg, env)
     ok, result = req.rawSend(preview=False)
     logger.info(f"Ответ на запрос кода: {result}")
