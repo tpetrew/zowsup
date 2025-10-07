@@ -29,34 +29,7 @@ logger = logging.getLogger("whatsapp_reg")
 
 
 def get_available_country():
-    """Находит первую страну, где есть доступные номера WhatsApp"""
-    logger.info("Проверяю доступные страны для WhatsApp...")
-    resp = requests.get(API_URL, params={
-        "api_key": API_KEY,
-        "action": "getNumbersStatus",
-        "country": 22  # 0 = все страны
-    })
-    if resp.status_code != 200:
-        logger.error(f"Ошибка API при получении стран: {resp.text}")
-        return None
-
-    data = resp.json()
-    available = []
-    for key, count in data.items():
-        if key.startswith("wa_") and count > 0:
-            # пример ключа: wa_22 -> страна 22
-            country_code = key.split("_")[1]
-            available.append((int(country_code), count))
-
-    if not available:
-        logger.error("Нет доступных номеров WhatsApp ни в одной стране.")
-        return None
-
-    # сортируем по количеству доступных номеров, выбираем самую массовую
-    available.sort(key=lambda x: x[1], reverse=True)
-    country_id, count = available[0]
-    logger.info(f"Выбрана страна ID={country_id} (доступно номеров: {count})")
-    return country_id
+    return 22
 
 
 def get_number(country):
