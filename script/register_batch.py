@@ -105,7 +105,9 @@ def make_config(phone):
 
 def request_code(cfg):
     """Запрашивает код у WhatsApp"""
-    req = WACodeRequest("sms", cfg)
+    from yowsup.env import YowEnvironment
+    env = YowEnvironment.getDefault()  # создаёт окружение устройства
+    req = WACodeRequest("sms", cfg, env)
     ok, result = req.rawSend(preview=False)
     logger.info(f"Ответ на запрос кода: {result}")
     return ok, result
