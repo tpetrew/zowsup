@@ -7,6 +7,7 @@
 
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import time, re, requests, logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -17,7 +18,7 @@ from yowsup.registration.coderequest import WACodeRequest
 from yowsup.registration.regrequest import WARegRequest
 from yowsup.config.v1.config import Config
 
-from app.device_env_config.device_env import DeviceEnv
+from app.device_env import DeviceEnv
 
 # ---------------- CONFIG ----------------
 API_KEY = "64d77ffBcfec678398B1467547eB5e32"  # <-- вставь сюда API-ключ SMS-Activate
