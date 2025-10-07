@@ -22,6 +22,9 @@ API_KEY = "64d77ffBcfec678398B1467547eB5e32"  # <-- вставь сюда API-к
 API_URL = "https://api.sms-activate.org/stubs/handler_api.php"
 SERVICE = "wa"
 OPERATOR = "any"
+
+# https://api.sms-activate.org/stubs/handler_api.php?
+# https://api.sms-activate.org/stubs/handler_api.php?api_key=64d77ffBcfec678398B1467547eB5e32&action=getNumber&country=22&service=wa&operator=any
 # ----------------------------------------
 
 logging.basicConfig(level=logging.INFO)
@@ -29,7 +32,7 @@ logger = logging.getLogger("whatsapp_reg")
 
 
 def get_available_country():
-    return 22
+    return 6
 
 
 def get_number(country):
@@ -37,7 +40,7 @@ def get_number(country):
     logger.info(f"Пробую получить номер для страны ID={country}...")
     resp = requests.get(API_URL, params={
         "api_key": API_KEY,
-        "action": "getNumber",
+        "action": "getNumbers",
         "service": SERVICE,
         "country": country,
         "operator": OPERATOR
