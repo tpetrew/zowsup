@@ -34,7 +34,7 @@ def get_available_country():
     resp = requests.get(API_URL, params={
         "api_key": API_KEY,
         "action": "getNumbersStatus",
-        "country": 0  # 0 = все страны
+        "country": 22  # 0 = все страны
     })
     if resp.status_code != 200:
         logger.error(f"Ошибка API при получении стран: {resp.text}")
