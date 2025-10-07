@@ -29,7 +29,7 @@ API_URL = "https://api.sms-activate.org/stubs/handler_api.php"
 
 # сервис "wa" = WhatsApp
 SERVICE = "wa"
-COUNTRY = 0  # 0 = любой
+COUNTRY = 94  # 🇮🇱 Израиль
 OPERATOR = "any"
 
 def get_number():
