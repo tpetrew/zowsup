@@ -10,7 +10,7 @@ import struct
 import base64
 import requests
 import uuid
-from yowsup.common.utils import Utils
+from ...common.utils import Utils
 
 from urllib.parse import quote as urllib_quote
 
