@@ -28,7 +28,7 @@ API_KEY = "64d77ffBcfec678398B1467547eB5e32"
 API_URL = "https://api.sms-activate.org/stubs/handler_api.php"
 
 SERVICE = "wa"
-COUNTRY = 94
+COUNTRY = 22
 OPERATOR = "any"
 
 def get_number():
