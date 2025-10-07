@@ -29,6 +29,24 @@ OPERATOR = "any"
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("whatsapp_reg")
 
+class DummyDeviceEnv:
+    """Minimal fake device environment"""
+    def __init__(self):
+        self.os_name = "Android"
+        self.os_version = "12"
+        self.device = "Pixel 7"
+        self.manufacturer = "Google"
+    def getOSName(self):
+        return self.os_name
+    def getOSVersion(self):
+        return self.os_version
+
+
+class DummyEnv:
+    """Wrapper providing .deviceEnv like in real YowEnvironment"""
+    def __init__(self):
+        self.deviceEnv = DummyDeviceEnv()
+
 
 def get_available_country():
     return 73
@@ -105,8 +123,7 @@ def make_config(phone):
 
 def request_code(cfg):
     """Запрашивает код у WhatsApp"""
-    from yowsup.env import YowEnvironment
-    env = YowEnvironment.getDefault()  # создаёт окружение устройства
+    env = DummyEnv()
     req = WACodeRequest("sms", cfg, env)
     ok, result = req.rawSend(preview=False)
     logger.info(f"Ответ на запрос кода: {result}")
