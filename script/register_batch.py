@@ -32,7 +32,7 @@ logger = logging.getLogger("whatsapp_reg")
 
 
 def get_available_country():
-    return 6
+    return 73
 
 
 def get_number(country):
