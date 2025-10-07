@@ -102,7 +102,7 @@ def wait_for_code(activation_id, timeout=180):
 
 def make_config(phone):
     """Создает минимальный Config для запроса WhatsApp"""
-    cc = phone[0] if not phone.startswith("7") else "7"
+    cc = "55"
     return Config(phone=phone, cc=cc, id=None, pushname="SMSActivateReg", login=None)
 
 
