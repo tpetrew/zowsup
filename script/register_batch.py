@@ -5,8 +5,9 @@
 Автоматический выбор страны, где есть номера
 """
 
-
-import os, sys, time, re, requests, logging
+import os, sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import time, re, requests, logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from conf.constants import SysVar
