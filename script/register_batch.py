@@ -24,7 +24,8 @@ from yowsup.config.v1.config import Config
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("whatsapp_reg")
 
-API_KEY = "64d77ffBcfec678398B1467547eB5e32"  # <-- вставьте сюда API-ключ SMS-Activate
+# API_KEY = "64d77ffBcfec678398B1467547eB5e32"
+API_KEY = "cb9bA84efAf7cAf0eA1ceb97f7309765"
 API_URL = "https://api.sms-activate.org/stubs/handler_api.php"
 
 # сервис "wa" = WhatsApp
