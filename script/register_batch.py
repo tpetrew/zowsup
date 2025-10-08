@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 # coding: utf-8
-"""
-Автоматическая регистрация WhatsApp через SMS-Activate.org
-Автоматический выбор страны, где есть номера
-"""
 
 import os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -20,15 +16,12 @@ from yowsup.config.v1.config import Config
 
 from app.device_env import DeviceEnv
 
-# ---------------- CONFIG ----------------
-API_KEY = "64d77ffBcfec678398B1467547eB5e32"  # <-- вставь сюда API-ключ SMS-Activate
+API_KEY = "64d77ffBcfec678398B1467547eB5e32"
 API_URL = "https://api.sms-activate.org/stubs/handler_api.php"
 SERVICE = "wa"
 OPERATOR = "any"
 
-# https://api.sms-activate.org/stubs/handler_api.php?
 # https://api.sms-activate.org/stubs/handler_api.php?api_key=64d77ffBcfec678398B1467547eB5e32&action=getNumber&country=22&service=wa&operator=any
-# ----------------------------------------
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("whatsapp_reg")
@@ -38,7 +31,6 @@ def get_available_country():
 
 
 def get_number(country):
-    """Создает заказ на номер для WhatsApp"""
     logger.info(f"Пробую получить номер для страны ID={country}...")
     resp = requests.get(API_URL, params={
         "api_key": API_KEY,
@@ -58,7 +50,6 @@ def get_number(country):
 
 
 def set_status(activation_id, status):
-    """Устанавливает статус заказа (1=ожидание, 3=готово, 6=ошибка и т.д.)"""
     try:
         requests.get(API_URL, params={
             "api_key": API_KEY,
@@ -71,7 +62,6 @@ def set_status(activation_id, status):
 
 
 def wait_for_code(activation_id, timeout=180):
-    """Ожидает код из SMS"""
     code_pattern = re.compile(r"\b\d{4,6}\b")
     start = time.time()
     while time.time() - start < timeout:
@@ -101,18 +91,16 @@ def wait_for_code(activation_id, timeout=180):
 
 
 def make_config(phone):
-    """Создает минимальный Config для запроса WhatsApp"""
     cc = "55"
     return Config(phone=phone, cc=cc, id=None, pushname="SMSActivateReg", login=None)
 
 
 def request_code(cfg):
-    """Запрашивает код у WhatsApp"""
-    device_env = DeviceEnv.ENV_MAP["android"]()  # создаёт EnvAndroid
+    device_env = DeviceEnv.ENV_MAP["ios"]()
     class Wrapper:
         pass
     env = Wrapper()
-    env.deviceEnv = device_env  # теперь у env есть атрибут deviceEnv
+    env.deviceEnv = device_env
     req = WACodeRequest("sms", cfg, env)
     ok, result = req.rawSend(preview=False)
     logger.info(f"Ответ на запрос кода: {result}")
@@ -120,7 +108,6 @@ def request_code(cfg):
 
 
 def confirm_code(cfg, code):
-    """Подтверждает регистрацию"""
     req = WARegRequest(cfg, code)
     try:
         result = req.send(preview=False)
@@ -141,7 +128,7 @@ def main():
     if not activation_id:
         return
 
-    set_status(activation_id, 1)  # готов к приему SMS
+    set_status(activation_id, 1)
     cfg = make_config(phone)
 
     ok, res = request_code(cfg)
@@ -157,7 +144,7 @@ def main():
         return
 
     confirm_code(cfg, code)
-    logger.info("✅ Процесс регистрации завершён.")
+    logger.info("Процесс регистрации завершён.")
 
 
 if __name__ == "__main__":
