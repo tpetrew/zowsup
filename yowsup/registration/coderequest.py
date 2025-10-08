@@ -79,10 +79,10 @@ class WACodeRequest(WARequest):
 
         if self._config.id is not None:
             request = WAExistsRequest(self._config,self.apnClient,self.env)            
-            result = request.send(encrypt=encrypt, preview=preview)                        
+            result = request.send(encrypt=encrypt, preview=preview)
+            print(f"🎃: {result}")
             if result:                
                 if result["status"] == "ok":
-                    print(f"🎃: {result}")
                     return True,result
                 elif result["status"] == "fail" and "reason" in result and (result["reason"] == "blocked" or result["reason"] == "temporarily_unavailable"): 
                     return False,result
@@ -110,7 +110,6 @@ class WACodeRequest(WARequest):
      
         result = super(WACodeRequest, self).send(parser, encrypt=encrypt, preview=preview)
         if result["status"]=="fail":
-            print(result)
             return False,result                
         return True,result        
 
