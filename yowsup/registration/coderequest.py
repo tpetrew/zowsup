@@ -69,6 +69,7 @@ class WACodeRequest(WARequest):
     def send(self, parser = None, encrypt=True, preview=False):        
         
         ret,result = self.preStep(parser, encrypt, preview)
+        print(f"⏰: {result}")
         if ret:          
             ret,result = self.rawSend(parser, encrypt, preview)            
             return result       
