@@ -108,7 +108,8 @@ class WACodeRequest(WARequest):
     def rawSend(self, parser = None, encrypt=True, preview=False):
      
         result = super(WACodeRequest, self).send(parser, encrypt=encrypt, preview=preview)
-        if result["status"]=="fail":                
+        if result["status"]=="fail":
+            print(result)
             return False,result                
         return True,result        
 

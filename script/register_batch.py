@@ -96,7 +96,7 @@ def make_config(phone):
 
 
 def request_code(cfg):
-    device_env = DeviceEnv.ENV_MAP["ios"]()
+    device_env = DeviceEnv.ENV_MAP["android"]()
     class Wrapper:
         pass
     env = Wrapper()
