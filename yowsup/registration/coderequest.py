@@ -82,7 +82,7 @@ class WACodeRequest(WARequest):
             result = request.send(encrypt=encrypt, preview=preview)                        
             if result:                
                 if result["status"] == "ok":
-                    print('🎃', result)
+                    print(f"🎃: {result}")
                     return True,result
                 elif result["status"] == "fail" and "reason" in result and (result["reason"] == "blocked" or result["reason"] == "temporarily_unavailable"): 
                     return False,result
