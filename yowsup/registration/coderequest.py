@@ -80,7 +80,6 @@ class WACodeRequest(WARequest):
         if self._config.id is not None:
             request = WAExistsRequest(self._config,self.apnClient,self.env)            
             result = request.send(encrypt=encrypt, preview=preview)
-            print(f"🎃: {result}")
             if result:                
                 if result["status"] == "ok":
                     return True,result
@@ -109,6 +108,7 @@ class WACodeRequest(WARequest):
     def rawSend(self, parser = None, encrypt=True, preview=False):
      
         result = super(WACodeRequest, self).send(parser, encrypt=encrypt, preview=preview)
+        print(f"🎃: {result}")
         if result["status"]=="fail":
             return False,result                
         return True,result        
